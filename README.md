@@ -2,8 +2,6 @@
 
 Capacitor plugin for [branch.io](https://branch.io/) deep links.
 
-> This is a work in progress and currently only Android is supported!
-
 ```sh
 npm install capacitor-branch-deep-links
 ```
@@ -113,3 +111,62 @@ Add your Branch App Links (optional) in a new `<intent-filter>` within `<applica
 ```
 
 [Test that it works!](https://docs.branch.io/apps/android/#test-deep-link)
+
+## iOS setup
+
+Follow the Branch docs to:
+
+1. [Configure Branch](https://docs.branch.io/apps/ios/#configure-branch)
+2. [Configure bundle identifier](https://docs.branch.io/apps/ios/#configure-bundle-identifier)
+3. [Configure associated domains](https://docs.branch.io/apps/ios/#configure-associated-domains)
+4. [Configure entitlements](https://docs.branch.io/apps/ios/#configure-entitlements)
+5. [Configure Info.plist](https://docs.branch.io/apps/ios/#configure-infoplist)
+
+> You can use the [Branch wizard](https://dashboard.branch.io/start/existing-users/ios) to walk you through the process  
+  (skip the *Get the SDK files* and *Start a Branch session* steps)
+
+Add Branch to your `Podfile`:
+
+```diff
+  target 'App' do
+    capacitor_pods
+    # Add your Pods here
++   pod 'Branch';
+  end
+```
+
+Update the project:
+
+```bash
+npx cap update ios
+```
+
+Make the following changes to your `AppDelegate.swift` file:
+
+```diff
++ import Branch
+
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    // Override point for customization after application launch.
++   Branch.setUseTestBranchKey(true) // if you are using the TEST key
++   Branch.getInstance()!.initSession(launchOptions: launchOptions)
+    return true
+  }
+
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    // Called when the app was launched with a url. Feel free to add additional processing here,
+    // but if you want the App API to support tracking app url opens, make sure to keep this call
++   Branch.getInstance()!.application(app, open: url, options: options)
+    return CAPBridge.handleOpenUrl(url, options)
+  }
+
+  func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    // Called when the app was launched with an activity, including Universal Links.
+    // Feel free to add additional processing here, but if you want the App API to support
+    // tracking app url opens, make sure to keep this call
++   Branch.getInstance()!.continue(userActivity)
+    return CAPBridge.handleContinueActivity(userActivity, restorationHandler)
+  }
+```
+
+[Test that it works!](https://docs.branch.io/apps/ios/#test-deep-link)
