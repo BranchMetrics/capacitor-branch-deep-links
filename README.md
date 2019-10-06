@@ -46,6 +46,25 @@ export class AppComponent {
 
 ## Android setup
 
+Follow the Branch docs to:
+
+1. [Configure Branch](https://docs.branch.io/apps/android/#configure-branch)
+
+Update `src/main/res/values/strings.xml` with your configuration:
+
+```diff
+  <?xml version='1.0' encoding='utf-8'?>
+  <resources>
+      <string name="app_name">Ionic Starter</string>
+      <string name="title_activity_main">Ionic Starter</string>
+      <string name="package_name">io.ionic.starter</string>
+      <string name="fileprovider_authority">io.ionic.starter.fileprovider</string>
++     <string name="custom_url_scheme">io.ionic.starter</string>
++     <string name="branch_key">key_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
++     <string name="branch_test_key">key_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
+  </resources>
+```
+
 Register the plugin in your Activity:
 
 ```diff
@@ -73,21 +92,15 @@ Declare `BranchApp` as your application class in `src/main/AndroidManifest.xml`:
 +     android:name="io.branch.referral.BranchApp"
 ```
 
-Add your Branch keys and register the install listener within `<application>`:
+Provide your Branch config within `<application>`:
     
 ```xml
 <meta-data android:name="io.branch.sdk.BranchKey" android:value="@string/branch_key" />
 <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="@string/branch_test_key" />
-<meta-data android:name="io.branch.sdk.TestMode" android:value="true" />
-
-<receiver android:name="io.branch.referral.InstallListener" android:exported="true">
-    <intent-filter>
-        <action android:name="com.android.vending.INSTALL_REFERRER" />
-    </intent-filter>
-</receiver>
+<meta-data android:name="io.branch.sdk.TestMode" android:value="false" /> <!-- Set to true to use test key -->
 ```
 
-Configure your Branch links as Android App links within `<application>`:
+Add your Branch App Links (optional) in a new `<intent-filter>` within `<application>`:
 
 ```xml
 <intent-filter android:autoVerify="true">
@@ -98,3 +111,5 @@ Configure your Branch links as Android App links within `<application>`:
     <data android:scheme="https" android:host="xxxx-alternate.app.link" />
 </intent-filter>
 ```
+
+[Test that it works!](https://docs.branch.io/apps/android/#test-deep-link)
