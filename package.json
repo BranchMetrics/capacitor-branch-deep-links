@@ -10,7 +10,8 @@
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build"
   },
-  "author": "Bound State Software",
+  "author": "Bound State Software <info@boundstatesoftware.com>",
+  "homepage": "https://github.com/boundstate/capacitor-branch-deep-links",
   "license": "MIT",
   "dependencies": {
     "@capacitor/core": "latest"
@@ -27,11 +28,10 @@
     "CapacitorBranchDeepLinks.podspec"
   ],
   "keywords": [
-    "capacitor",
-    "plugin",
-    "native",
     "branch.io",
-    "deep link"
+    "capacitor",
+    "capacitor-plugin",
+    "deep-links"
   ],
   "capacitor": {
     "ios": {
