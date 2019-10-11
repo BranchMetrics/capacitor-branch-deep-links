@@ -1,4 +1,6 @@
-# capacitor-branch-deep-links
+# capacitor-branch-deep-links 
+
+[![Build Status](https://travis-ci.org/boundstate/capacitor-branch-deep-links.svg?branch=master)](https://travis-ci.org/boundstate/capacitor-branch-deep-links)
 
 Capacitor plugin for [branch.io](https://branch.io/) deep links.
 
