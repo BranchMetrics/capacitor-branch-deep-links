@@ -80,6 +80,12 @@ Register the plugin in your Activity:
 +       add(BranchDeepLinks.class);
       }});
     }
+
++   @Override
++   protected void onNewIntent(Intent intent) {
++     this.setIntent(intent);
++     super.onNewIntent(intent);
++   }
   }
 ```
 
