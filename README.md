@@ -48,6 +48,15 @@ Follow the Branch docs to:
 
 1. [Configure Branch](https://docs.branch.io/apps/android/#configure-branch)
 
+If your app is in the Google Play Store, update `build.grade` with the necessary dependencies:
+
+```diff
+  dependencies {
++   implementation 'com.google.android.gms:play-services-appindexing:9.+' // App indexing
++   implementation 'com.google.android.gms:play-services-ads:9+' // GAID matching
+  }
+```
+
 Update `src/main/res/values/strings.xml` with your configuration:
 
 ```diff
