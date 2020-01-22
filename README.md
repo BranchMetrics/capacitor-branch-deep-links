@@ -48,7 +48,7 @@ Follow the Branch docs to:
 
 1. [Configure Branch](https://docs.branch.io/apps/android/#configure-branch)
 
-If your app is in the Google Play Store, update `build.grade` with the necessary dependencies:
+If your app is in the Google Play Store, update `capacitor.build.gradle` with the necessary dependencies:
 
 ```diff
   dependencies {
@@ -75,6 +75,7 @@ Update `src/main/res/values/strings.xml` with your configuration:
 Register the plugin in your Activity:
 
 ```diff
++ import android.content.Intent;
 + import co.boundstate.BranchDeepLinks;
 
   public class MainActivity extends BridgeActivity {
@@ -113,16 +114,19 @@ Provide your Branch config within `<application>`:
 <meta-data android:name="io.branch.sdk.TestMode" android:value="false" /> <!-- Set to true to use test key -->
 ```
 
-Add your Branch App Links (optional) in a new `<intent-filter>` within `<application>`:
+Add your Branch App Links (optional) in a new `<intent-filter>` within `<activity>`:
 
 ```xml
-<intent-filter android:autoVerify="true">
-    <action android:name="android.intent.action.VIEW" />
-    <category android:name="android.intent.category.DEFAULT" />
-    <category android:name="android.intent.category.BROWSABLE" />
-    <data android:scheme="https" android:host="xxxx.app.link" />
-    <data android:scheme="https" android:host="xxxx-alternate.app.link" />
-</intent-filter>
+<activity android:name="io.ionic.starter.MainActivity">
+  <!-- App Link your activity to Branch links-->
+  <intent-filter android:autoVerify="true">
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <category android:name="android.intent.category.BROWSABLE" />
+      <data android:scheme="https" android:host="xxxx.app.link" />
+      <data android:scheme="https" android:host="xxxx-alternate.app.link" />
+  </intent-filter>
+</activity>
 ```
 
 [Test that it works!](https://docs.branch.io/apps/android/#test-deep-link)
@@ -155,8 +159,14 @@ Update the project:
 ```bash
 npx cap update ios
 ```
+Sync the project:
 
+```bash
+npx cap sync ios
+```
 Make the following changes to your `AppDelegate.swift` file:
+> To consider: Read the official documentation. The import method is different depending on the swift version. Capacitor version 1.4.0 uses Swift version 4.2. 
+[Check version](https://github.com/ionic-team/capacitor/blob/master/.swift-version)
 
 ```diff
 + import Branch
@@ -164,14 +174,14 @@ Make the following changes to your `AppDelegate.swift` file:
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
 +   Branch.setUseTestBranchKey(true) // if you are using the TEST key
-+   Branch.getInstance()!.initSession(launchOptions: launchOptions)
++   Branch.getInstance().initSession(launchOptions: launchOptions)
     return true
   }
 
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
     // Called when the app was launched with a url. Feel free to add additional processing here,
     // but if you want the App API to support tracking app url opens, make sure to keep this call
-+   Branch.getInstance()!.application(app, open: url, options: options)
++   Branch.getInstance().application(app, open: url, options: options)
     return CAPBridge.handleOpenUrl(url, options)
   }
 
@@ -179,9 +189,15 @@ Make the following changes to your `AppDelegate.swift` file:
     // Called when the app was launched with an activity, including Universal Links.
     // Feel free to add additional processing here, but if you want the App API to support
     // tracking app url opens, make sure to keep this call
-+   Branch.getInstance()!.continue(userActivity)
++   Branch.getInstance().continue(userActivity)
     return CAPBridge.handleContinueActivity(userActivity, restorationHandler)
   }
+
+// Optional (You probably have to add the entire function)
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+  // handler for Push Notifications
++  Branch.getInstance().handlePushNotification(userInfo)
+}
 ```
 
 [Test that it works!](https://docs.branch.io/apps/ios/#test-deep-link)
