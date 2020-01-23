@@ -193,7 +193,7 @@ Make the following changes to your `AppDelegate.swift` file:
     return CAPBridge.handleContinueActivity(userActivity, restorationHandler)
   }
 
-// Optional (You probably have to add the entire function)
++ // Branch push notification handler (optional)
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 +  Branch.getInstance().handlePushNotification(userInfo)
 }
