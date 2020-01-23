@@ -48,7 +48,7 @@ Follow the Branch docs to:
 
 1. [Configure Branch](https://docs.branch.io/apps/android/#configure-branch)
 
-If your app is in the Google Play Store, update `capacitor.build.gradle` with the necessary dependencies:
+If your app is in the Google Play Store, update `build.gradle` with the necessary dependencies:
 
 ```diff
   dependencies {
