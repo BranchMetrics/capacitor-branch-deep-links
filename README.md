@@ -195,7 +195,6 @@ Make the following changes to your `AppDelegate.swift` file:
 
 // Optional (You probably have to add the entire function)
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-  // handler for Push Notifications
 +  Branch.getInstance().handlePushNotification(userInfo)
 }
 ```
