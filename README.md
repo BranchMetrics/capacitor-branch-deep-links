@@ -52,6 +52,7 @@ If your app is in the Google Play Store, update `build.grade` with the necessary
 
 ```diff
   dependencies {
++   implementation 'com.android.installreferrer:installreferrer:1.1'
 +   implementation 'com.google.android.gms:play-services-appindexing:9.+' // App indexing
 +   implementation 'com.google.android.gms:play-services-ads:9+' // GAID matching
   }
