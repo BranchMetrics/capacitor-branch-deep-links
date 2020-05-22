@@ -2,6 +2,8 @@
 
 Capacitor plugin for [branch.io](https://branch.io/) deep links.
 
+[![Bound State Software](https://static.boundstatesoftware.com/github-badge.png)](https://boundstatesoftware.com)
+
 ```sh
 npm install capacitor-branch-deep-links
 ```
