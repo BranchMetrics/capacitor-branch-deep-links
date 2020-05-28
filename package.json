@@ -11,7 +11,7 @@
     "prepublishOnly": "npm run build"
   },
   "author": "Bound State Software <info@boundstatesoftware.com>",
-  "homepage": "https://github.com/boundstate/capacitor-branch-deep-links",
+  "homepage": "https://github.com/BranchMetrics/capacitor-branch-deep-links",
   "license": "MIT",
   "dependencies": {
     "@capacitor/core": "latest"
@@ -43,9 +43,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/boundstate/capacitor-branch-deep-links"
+    "url": "https://github.com/BranchMetrics/capacitor-branch-deep-links"
   },
   "bugs": {
-    "url": "https://github.com/boundstate/capacitor-branch-deep-links/issues"
+    "url": "https://github.com/BranchMetrics/capacitor-branch-deep-links/issues"
   }
 }
