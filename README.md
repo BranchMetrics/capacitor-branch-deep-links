@@ -10,38 +10,42 @@ npm install capacitor-branch-deep-links
 
 ## Usage
 
-```typescript
-import { Plugins } from '@capacitor/core';
-import { Platform } from '@ionic/angular';
-import { BranchInitEvent } from 'capacitor-branch-deep-links';
+```diff
++ import { Plugins } from '@capacitor/core';
++ import { BranchInitEvent } from 'capacitor-branch-deep-links';
 
-const { BranchDeepLinks, SplashScreen } = Plugins;
++ const { BranchDeepLinks } = Plugins;
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-})
-export class AppComponent {
-  constructor(private platform: Platform) {
-    this.initializeApp();
-  }
+  @Component({
+    selector: 'app-root',
+    templateUrl: 'app.component.html',
+    styleUrls: ['app.component.scss']
+  })
+  export class AppComponent {
+    constructor(
+      private platform: Platform,
+      private splashScreen: SplashScreen,
+      private statusBar: StatusBar
+    ) {
+      this.initializeApp();
+    }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      BranchDeepLinks.addListener('init', (event: BranchInitEvent) => {
-        // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
-        // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
-        console.log(event.referringParams);
+    initializeApp() {
+      this.platform.ready().then(() => {
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
++       BranchDeepLinks.addListener('init', (event: BranchInitEvent) => {
++         // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
++         // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
++         console.log(event.referringParams);
++       });
+
++       BranchDeepLinks.addListener('initError', (error: any) => {
++         console.error(error);
++       });
       });
-
-      BranchDeepLinks.addListener('initError', (error: any) => {
-        console.error(error);
-      });
-
-      SplashScreen.hide();
-    });
+    }
   }
-}
 ```
 
 ## Android setup
@@ -78,6 +82,7 @@ Update `src/main/res/values/strings.xml` with your configuration:
 Register the plugin in your Activity:
 
 ```diff
++ import android.content.Intent;
 + import co.boundstate.BranchDeepLinks;
 
   public class MainActivity extends BridgeActivity {
@@ -116,7 +121,7 @@ Provide your Branch config within `<application>`:
 <meta-data android:name="io.branch.sdk.TestMode" android:value="false" /> <!-- Set to true to use test key -->
 ```
 
-Add your Branch App Links (optional) in a new `<intent-filter>` within `<application>`:
+Add your Branch App Links (optional) in a new `<intent-filter>` within `<activity>`:
 
 ```xml
 <intent-filter android:autoVerify="true">
@@ -143,16 +148,6 @@ Follow the Branch docs to:
 > You can use the [Branch wizard](https://dashboard.branch.io/start/existing-users/ios) to walk you through the process  
   (skip the *Get the SDK files* and *Start a Branch session* steps)
 
-Add Branch to your `Podfile`:
-
-```diff
-  target 'App' do
-    capacitor_pods
-    # Add your Pods here
-+   pod 'Branch';
-  end
-```
-
 Update the project:
 
 ```bash
@@ -167,14 +162,14 @@ Make the following changes to your `AppDelegate.swift` file:
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
 +   Branch.setUseTestBranchKey(true) // if you are using the TEST key
-+   Branch.getInstance()!.initSession(launchOptions: launchOptions)
++   Branch.getInstance().initSession(launchOptions: launchOptions)
     return true
   }
 
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
     // Called when the app was launched with a url. Feel free to add additional processing here,
     // but if you want the App API to support tracking app url opens, make sure to keep this call
-+   Branch.getInstance()!.application(app, open: url, options: options)
++   Branch.getInstance().application(app, open: url, options: options)
     return CAPBridge.handleOpenUrl(url, options)
   }
 
@@ -182,9 +177,13 @@ Make the following changes to your `AppDelegate.swift` file:
     // Called when the app was launched with an activity, including Universal Links.
     // Feel free to add additional processing here, but if you want the App API to support
     // tracking app url opens, make sure to keep this call
-+   Branch.getInstance()!.continue(userActivity)
++   Branch.getInstance().continue(userActivity)
     return CAPBridge.handleContinueActivity(userActivity, restorationHandler)
   }
+
++ func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
++   Branch.getInstance().handlePushNotification(userInfo)
++ }
 ```
 
 [Test that it works!](https://docs.branch.io/apps/ios/#test-deep-link)
