@@ -14,12 +14,12 @@
   "homepage": "https://github.com/BranchMetrics/capacitor-branch-deep-links",
   "license": "MIT",
   "dependencies": {
-    "@capacitor/core": "latest"
+    "@capacitor/core": ">= 1.2.1"
   },
   "devDependencies": {
     "typescript": "^3.2.4",
-    "@capacitor/ios": "latest",
-    "@capacitor/android": "latest"
+    "@capacitor/ios": ">= 1.2.1",
+    "@capacitor/android": ">= 1.2.1"
   },
   "files": [
     "dist/",
