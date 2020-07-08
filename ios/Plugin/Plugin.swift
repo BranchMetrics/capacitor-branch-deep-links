@@ -39,4 +39,17 @@ public class BranchDeepLinks: CAPPlugin {
             ], retainUntilConsumed: true)
         }
     }
+
+    @objc func setIdentity(_ call: CAPPluginCall) {
+        let newIdentity = call.getString("newIdentity")
+        Branch.getInstance().setIdentity(newIdentity) { (referringParams, error) in
+            if (error == nil) {
+                call.success([
+                    "referringParams": referringParams as Any
+                ])
+            } else {
+                call.reject(error?.localizedDescription ?? "Error setting identity")
+            }
+        }
+    }
 }

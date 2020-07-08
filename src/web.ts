@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 
-import { BranchDeepLinksPlugin } from './definitions';
+import { BranchDeepLinksPlugin, BranchReferringParamsResponse } from './definitions';
 
 export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlugin {
   constructor() {
@@ -8,6 +8,10 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
       name: 'BranchDeepLinks',
       platforms: ['web']
     });
+  }
+
+  setIdentity(options: { newIdentity: string }): Promise<BranchReferringParamsResponse> {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 }
 

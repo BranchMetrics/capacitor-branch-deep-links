@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
 
 import org.json.JSONObject;
 
@@ -48,5 +50,23 @@ public class BranchDeepLinks extends Plugin {
         JSObject data = new JSObject();
         data.put("error", error);
         notifyListeners(EVENT_INIT_ERROR, data, true);
+    }
+
+    @PluginMethod()
+    public void setIdentity(final PluginCall call) {
+        String newIdentity = call.getString("newIdentity");
+
+        Branch.getInstance().setIdentity(newIdentity, new Branch.BranchReferralInitListener() {
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+                if (error == null) {
+                    JSObject ret = new JSObject();
+                    ret.put("referringParams", referringParams);
+                    call.success(ret);
+                } else {
+                    call.reject(error.getMessage());
+                }
+            }
+        });
     }
 }
