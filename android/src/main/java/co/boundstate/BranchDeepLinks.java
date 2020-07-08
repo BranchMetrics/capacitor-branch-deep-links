@@ -69,4 +69,20 @@ public class BranchDeepLinks extends Plugin {
             }
         });
     }
+
+    @PluginMethod()
+    public void logout(final PluginCall call) {
+        Branch.getInstance().logout(new Branch.LogoutStatusListener() {
+            @Override
+            public void onLogoutFinished(boolean loggedOut, BranchError error) {
+                if (error == null) {
+                    JSObject ret = new JSObject();
+                    ret.put("logged_out", loggedOut);
+                    call.success(ret);
+                } else {
+                    call.reject(error.getMessage());
+                }
+            }
+        });
+    }
 }

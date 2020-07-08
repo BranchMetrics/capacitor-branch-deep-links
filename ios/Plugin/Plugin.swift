@@ -52,4 +52,16 @@ public class BranchDeepLinks: CAPPlugin {
             }
         }
     }
+
+    @objc func logout(_ call: CAPPluginCall) {
+        Branch.getInstance().logout { (loggedOut, error) in
+            if (error == nil) {
+                call.success([
+                    "logged_out": loggedOut
+                ])
+            } else {
+                call.reject(error?.localizedDescription ?? "Error logging out")
+            }
+        }
+    }
 }

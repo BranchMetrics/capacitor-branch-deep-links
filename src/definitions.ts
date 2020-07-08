@@ -16,11 +16,15 @@ export interface BranchReferringParamsResponse {
   referringParams: BranchReferringParams;
 }
 
+export interface BranchLoggedOutResponse {
+  logged_out: boolean;
+}
+
 export interface BranchInitEvent extends BranchReferringParamsResponse;
 
 export interface BranchDeepLinksPlugin {
   addListener(eventName: 'init', listenerFunc: (event: BranchInitEvent) => void): PluginListenerHandle;
   addListener(eventName: 'initError', listenerFunc: (error: any) => void): PluginListenerHandle;
   setIdentity(options: { newIdentity: string }): BranchReferringParamsResponse;
-  logout(): BranchReferringParamsResponse;
+  logout(): BranchLoggedOutResponse;
 }

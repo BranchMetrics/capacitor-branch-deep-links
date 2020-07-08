@@ -5,4 +5,5 @@
 // each method the plugin supports using the CAP_PLUGIN_METHOD macro.
 CAP_PLUGIN(BranchDeepLinks, "BranchDeepLinks",
            CAP_PLUGIN_METHOD(setIdentity, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(logout, CAPPluginReturnPromise);
 )
