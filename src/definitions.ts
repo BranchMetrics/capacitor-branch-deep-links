@@ -29,7 +29,9 @@ export interface BranchInitEvent extends BranchReferringParamsResponse;
 export interface BranchDeepLinksPlugin {
   addListener(eventName: 'init', listenerFunc: (event: BranchInitEvent) => void): PluginListenerHandle;
   addListener(eventName: 'initError', listenerFunc: (error: any) => void): PluginListenerHandle;
-  disableTracking(options: { isEnabled: false }): BranchTrackingResponse;
-  setIdentity(options: { newIdentity: string }): BranchReferringParamsResponse;
-  logout(): BranchLoggedOutResponse;
+  getStandardEvents(): Promise<{ [index: number]: string }>;
+  sendBranchEvent(options: { eventName: string, metaData: { [key: string]: any } }): Promise;
+  disableTracking(options: { isEnabled: false }): Promise<BranchTrackingResponse>;
+  setIdentity(options: { newIdentity: string }): Promise<BranchReferringParamsResponse>;
+  logout(): Promise<BranchLoggedOutResponse>;
 }

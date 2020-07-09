@@ -15,6 +15,14 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
     });
   }
 
+  getStandardEvents(): Promise<{ [index: number]: string }> {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
+  }
+
+  sendBranchEvent(options: { eventName: string, metaData: { [key: string]: any } }): Promise {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
+  }
+
   disableTracking(options: { isEnabled: false }): Promise<BranchTrackingResponse> {
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
