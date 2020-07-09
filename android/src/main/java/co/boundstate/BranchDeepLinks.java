@@ -1,5 +1,6 @@
 package co.boundstate;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ public class BranchDeepLinks extends Plugin {
     @Nullable
     private Uri mData;
 
+    private Activity activity;
+
     @Override
     protected void handleOnNewIntent(Intent intent) {
         super.handleOnNewIntent(intent);
@@ -31,6 +34,7 @@ public class BranchDeepLinks extends Plugin {
 
     @Override
     protected void handleOnStart() {
+        this.activity = getActivity();
         // Branch init
         Branch.getInstance().initSession(new Branch.BranchReferralInitListener() {
             @Override
@@ -43,13 +47,24 @@ public class BranchDeepLinks extends Plugin {
                     sendError(error.getMessage());
                 }
             }
-        }, mData, getActivity());
+        }, mData, activity);
     }
 
     private void sendError(String error) {
         JSObject data = new JSObject();
         data.put("error", error);
         notifyListeners(EVENT_INIT_ERROR, data, true);
+    }
+
+    @PluginMethod()
+    public void disableTracking(PluginCall call) {
+        this.activity = getActivity();
+        Boolean isEnabled = call.getBoolean("isEnabled", false);
+        Branch.getInstance().disableTracking(isEnabled);
+
+        JSObject ret = new JSObject();
+        ret.put("is_enabled", isEnabled);
+        call.success(ret);
     }
 
     @PluginMethod()

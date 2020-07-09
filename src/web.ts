@@ -1,6 +1,11 @@
 import { WebPlugin } from '@capacitor/core';
 
-import { BranchDeepLinksPlugin, BranchLoggedOutResponse, BranchReferringParamsResponse } from './definitions';
+import {
+  BranchDeepLinksPlugin,
+  BranchLoggedOutResponse,
+  BranchReferringParamsResponse,
+  BranchTrackingResponse
+} from './definitions';
 
 export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlugin {
   constructor() {
@@ -8,6 +13,10 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
       name: 'BranchDeepLinks',
       platforms: ['web']
     });
+  }
+
+  disableTracking(options: { isEnabled: false }): Promise<BranchTrackingResponse> {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
   setIdentity(options: { newIdentity: string }): Promise<BranchReferringParamsResponse> {

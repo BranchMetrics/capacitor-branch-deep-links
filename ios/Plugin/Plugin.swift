@@ -40,6 +40,14 @@ public class BranchDeepLinks: CAPPlugin {
         }
     }
 
+    @objc func disableTracking(_ call: CAPPluginCall) {
+        let isEnabled = call.getBool("isEnabled") ?? false
+        Branch.setTrackingDisabled(isEnabled)
+        call.success([
+            "is_enabled": isEnabled
+        ])
+    }
+
     @objc func setIdentity(_ call: CAPPluginCall) {
         let newIdentity = call.getString("newIdentity")
         Branch.getInstance().setIdentity(newIdentity) { (referringParams, error) in
