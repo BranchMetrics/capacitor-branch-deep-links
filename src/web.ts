@@ -4,6 +4,7 @@ import {
   BranchDeepLinksPlugin,
   BranchLoggedOutResponse,
   BranchReferringParamsResponse,
+  BranchShortUrlParams,
   BranchTrackingResponse
 } from './definitions';
 
@@ -13,6 +14,10 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
       name: 'BranchDeepLinks',
       platforms: ['web']
     });
+  }
+
+  generateShortUrl(options: BranchShortUrlParams): Promise<BranchShortUrlResponse> {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
   getStandardEvents(): Promise<{ [index: number]: string }> {

@@ -12,17 +12,20 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
+import io.branch.referral.BranchShortLinkBuilder;
 import io.branch.referral.util.BranchEvent;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.CurrencyType;
+import io.branch.referral.util.LinkProperties;
 
 @NativePlugin()
 public class BranchDeepLinks extends Plugin {
@@ -65,6 +68,60 @@ public class BranchDeepLinks extends Plugin {
     }
 
     @PluginMethod()
+    public void generateShortUrl(final PluginCall call) throws JSONException {
+        JSObject analytics = call.getObject("analytics", new JSObject());
+        JSObject properties = call.getObject("properties", new JSObject());
+        BranchShortLinkBuilder shortLinkBuilder = new BranchShortLinkBuilder(activity);
+
+        // Add analytics properties
+        if (analytics.has("feature")) {
+            shortLinkBuilder.setFeature(analytics.getString("feature"));
+        }
+        if (analytics.has("alias")) {
+            shortLinkBuilder.setAlias(analytics.getString("alias"));
+        }
+        if (analytics.has("channel")) {
+            shortLinkBuilder.setChannel(analytics.getString("channel"));
+        }
+        if (analytics.has("stage")) {
+            shortLinkBuilder.setStage(analytics.getString("stage"));
+        }
+        if (analytics.has("campaign")) {
+            shortLinkBuilder.setCampaign(analytics.getString("campaign"));
+        }
+        if (analytics.has("duration")) {
+            shortLinkBuilder.setDuration(analytics.getInt("duration"));
+        }
+        if (analytics.has("tags")) {
+            JSONArray array = (JSONArray) analytics.get("tags");
+            for (int i = 0; i < array.length(); i++) {
+                shortLinkBuilder.addTag(array.get(i).toString());
+            }
+        }
+
+        // Add and iterate control parameters properties
+        Iterator<?> keys = properties.keys();
+
+        while (keys.hasNext()) {
+            String key = keys.next().toString();
+            shortLinkBuilder.addParameters(key, properties.getString(key));
+        }
+
+        shortLinkBuilder.generateShortUrl(new Branch.BranchLinkCreateListener() {
+            @Override
+            public void onLinkCreate(String url, BranchError error) {
+                if (error == null) {
+                    JSObject ret = new JSObject();
+                    ret.put("url", url);
+                    call.success(ret);
+                } else {
+                    call.reject(error.getMessage());
+                }
+            }
+        });
+    }
+
+    @PluginMethod()
     public void getStandardEvents(PluginCall call) {
         JSArray events = new JSArray();
 
@@ -96,6 +153,7 @@ public class BranchDeepLinks extends Plugin {
         }
 
         Iterator<String> keys = metaData.keys();
+
         while (keys.hasNext()) {
             String key = keys.next();
             if (key.equals("revenue")) {
