@@ -81,6 +81,31 @@ public class BranchDeepLinks: CAPPlugin {
         }
     }
 
+    @objc func getStandardEvents(_ call: CAPPluginCall) {
+        let standardEvents: [BranchStandardEvent] = [
+            BranchStandardEvent.achieveLevel,
+            BranchStandardEvent.addPaymentInfo,
+            BranchStandardEvent.addToCart,
+            BranchStandardEvent.addToWishlist,
+            BranchStandardEvent.completeRegistration,
+            BranchStandardEvent.completeTutorial,
+            BranchStandardEvent.initiatePurchase,
+            BranchStandardEvent.purchase,
+            BranchStandardEvent.rate,
+            BranchStandardEvent.search,
+            BranchStandardEvent.share,
+            BranchStandardEvent.spendCredits,
+            BranchStandardEvent.unlockAchievement,
+            BranchStandardEvent.viewCart,
+            BranchStandardEvent.viewItem,
+            BranchStandardEvent.viewItems,
+        ]
+
+        call.success([
+            "branch_standard_events": standardEvents
+        ])
+    }
+
     @objc func sendBranchEvent(_ call: CAPPluginCall) {
         guard let eventName = call.options["eventName"] as? String else {
           call.reject("Must provide an event name")
