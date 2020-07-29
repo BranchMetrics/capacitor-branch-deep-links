@@ -191,7 +191,7 @@ public class BranchDeepLinks extends Plugin {
             }
         }
 
-        event.logEvent(this.activity);
+        event.logEvent(activity);
 
         call.success();
     }
