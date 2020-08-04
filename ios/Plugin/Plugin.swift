@@ -43,29 +43,7 @@ public class BranchDeepLinks: CAPPlugin {
     @objc func generateShortUrl(_ call: CAPPluginCall) {
         let analytics = call.getObject("analytics") ?? [:]
         let properties = call.getObject("properties") ?? [:]
-        let linkProperties = BranchLinkProperties.init()
-        
-        for (key, value) in analytics {
-            if key == "alias" {
-                linkProperties.alias = value as? String
-            } else if key == "campaign" {
-                linkProperties.campaign = value as? String
-            } else if key == "channel" {
-                linkProperties.channel = value as? String
-            } else if key == "duration" {
-                linkProperties.matchDuration = value as? UInt ?? 0
-            } else if key == "feature" {
-                linkProperties.feature = value as? String
-            } else if key == "stage" {
-                linkProperties.stage = value as? String
-            } else if key == "tags" {
-                linkProperties.tags = value as? [Any]
-            }
-        }
-        
-        for (key, value) in properties {
-            linkProperties.addControlParam(key, withValue: value as? String)
-        }
+        let linkProperties = getLinkProperties(analytics: analytics, properties: properties)
         
         let params = NSMutableDictionary();
         params.addEntries(from: linkProperties.controlParams)
@@ -79,6 +57,23 @@ public class BranchDeepLinks: CAPPlugin {
                 call.reject(error?.localizedDescription ?? "Error generating short url")
             }
         }
+    }
+
+    @objc func showShareSheet(_ call: CAPPluginCall) {
+        let analytics = call.getObject("analytics") ?? [:]
+        let properties = call.getObject("properties") ?? [:]
+        let shareText = call.getString("shareText", "Share Link")
+        let linkProperties = getLinkProperties(analytics: analytics, properties: properties)
+        
+        let params = NSMutableDictionary();
+        params.addEntries(from: linkProperties.controlParams)
+        
+        let buo = BranchUniversalObject.init()
+        DispatchQueue.main.async {
+            buo.showShareSheet(with: linkProperties, andShareText: shareText, from: self.bridge.viewController, completion: nil)
+        }
+        
+        call.success()
     }
 
     @objc func getStandardEvents(_ call: CAPPluginCall) {
@@ -178,5 +173,33 @@ public class BranchDeepLinks: CAPPlugin {
                 call.reject(error?.localizedDescription ?? "Error logging out")
             }
         }
+    }
+    
+    func getLinkProperties(analytics: [String: Any], properties: [String: Any]) -> BranchLinkProperties {
+        let linkProperties = BranchLinkProperties.init()
+        
+        for (key, value) in analytics {
+            if key == "alias" {
+                linkProperties.alias = value as? String
+            } else if key == "campaign" {
+                linkProperties.campaign = value as? String
+            } else if key == "channel" {
+                linkProperties.channel = value as? String
+            } else if key == "duration" {
+                linkProperties.matchDuration = value as? UInt ?? 0
+            } else if key == "feature" {
+                linkProperties.feature = value as? String
+            } else if key == "stage" {
+                linkProperties.stage = value as? String
+            } else if key == "tags" {
+                linkProperties.tags = value as? [Any]
+            }
+        }
+        
+        for (key, value) in properties {
+            linkProperties.addControlParam(key, withValue: value as? String)
+        }
+        
+        return linkProperties
     }
 }

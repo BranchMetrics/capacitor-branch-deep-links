@@ -42,6 +42,10 @@ export interface BranchShortUrlParams {
   properties?: BranchShortUrlProperties;
 }
 
+export interface BranchShowShareSheetParams extends BranchShortUrlParams {
+  shareText?: string;
+}
+
 export interface BranchShortUrlResponse {
   url: string
 }
@@ -60,6 +64,7 @@ export interface BranchDeepLinksPlugin {
   addListener(eventName: 'init', listenerFunc: (event: BranchInitEvent) => void): PluginListenerHandle;
   addListener(eventName: 'initError', listenerFunc: (error: any) => void): PluginListenerHandle;
   generateShortUrl(options: BranchShortUrlParams): Promise<BranchShortUrlResponse>;
+  showShareSheet(options: BranchShowShareSheetParams): Promise;
   getStandardEvents(): Promise<{ [index: number]: string }>;
   sendBranchEvent(options: { eventName: string, metaData: { [key: string]: any } }): Promise;
   disableTracking(options: { isEnabled: false }): Promise<BranchTrackingResponse>;
