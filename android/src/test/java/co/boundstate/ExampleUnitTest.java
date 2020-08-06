@@ -1,4 +1,4 @@
-package com.getcapacitor;
+package co.boundstate;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.getcapacitor.android;
+package co.boundstate.android;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.getcapacitor.android", appContext.getPackageName());
+        assertEquals("co.boundstate.android", appContext.getPackageName());
     }
 }

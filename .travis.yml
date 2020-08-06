@@ -1,0 +1,24 @@
+before_install: nvm install 12
+install: npm ci
+
+matrix:
+  include:
+    - language: android
+      dist: trusty
+      android:
+        components:
+          - tools
+          - build-tools-28.0.3
+          - android-28
+      before_script:
+        - cd android
+      script: ./gradlew build test
+
+    - language: objective-c
+      osx_image: 'xcode11.2'
+      xcode_workspace: ios/Plugin.xcworkspace
+      xcode_scheme: Plugin
+      xcode_destination: platform=iOS Simulator,OS=13.2,name=iPhone 11
+      install:
+        - npm ci
+        - pod install --project-directory=ios
