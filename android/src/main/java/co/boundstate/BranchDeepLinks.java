@@ -16,16 +16,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
+import io.branch.referral.BranchShareSheetBuilder;
 import io.branch.referral.BranchShortLinkBuilder;
+import io.branch.referral.SharingHelper;
 import io.branch.referral.util.BranchEvent;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.CurrencyType;
-import io.branch.referral.util.LinkProperties;
+import io.branch.referral.util.ShareSheetStyle;
 
 @NativePlugin()
 public class BranchDeepLinks extends Plugin {
@@ -71,41 +72,7 @@ public class BranchDeepLinks extends Plugin {
     public void generateShortUrl(final PluginCall call) throws JSONException {
         JSObject analytics = call.getObject("analytics", new JSObject());
         JSObject properties = call.getObject("properties", new JSObject());
-        BranchShortLinkBuilder shortLinkBuilder = new BranchShortLinkBuilder(activity);
-
-        // Add analytics properties
-        if (analytics.has("feature")) {
-            shortLinkBuilder.setFeature(analytics.getString("feature"));
-        }
-        if (analytics.has("alias")) {
-            shortLinkBuilder.setAlias(analytics.getString("alias"));
-        }
-        if (analytics.has("channel")) {
-            shortLinkBuilder.setChannel(analytics.getString("channel"));
-        }
-        if (analytics.has("stage")) {
-            shortLinkBuilder.setStage(analytics.getString("stage"));
-        }
-        if (analytics.has("campaign")) {
-            shortLinkBuilder.setCampaign(analytics.getString("campaign"));
-        }
-        if (analytics.has("duration")) {
-            shortLinkBuilder.setDuration(analytics.getInt("duration"));
-        }
-        if (analytics.has("tags")) {
-            JSONArray array = (JSONArray) analytics.get("tags");
-            for (int i = 0; i < array.length(); i++) {
-                shortLinkBuilder.addTag(array.get(i).toString());
-            }
-        }
-
-        // Add and iterate control parameters properties
-        Iterator<?> keys = properties.keys();
-
-        while (keys.hasNext()) {
-            String key = keys.next().toString();
-            shortLinkBuilder.addParameters(key, properties.getString(key));
-        }
+        BranchShortLinkBuilder shortLinkBuilder = getShortLinkBuilder(analytics, properties);
 
         shortLinkBuilder.generateShortUrl(new Branch.BranchLinkCreateListener() {
             @Override
@@ -119,6 +86,20 @@ public class BranchDeepLinks extends Plugin {
                 }
             }
         });
+    }
+
+    @PluginMethod()
+    public void showShareSheet(PluginCall call) throws JSONException {
+        JSObject analytics = call.getObject("analytics", new JSObject());
+        JSObject properties = call.getObject("properties", new JSObject());
+        String shareText = call.getString("shareText", "This stuff is awesome");
+
+        ShareSheetStyle shareSheetStyle = getShareSheetStyle(shareText);
+        BranchShortLinkBuilder shortLinkBuilder = getShortLinkBuilder(analytics, properties);
+        BranchShareSheetBuilder shareLinkBuilder = getShareLinkBuilder(shortLinkBuilder, shareSheetStyle);
+        shareLinkBuilder.shareLink();
+
+        call.success();
     }
 
     @PluginMethod()
@@ -239,5 +220,104 @@ public class BranchDeepLinks extends Plugin {
                 }
             }
         });
+    }
+
+    private ShareSheetStyle getShareSheetStyle(String shareText) {
+        String shareTitle = "Check this out";
+        String copyToClipboard = "Copy";
+        String clipboardSuccess = "Added to clipboard";
+        String more = "Show More";
+        String shareWith = "Share With";
+
+        ShareSheetStyle shareSheetStyle = new ShareSheetStyle(activity, shareTitle, shareText)
+                .setCopyUrlStyle(activity.getResources().getDrawable(android.R.drawable.ic_menu_send), copyToClipboard, clipboardSuccess)
+                .setMoreOptionStyle(activity.getResources().getDrawable(android.R.drawable.ic_menu_search), more)
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.EMAIL)
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.MESSAGE)
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.TWITTER)
+                .setAsFullWidthStyle(true)
+                .setSharingTitle(shareWith);
+
+        return shareSheetStyle;
+    }
+
+    private BranchShortLinkBuilder getShortLinkBuilder(JSObject analytics, JSObject properties) throws JSONException {
+        BranchShortLinkBuilder shortLinkBuilder = new BranchShortLinkBuilder(activity);
+
+        // Add analytics properties
+        if (analytics.has("feature")) {
+            shortLinkBuilder.setFeature(analytics.getString("feature"));
+        }
+        if (analytics.has("alias")) {
+            shortLinkBuilder.setAlias(analytics.getString("alias"));
+        }
+        if (analytics.has("channel")) {
+            shortLinkBuilder.setChannel(analytics.getString("channel"));
+        }
+        if (analytics.has("stage")) {
+            shortLinkBuilder.setStage(analytics.getString("stage"));
+        }
+        if (analytics.has("campaign")) {
+            shortLinkBuilder.setCampaign(analytics.getString("campaign"));
+        }
+        if (analytics.has("duration")) {
+            shortLinkBuilder.setDuration(analytics.getInt("duration"));
+        }
+        if (analytics.has("tags")) {
+            JSONArray array = (JSONArray) analytics.get("tags");
+            for (int i = 0; i < array.length(); i++) {
+                shortLinkBuilder.addTag(array.get(i).toString());
+            }
+        }
+
+        // Add and iterate control parameters properties
+        Iterator<?> keys = properties.keys();
+
+        while (keys.hasNext()) {
+            String key = keys.next().toString();
+            shortLinkBuilder.addParameters(key, properties.getString(key));
+        }
+
+        return shortLinkBuilder;
+    }
+
+    private BranchShareSheetBuilder getShareLinkBuilder(BranchShortLinkBuilder shortLinkBuilder, ShareSheetStyle shareSheetStyle) {
+        BranchShareSheetBuilder shareLinkBuilder = new BranchShareSheetBuilder(activity, shortLinkBuilder);
+
+        shareLinkBuilder.setSubject(shareSheetStyle.getMessageTitle())
+                .setMessage(shareSheetStyle.getMessageBody());
+
+        if (shareSheetStyle.getCopyUrlIcon() != null) {
+            shareLinkBuilder.setCopyUrlStyle(shareSheetStyle.getCopyUrlIcon(), shareSheetStyle.getCopyURlText(), shareSheetStyle.getUrlCopiedMessage());
+        }
+        if (shareSheetStyle.getMoreOptionIcon() != null) {
+            shareLinkBuilder.setMoreOptionStyle(shareSheetStyle.getMoreOptionIcon(), shareSheetStyle.getMoreOptionText());
+        }
+        if (shareSheetStyle.getDefaultURL() != null) {
+            shareLinkBuilder.setDefaultURL(shareSheetStyle.getDefaultURL());
+        }
+        if (shareSheetStyle.getPreferredOptions().size() > 0) {
+            shareLinkBuilder.addPreferredSharingOptions(shareSheetStyle.getPreferredOptions());
+        }
+        if (shareSheetStyle.getStyleResourceID() > 0) {
+            shareLinkBuilder.setStyleResourceID(shareSheetStyle.getStyleResourceID());
+        }
+
+        shareLinkBuilder.setDividerHeight(shareSheetStyle.getDividerHeight());
+        shareLinkBuilder.setAsFullWidthStyle(shareSheetStyle.getIsFullWidthStyle());
+        shareLinkBuilder.setDialogThemeResourceID(shareSheetStyle.getDialogThemeResourceID());
+        shareLinkBuilder.setSharingTitle(shareSheetStyle.getSharingTitle());
+        shareLinkBuilder.setSharingTitle(shareSheetStyle.getSharingTitleView());
+        shareLinkBuilder.setIconSize(shareSheetStyle.getIconSize());
+
+        if (shareSheetStyle.getIncludedInShareSheet() != null && shareSheetStyle.getIncludedInShareSheet().size() > 0) {
+            shareLinkBuilder.includeInShareSheet(shareSheetStyle.getIncludedInShareSheet());
+        }
+        if (shareSheetStyle.getExcludedFromShareSheet() != null && shareSheetStyle.getExcludedFromShareSheet().size() > 0) {
+            shareLinkBuilder.excludeFromShareSheet(shareSheetStyle.getExcludedFromShareSheet());
+        }
+
+        return shareLinkBuilder;
     }
 }

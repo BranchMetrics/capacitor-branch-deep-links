@@ -5,6 +5,7 @@ import {
   BranchLoggedOutResponse,
   BranchReferringParamsResponse,
   BranchShortUrlParams,
+  BranchShowShareSheetParams,
   BranchTrackingResponse
 } from './definitions';
 
@@ -17,6 +18,10 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
   }
 
   generateShortUrl(options: BranchShortUrlParams): Promise<BranchShortUrlResponse> {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
+  }
+
+  showShareSheet(options: BranchShowShareSheetParams): Promise {
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
