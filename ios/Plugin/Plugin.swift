@@ -6,6 +6,8 @@ typealias JSObject = [String:Any]
 
 @objc(BranchDeepLinks)
 public class BranchDeepLinks: CAPPlugin {
+    var branchService = BranchService()
+
     public override func load() {
         NotificationCenter.default.addObserver(
                 self,
@@ -13,6 +15,10 @@ public class BranchDeepLinks: CAPPlugin {
                 name: NSNotification.Name.BranchDidStartSession,
                 object: nil
         )
+    }
+    
+    @objc public func setBranchService(branchService: Any) {
+        self.branchService = branchService as! BranchService
     }
 
     @objc public func branchDidStartSession(notification: Notification) {
@@ -44,11 +50,10 @@ public class BranchDeepLinks: CAPPlugin {
         let analytics = call.getObject("analytics") ?? [:]
         let properties = call.getObject("properties") ?? [:]
         let linkProperties = getLinkProperties(analytics: analytics, properties: properties)
-        
         let params = NSMutableDictionary();
         params.addEntries(from: linkProperties.controlParams)
         
-        Branch.getInstance().getShortUrl(withParams: params as? [AnyHashable : Any], andTags: linkProperties.tags, andAlias: linkProperties.alias, andMatchDuration: linkProperties.matchDuration, andChannel: linkProperties.channel, andFeature: linkProperties.feature, andStage: linkProperties.stage, andCampaign: linkProperties.campaign) { (url, error) in
+        branchService.generateShortUrl(params: params as? [AnyHashable : Any] ?? [:], linkProperties: linkProperties) { (url, error) in
             if (error == nil) {
                 call.success([
                     "url": url ?? ""
@@ -144,30 +149,27 @@ public class BranchDeepLinks: CAPPlugin {
 
     @objc func disableTracking(_ call: CAPPluginCall) {
         let isEnabled = call.getBool("isEnabled") ?? false
-        Branch.setTrackingDisabled(isEnabled)
-        call.success([
-            "is_enabled": isEnabled
-        ])
+        branchService.disableTracking(isEnabled: isEnabled) { (enabled) in
+            call.success([
+                "is_enabled": enabled
+            ])
+        }
     }
 
     @objc func setIdentity(_ call: CAPPluginCall) {
-        let newIdentity = call.getString("newIdentity")
-        Branch.getInstance().setIdentity(newIdentity) { (referringParams, error) in
-            if (error == nil) {
-                call.success([
-                    "referringParams": referringParams ?? [:]
-                ])
-            } else {
-                call.reject(error?.localizedDescription ?? "Error setting identity")
-            }
+        let newIdentity = call.getString("newIdentity") ?? ""
+        branchService.setIdentity(newIdentity: newIdentity) { (referringParams, error) in
+            call.success([
+                "referringParams": referringParams ?? [:]
+            ])
         }
     }
 
     @objc func logout(_ call: CAPPluginCall) {
-        Branch.getInstance().logout { (loggedOut, error) in
+        branchService.logout() {(loggedOut, error) in
             if (error == nil) {
                 call.success([
-                    "logged_out": loggedOut
+                    "logged_out": loggedOut as Any
                 ])
             } else {
                 call.reject(error?.localizedDescription ?? "Error logging out")

@@ -5,6 +5,7 @@ import {
   BranchLoggedOutResponse,
   BranchReferringParamsResponse,
   BranchShortUrlParams,
+  BranchShortUrlResponse,
   BranchShowShareSheetParams,
   BranchTrackingResponse
 } from './definitions';
@@ -17,11 +18,11 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
     });
   }
 
-  generateShortUrl(options: BranchShortUrlParams): Promise<BranchShortUrlResponse> {
+  generateShortUrl(_: BranchShortUrlParams): Promise<BranchShortUrlResponse> {
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
-  showShareSheet(options: BranchShowShareSheetParams): Promise {
+  showShareSheet(_: BranchShowShareSheetParams): Promise<void> {
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
@@ -29,15 +30,15 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
-  sendBranchEvent(options: { eventName: string, metaData: { [key: string]: any } }): Promise {
+  sendBranchEvent(_: { eventName: string, metaData: { [key: string]: any } }): Promise<void> {
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
-  disableTracking(options: { isEnabled: false }): Promise<BranchTrackingResponse> {
+  disableTracking(_: { isEnabled: false }): Promise<BranchTrackingResponse> {
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
-  setIdentity(options: { newIdentity: string }): Promise<BranchReferringParamsResponse> {
+  setIdentity(_: { newIdentity: string }): Promise<BranchReferringParamsResponse> {
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
