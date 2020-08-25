@@ -23,7 +23,7 @@ export interface BranchShortUrlAnalytics {
   duration?: number;
   feature?: string;
   stage?: string;
-  tags?: array<string>;
+  tags?: Array<string>;
 }
 
 export interface BranchShortUrlProperties {
@@ -58,15 +58,15 @@ export interface BranchLoggedOutResponse {
   logged_out: boolean;
 }
 
-export interface BranchInitEvent extends BranchReferringParamsResponse;
+export interface BranchInitEvent extends BranchReferringParamsResponse {}
 
 export interface BranchDeepLinksPlugin {
   addListener(eventName: 'init', listenerFunc: (event: BranchInitEvent) => void): PluginListenerHandle;
   addListener(eventName: 'initError', listenerFunc: (error: any) => void): PluginListenerHandle;
   generateShortUrl(options: BranchShortUrlParams): Promise<BranchShortUrlResponse>;
-  showShareSheet(options: BranchShowShareSheetParams): Promise;
+  showShareSheet(options: BranchShowShareSheetParams): Promise<void>;
   getStandardEvents(): Promise<{ [index: number]: string }>;
-  sendBranchEvent(options: { eventName: string, metaData: { [key: string]: any } }): Promise;
+  sendBranchEvent(options: { eventName: string, metaData: { [key: string]: any } }): Promise<void>;
   disableTracking(options: { isEnabled: false }): Promise<BranchTrackingResponse>;
   setIdentity(options: { newIdentity: string }): Promise<BranchReferringParamsResponse>;
   logout(): Promise<BranchLoggedOutResponse>;
