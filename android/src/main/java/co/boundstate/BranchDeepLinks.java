@@ -42,6 +42,11 @@ public class BranchDeepLinks extends Plugin {
     protected void handleOnNewIntent(Intent intent) {
         super.handleOnNewIntent(intent);
         mData = intent.getData();
+        getActivity().setIntent(intent);
+        // if activity is in foreground (or in backstack but partially visible) launching the same
+        // activity will skip onStart, handle this case with sessionBuilder()...reInit()
+        // will re-initialize only if ""branch_force_new_session=true"" intent extra is set
+        Branch.sessionBuilder(getActivity()).withCallback(callback).reInit();
     }
 
     @Override
