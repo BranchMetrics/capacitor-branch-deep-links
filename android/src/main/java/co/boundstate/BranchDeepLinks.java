@@ -73,6 +73,24 @@ public class BranchDeepLinks extends Plugin {
         notifyListeners(EVENT_INIT_ERROR, data, true);
     }
 
+    @PluginMethod
+    public void handleUrl(PluginCall call) {
+        // https://help.branch.io/developers-hub/docs/android-advanced-features#section-handle-links-in-your-own-app
+
+        String branchUrl = call.getString("url");
+
+        if (branchUrl != null && !branchUrl.equals("")) {
+            Intent intent = new Intent(getActivity(), getActivity().getClass());
+
+            intent.putExtra("branch", branchUrl);
+            intent.putExtra("branch_force_new_session",true);
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            getActivity().startActivity(intent);
+        }
+    }
+
     @PluginMethod()
     public void generateShortUrl(final PluginCall call) throws JSONException {
         JSObject analytics = call.getObject("analytics", new JSObject());
