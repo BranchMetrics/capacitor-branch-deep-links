@@ -16,6 +16,11 @@ export interface BranchReferringParamsResponse {
   referringParams: BranchReferringParams;
 }
 
+
+export interface BranchUrlParams {
+  url: string
+}
+
 export interface BranchShortUrlAnalytics {
   alias?: string;
   campaign?: string;
@@ -63,6 +68,7 @@ export interface BranchInitEvent extends BranchReferringParamsResponse {}
 export interface BranchDeepLinksPlugin {
   addListener(eventName: 'init', listenerFunc: (event: BranchInitEvent) => void): PluginListenerHandle;
   addListener(eventName: 'initError', listenerFunc: (error: any) => void): PluginListenerHandle;
+  handleUrl(options: BranchUrlParams): Promise<void>;
   generateShortUrl(options: BranchShortUrlParams): Promise<BranchShortUrlResponse>;
   showShareSheet(options: BranchShowShareSheetParams): Promise<void>;
   getStandardEvents(): Promise<{ [index: number]: string }>;
