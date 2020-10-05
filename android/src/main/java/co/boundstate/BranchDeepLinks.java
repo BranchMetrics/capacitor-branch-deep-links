@@ -46,21 +46,21 @@ public class BranchDeepLinks extends Plugin {
 
     @Override
     protected void handleOnStart() {
-        this.activity = getActivity();
-        // Branch init
-        Branch.getInstance().initSession(new Branch.BranchReferralInitListener() {
-            @Override
-            public void onInitFinished(JSONObject referringParams, BranchError error) {
-                if (error == null) {
-                    JSObject data = new JSObject();
-                    data.put("referringParams", referringParams);
-                    notifyListeners(EVENT_INIT, data, true);
-                } else {
-                    sendError(error.getMessage());
-                }
-            }
-        }, mData, activity);
+        Branch.sessionBuilder(getActivity()).withCallback(callback).withData(mData).init();
     }
+
+    private Branch.BranchReferralInitListener callback = new Branch.BranchReferralInitListener() {
+        @Override
+        public void onInitFinished(JSONObject referringParams, BranchError error) {
+            if (error == null) {
+                JSObject data = new JSObject();
+                data.put("referringParams", referringParams);
+                notifyListeners(EVENT_INIT, data, true);
+            } else {
+                sendError(error.getMessage());
+            }
+        }
+    };
 
     private void sendError(String error) {
         JSObject data = new JSObject();
