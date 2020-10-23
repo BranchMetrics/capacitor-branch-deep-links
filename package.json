@@ -1,25 +1,38 @@
 {
   "name": "capacitor-branch-deep-links",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Capacitor plugin for Branch.io deep links",
-  "main": "dist/esm/index.js",
+  "main": "dist/plugin.js",
+  "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
-    "build": "npm run clean && tsc",
-    "clean": "rm -rf ./dist",
+    "lint": "npm run prettier -- --check && npm run swiftlint -- lint",
+    "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
+    "swiftlint": "node-swiftlint",
+    "build": "npm run clean && tsc && rollup -c rollup.config.js",
+    "clean": "rimraf ./dist",
     "watch": "tsc --watch",
+    "examples": "echo 'generate examples'; node ./src/scripts/examples",
     "prepublishOnly": "npm run build"
   },
   "author": "Bound State Software <info@boundstatesoftware.com>",
-  "homepage": "https://github.com/boundstate/capacitor-branch-deep-links",
   "license": "MIT",
-  "dependencies": {
-    "@capacitor/core": "latest"
-  },
   "devDependencies": {
-    "typescript": "^3.2.4",
-    "@capacitor/ios": "latest",
-    "@capacitor/android": "latest"
+    "@capacitor/android": "^2.4.0",
+    "@capacitor/core": "^2.4.0",
+    "@capacitor/ios": "^2.4.0",
+    "@ionic/prettier-config": "^1.0.0",
+    "@ionic/swiftlint-config": "^1.0.0",
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "prettier": "^2.0.5",
+    "prettier-plugin-java": "^0.8.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^2.21.0",
+    "swiftlint": "^1.0.1",
+    "typescript": "~3.8.3"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^2.4.0"
   },
   "files": [
     "dist/",
@@ -31,7 +44,9 @@
     "branch.io",
     "capacitor",
     "capacitor-plugin",
-    "deep-links"
+    "deep-links",
+    "plugin",
+    "native"
   ],
   "capacitor": {
     "ios": {
@@ -41,11 +56,13 @@
       "src": "android"
     }
   },
+  "prettier": "@ionic/prettier-config",
+  "swiftlint": "@ionic/swiftlint-config",
   "repository": {
     "type": "git",
-    "url": "https://github.com/boundstate/capacitor-branch-deep-links"
+    "url": "https://github.com/BranchMetrics/capacitor-branch-deep-links"
   },
   "bugs": {
-    "url": "https://github.com/boundstate/capacitor-branch-deep-links/issues"
+    "url": "https://github.com/BranchMetrics/capacitor-branch-deep-links/issues"
   }
 }

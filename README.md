@@ -2,44 +2,50 @@
 
 Capacitor plugin for [branch.io](https://branch.io/) deep links.
 
+[![Bound State Software](https://static.boundstatesoftware.com/github-badge.png)](https://boundstatesoftware.com)
+
 ```sh
 npm install capacitor-branch-deep-links
 ```
 
 ## Usage
 
-```typescript
-import { Plugins } from '@capacitor/core';
-import { Platform } from '@ionic/angular';
-import { BranchInitEvent } from 'capacitor-branch-deep-links';
+```diff
++ import { Plugins } from '@capacitor/core';
++ import { BranchInitEvent } from 'capacitor-branch-deep-links';
 
-const { BranchDeepLinks, SplashScreen } = Plugins;
++ const { BranchDeepLinks } = Plugins;
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-})
-export class AppComponent {
-  constructor(private platform: Platform) {
-    this.initializeApp();
-  }
+  @Component({
+    selector: 'app-root',
+    templateUrl: 'app.component.html',
+    styleUrls: ['app.component.scss']
+  })
+  export class AppComponent {
+    constructor(
+      private platform: Platform,
+      private splashScreen: SplashScreen,
+      private statusBar: StatusBar
+    ) {
+      this.initializeApp();
+    }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      BranchDeepLinks.addListener('init', (event: BranchInitEvent) => {
-        // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
-        // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
-        console.log(event.referringParams);
+    initializeApp() {
+      this.platform.ready().then(() => {
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
++       BranchDeepLinks.addListener('init', (event: BranchInitEvent) => {
++         // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
++         // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
++         console.log(event.referringParams);
++       });
+
++       BranchDeepLinks.addListener('initError', (error: any) => {
++         console.error(error);
++       });
       });
-
-      BranchDeepLinks.addListener('initError', (error: any) => {
-        console.error(error);
-      });
-
-      SplashScreen.hide();
-    });
+    }
   }
-}
 ```
 
 ## Android setup
@@ -52,6 +58,7 @@ If your app is in the Google Play Store, update `build.gradle` with the necessar
 
 ```diff
   dependencies {
++   implementation 'com.android.installreferrer:installreferrer:1.1'
 +   implementation 'com.google.android.gms:play-services-appindexing:9.+' // App indexing
 +   implementation 'com.google.android.gms:play-services-ads:9+' // GAID matching
   }
@@ -144,16 +151,6 @@ Follow the Branch docs to:
 > You can use the [Branch wizard](https://dashboard.branch.io/start/existing-users/ios) to walk you through the process  
   (skip the *Get the SDK files* and *Start a Branch session* steps)
 
-Add Branch to your `Podfile`:
-
-```diff
-  target 'App' do
-    capacitor_pods
-    # Add your Pods here
-+   pod 'Branch';
-  end
-```
-
 Update the project:
 
 ```bash
@@ -192,6 +189,7 @@ Make the following changes to your `AppDelegate.swift` file:
 +   Branch.getInstance().continue(userActivity)
     return CAPBridge.handleContinueActivity(userActivity, restorationHandler)
   }
+
 
 + // Branch push notification handler (optional)
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
