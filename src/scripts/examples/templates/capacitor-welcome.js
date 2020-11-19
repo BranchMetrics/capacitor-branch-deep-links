@@ -1,12 +1,14 @@
-window.customElements.define('capacitor-welcome', class extends HTMLElement {
-  constructor() {
-    super();
+window.customElements.define(
+  'capacitor-welcome',
+  class extends HTMLElement {
+    constructor() {
+      super();
 
-    Capacitor.Plugins.SplashScreen.hide();
-    
-    const root = this.attachShadow({ mode: 'open' });
+      Capacitor.Plugins.SplashScreen.hide();
 
-    root.innerHTML = `
+      const root = this.attachShadow({ mode: 'open' });
+
+      root.innerHTML = `
     <style>
       :host {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -82,190 +84,247 @@ window.customElements.define('capacitor-welcome', class extends HTMLElement {
         </p>
       </main>
     </div>
-    `
-  }
+    `;
+    }
 
-  connectedCallback() {
-    const self = this;
+    connectedCallback() {
+      const self = this;
 
-    self.shadowRoot.querySelector('#share-sheet').addEventListener('click', function (e) {
-      // optional fields
-      var analytics = {
-        channel: 'facebook',
-        feature: 'onboarding',
-        campaign: 'content 9 launch',
-        stage: 'new user',
-        tags: ['one', 'two', 'three']
-      }
+      self.shadowRoot
+        .querySelector('#share-sheet')
+        .addEventListener('click', function (e) {
+          // optional fields
+          var analytics = {
+            channel: 'facebook',
+            feature: 'onboarding',
+            campaign: 'content 9 launch',
+            stage: 'new user',
+            tags: ['one', 'two', 'three'],
+          };
 
-      // optional fields
-      var properties = {
-        $desktop_url: 'http://www.example.com/desktop',
-        $android_url: 'http://www.example.com/android',
-        $ios_url: 'http://www.example.com/ios',
-        $ipad_url: 'http://www.example.com/ipad',
-        $match_duration: 999,
-        custom_string: 'data',
-        custom_integer: Date.now(),
-        custom_boolean: true
-      }
+          // optional fields
+          var properties = {
+            $desktop_url: 'http://www.example.com/desktop',
+            $android_url: 'http://www.example.com/android',
+            $ios_url: 'http://www.example.com/ios',
+            $ipad_url: 'http://www.example.com/ipad',
+            $match_duration: 999,
+            custom_string: 'data',
+            custom_integer: Date.now(),
+            custom_boolean: true,
+          };
 
-      var shareText = 'Check out this link'
+          var shareText = 'Check out this link';
 
-      Capacitor.Plugins.BranchDeepLinks.showShareSheet({ analytics, properties, shareText }).then(function (response) {
-        console.log('succes showShareSheet');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail showShareSheet');
-        console.log(error);
+          Capacitor.Plugins.BranchDeepLinks.showShareSheet({
+            analytics,
+            properties,
+            shareText,
+          })
+            .then(function (response) {
+              console.log('succes showShareSheet');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail showShareSheet');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#short-url')
+        .addEventListener('click', function (e) {
+          // optional fields
+          var analytics = {
+            channel: 'facebook',
+            feature: 'onboarding',
+            campaign: 'content 9 launch',
+            stage: 'new user',
+            tags: ['one', 'two', 'three'],
+          };
+
+          // optional fields
+          var properties = {
+            $desktop_url: 'http://www.example.com/desktop',
+            $android_url: 'http://www.example.com/android',
+            $ios_url: 'http://www.example.com/ios',
+            $ipad_url: 'http://www.example.com/ipad',
+            $match_duration: 999,
+            custom_string: 'data',
+            custom_integer: Date.now(),
+            custom_boolean: true,
+          };
+          Capacitor.Plugins.BranchDeepLinks.generateShortUrl({
+            analytics,
+            properties,
+          })
+            .then(function (response) {
+              console.log('succes generateShortUrl');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail generateShortUrl');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#standard-events')
+        .addEventListener('click', function (e) {
+          Capacitor.Plugins.BranchDeepLinks.getStandardEvents()
+            .then(function (response) {
+              console.log('succes getStandardEvents');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail getStandardEvents');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#send-event')
+        .addEventListener('click', function (e) {
+          Capacitor.Plugins.BranchDeepLinks.sendBranchEvent({
+            eventName: 'clickedonthat',
+          })
+            .then(function (response) {
+              console.log('succes sendBranchEvent');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail sendBranchEvent');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#send-standard-event')
+        .addEventListener('click', function (e) {
+          var metaData = {
+            customerEventAlias: 'alias name for event',
+            transactionID: '9994455',
+            currency: 'USD',
+            revenue: 1.9,
+            shipping: 10.9,
+            tax: 12.9,
+            coupon: 'test_coupon',
+            affiliation: 'test_affiliation',
+            description: 'Test add to cart event',
+            searchQuery: 'test keyword',
+            customData: {
+              Custom_Event_Property_Key1: 'Custom_Event_Property_val1',
+              Custom_Event_Property_Key2: 'Custom_Event_Property_val2',
+            },
+          };
+          Capacitor.Plugins.BranchDeepLinks.sendBranchEvent({
+            eventName: 'ADD_TO_CART',
+            metaData,
+          })
+            .then(function (response) {
+              console.log('succes sendBranchEvent');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail sendBranchEvent');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#disable-tracking-null')
+        .addEventListener('click', function (e) {
+          Capacitor.Plugins.BranchDeepLinks.disableTracking()
+            .then(function (response) {
+              console.log('succes disableTracking');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail disableTracking');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#disable-tracking-true')
+        .addEventListener('click', function (e) {
+          Capacitor.Plugins.BranchDeepLinks.disableTracking({ isEnabled: true })
+            .then(function (response) {
+              console.log('succes disableTracking');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail disableTracking');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#disable-tracking-false')
+        .addEventListener('click', function (e) {
+          Capacitor.Plugins.BranchDeepLinks.disableTracking({
+            isEnabled: false,
+          })
+            .then(function (response) {
+              console.log('succes disableTracking');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail disableTracking');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#set-identity')
+        .addEventListener('click', function (e) {
+          Capacitor.Plugins.BranchDeepLinks.setIdentity({ newIdentity: '1234' })
+            .then(function (referringParams) {
+              console.log('succes setIdentity');
+              console.log(referringParams);
+            })
+            .catch(function (error) {
+              console.log('fail setIdentity');
+              console.log(error);
+            });
+        });
+
+      self.shadowRoot
+        .querySelector('#logout')
+        .addEventListener('click', function (e) {
+          Capacitor.Plugins.BranchDeepLinks.logout()
+            .then(function (response) {
+              console.log('succes logout');
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log('fail logout');
+              console.log(error);
+            });
+        });
+
+      Capacitor.Plugins.BranchDeepLinks.addListener('init', event => {
+        // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
+        // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
+        console.log('initialized');
+        console.log(event.referringParams);
       });
-    });
 
-    self.shadowRoot.querySelector('#short-url').addEventListener('click', function (e) {
-      // optional fields
-      var analytics = {
-        channel: 'facebook',
-        feature: 'onboarding',
-        campaign: 'content 9 launch',
-        stage: 'new user',
-        tags: ['one', 'two', 'three']
-      }
-
-      // optional fields
-      var properties = {
-        $desktop_url: 'http://www.example.com/desktop',
-        $android_url: 'http://www.example.com/android',
-        $ios_url: 'http://www.example.com/ios',
-        $ipad_url: 'http://www.example.com/ipad',
-        $match_duration: 999,
-        custom_string: 'data',
-        custom_integer: Date.now(),
-        custom_boolean: true
-      }
-      Capacitor.Plugins.BranchDeepLinks.generateShortUrl({ analytics, properties }).then(function (response) {
-        console.log('succes generateShortUrl');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail generateShortUrl');
-        console.log(error);
+      Capacitor.Plugins.BranchDeepLinks.addListener('initError', error => {
+        console.log('error initializing');
+        console.error(error);
       });
-    });
+    }
+  },
+);
 
-    self.shadowRoot.querySelector('#standard-events').addEventListener('click', function (e) {
-      Capacitor.Plugins.BranchDeepLinks.getStandardEvents().then(function (response) {
-        console.log('succes getStandardEvents');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail getStandardEvents');
-        console.log(error);
-      });
-    });
-
-    self.shadowRoot.querySelector('#send-event').addEventListener('click', function (e) {
-      Capacitor.Plugins.BranchDeepLinks.sendBranchEvent({ eventName: 'clickedonthat' }).then(function (response) {
-        console.log('succes sendBranchEvent');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail sendBranchEvent');
-        console.log(error);
-      });
-    });
-
-    self.shadowRoot.querySelector('#send-standard-event').addEventListener('click', function (e) {
-      var metaData = {
-        customerEventAlias: 'alias name for event',
-        transactionID: '9994455',
-        currency: 'USD',
-        revenue: 1.9,
-        shipping: 10.9,
-        tax: 12.9,
-        coupon: 'test_coupon',
-        affiliation: 'test_affiliation',
-        description: 'Test add to cart event',
-        searchQuery: 'test keyword',
-        customData: {
-          "Custom_Event_Property_Key1": "Custom_Event_Property_val1",
-          "Custom_Event_Property_Key2": "Custom_Event_Property_val2"
-        }
-      };
-      Capacitor.Plugins.BranchDeepLinks.sendBranchEvent({ eventName: 'ADD_TO_CART', metaData }).then(function (response) {
-        console.log('succes sendBranchEvent');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail sendBranchEvent');
-        console.log(error);
-      });
-    });
-
-    self.shadowRoot.querySelector('#disable-tracking-null').addEventListener('click', function (e) {
-      Capacitor.Plugins.BranchDeepLinks.disableTracking().then(function (response) {
-        console.log('succes disableTracking');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail disableTracking');
-        console.log(error);
-      });
-    });
-
-    self.shadowRoot.querySelector('#disable-tracking-true').addEventListener('click', function (e) {
-      Capacitor.Plugins.BranchDeepLinks.disableTracking({ isEnabled: true }).then(function (response) {
-        console.log('succes disableTracking');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail disableTracking');
-        console.log(error);
-      });
-    });
-
-    self.shadowRoot.querySelector('#disable-tracking-false').addEventListener('click', function (e) {
-      Capacitor.Plugins.BranchDeepLinks.disableTracking({ isEnabled: false }).then(function (response) {
-        console.log('succes disableTracking');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail disableTracking');
-        console.log(error);
-      });
-    });
-
-    self.shadowRoot.querySelector('#set-identity').addEventListener('click', function (e) {
-      Capacitor.Plugins.BranchDeepLinks.setIdentity({ newIdentity: '1234' }).then(function (referringParams) {
-        console.log('succes setIdentity');
-        console.log(referringParams);
-      }).catch(function (error) {
-        console.log('fail setIdentity');
-        console.log(error);
-      });
-    });
-
-    self.shadowRoot.querySelector('#logout').addEventListener('click', function (e) {
-      Capacitor.Plugins.BranchDeepLinks.logout().then(function (response) {
-        console.log('succes logout');
-        console.log(response);
-      }).catch(function (error) {
-        console.log('fail logout');
-        console.log(error);
-      });
-    });
-
-    Capacitor.Plugins.BranchDeepLinks.addListener('init', (event) => {
-      // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
-      // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
-      console.log('initialized');
-      console.log(event.referringParams);
-    });
-
-    Capacitor.Plugins.BranchDeepLinks.addListener('initError', (error) => {
-      console.log('error initializing');
-      console.error(error);
-    });
-  }
-});
-
-window.customElements.define('capacitor-welcome-titlebar', class extends HTMLElement {
-  constructor() {
-    super();
-    const root = this.attachShadow({ mode: 'open' });
-    root.innerHTML = `
+window.customElements.define(
+  'capacitor-welcome-titlebar',
+  class extends HTMLElement {
+    constructor() {
+      super();
+      const root = this.attachShadow({ mode: 'open' });
+      root.innerHTML = `
     <style>
       :host {
         position: relative;
@@ -284,5 +343,6 @@ window.customElements.define('capacitor-welcome-titlebar', class extends HTMLEle
     </style>
     <slot></slot>
     `;
-  }
-});
+    }
+  },
+);
