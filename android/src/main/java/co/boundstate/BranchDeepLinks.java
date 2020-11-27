@@ -22,8 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@NativePlugin
+@NativePlugin(name = BranchDeepLinks.PLUGIN_NAME)
 public class BranchDeepLinks extends Plugin {
+    public static final String PLUGIN_NAME = "BranchDeepLinks";
     public static final String EVENT_INIT = "init";
     public static final String EVENT_INIT_ERROR = "initError";
 
