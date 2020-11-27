@@ -2,8 +2,6 @@ package co.boundstate;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
-import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
@@ -29,47 +27,7 @@ public class BranchDeepLinks extends Plugin {
     private static final String EVENT_INIT = "init";
     private static final String EVENT_INIT_ERROR = "initError";
 
-    @Nullable
-    private Uri mData;
-
     private Activity activity;
-
-    @Override
-    protected void handleOnNewIntent(Intent intent) {
-        super.handleOnNewIntent(intent);
-        mData = intent.getData();
-        getActivity().setIntent(intent);
-        // if activity is in foreground (or in backstack but partially visible) launching the same
-        // activity will skip onStart, handle this case with sessionBuilder()...reInit()
-        // will re-initialize only if ""branch_force_new_session=true"" intent extra is set
-        Branch.sessionBuilder(getActivity()).withCallback(callback).reInit();
-    }
-
-    @Override
-    protected void handleOnStart() {
-        super.handleOnStart();
-        Branch.sessionBuilder(getActivity()).withCallback(callback).withData(mData).init();
-    }
-
-    private Branch.BranchReferralInitListener callback = new Branch.BranchReferralInitListener() {
-
-        @Override
-        public void onInitFinished(JSONObject referringParams, BranchError error) {
-            if (error == null) {
-                JSObject data = new JSObject();
-                data.put("referringParams", referringParams);
-                notifyListeners(EVENT_INIT, data, true);
-            } else {
-                sendError(error.getMessage());
-            }
-        }
-    };
-
-    private void sendError(String error) {
-        JSObject data = new JSObject();
-        data.put("error", error);
-        notifyListeners(EVENT_INIT_ERROR, data, true);
-    }
 
     @PluginMethod
     public void handleUrl(PluginCall call) {
