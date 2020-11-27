@@ -24,8 +24,8 @@ import org.json.JSONObject;
 
 @NativePlugin
 public class BranchDeepLinks extends Plugin {
-    private static final String EVENT_INIT = "init";
-    private static final String EVENT_INIT_ERROR = "initError";
+    public static final String EVENT_INIT = "init";
+    public static final String EVENT_INIT_ERROR = "initError";
 
     private Activity activity;
 
