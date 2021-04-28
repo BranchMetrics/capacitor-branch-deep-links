@@ -47,6 +47,8 @@ public class BranchDeepLinks extends Plugin {
 
     @Override
     protected void handleOnStart() {
+        this.activity = getActivity();
+        
         super.handleOnStart();
         Branch.sessionBuilder(getActivity()).withCallback(callback).withData(mData).init();
     }
