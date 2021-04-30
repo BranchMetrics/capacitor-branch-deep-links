@@ -1,5 +1,8 @@
 Branch Capacitor SDK change log
 
+- 3.0.2
+  - Update Android SDK to 5.0.8
+
 - 3.0.1
   - Update Android SDK 5.0.7 and iOS SDK 1.39.2
 
