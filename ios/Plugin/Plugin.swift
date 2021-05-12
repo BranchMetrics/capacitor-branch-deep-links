@@ -55,7 +55,7 @@ public class BranchDeepLinks: CAPPlugin {
         
         branchService.generateShortUrl(params: params as? [AnyHashable : Any] ?? [:], linkProperties: linkProperties) { (url, error) in
             if (error == nil) {
-                call.success([
+                call.resolve([
                     "url": url ?? ""
                 ])
             } else {
@@ -75,10 +75,10 @@ public class BranchDeepLinks: CAPPlugin {
         
         let buo = BranchUniversalObject.init()
         DispatchQueue.main.async {
-            buo.showShareSheet(with: linkProperties, andShareText: shareText, from: self.bridge.viewController, completion: nil)
+            buo.showShareSheet(with: linkProperties, andShareText: shareText, from: self.bridge?.viewController, completion: nil)
         }
         
-        call.success()
+        call.resolve()
     }
 
     @objc func getStandardEvents(_ call: CAPPluginCall) {
@@ -101,7 +101,7 @@ public class BranchDeepLinks: CAPPlugin {
             BranchStandardEvent.viewItems,
         ]
 
-        call.success([
+        call.resolve([
             "branch_standard_events": standardEvents
         ])
     }
@@ -144,13 +144,13 @@ public class BranchDeepLinks: CAPPlugin {
         
         event.logEvent()
 
-        call.success()
+        call.resolve()
     }
 
     @objc func disableTracking(_ call: CAPPluginCall) {
         let isEnabled = call.getBool("isEnabled") ?? false
         branchService.disableTracking(isEnabled: isEnabled) { (enabled) in
-            call.success([
+            call.resolve([
                 "is_enabled": enabled
             ])
         }
@@ -159,7 +159,7 @@ public class BranchDeepLinks: CAPPlugin {
     @objc func setIdentity(_ call: CAPPluginCall) {
         let newIdentity = call.getString("newIdentity") ?? ""
         branchService.setIdentity(newIdentity: newIdentity) { (referringParams, error) in
-            call.success([
+            call.resolve([
                 "referringParams": referringParams ?? [:]
             ])
         }
@@ -168,7 +168,7 @@ public class BranchDeepLinks: CAPPlugin {
     @objc func logout(_ call: CAPPluginCall) {
         branchService.logout() {(loggedOut, error) in
             if (error == nil) {
-                call.success([
+                call.resolve([
                     "logged_out": loggedOut as Any
                 ])
             } else {

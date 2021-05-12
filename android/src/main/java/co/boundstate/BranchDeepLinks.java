@@ -3,13 +3,14 @@ package co.boundstate;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
-import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.BranchShareSheetBuilder;
@@ -24,7 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@NativePlugin
+@CapacitorPlugin(name = "BranchDeepLinks")
 public class BranchDeepLinks extends Plugin {
     private static final String EVENT_INIT = "init";
     private static final String EVENT_INIT_ERROR = "initError";
@@ -48,7 +49,6 @@ public class BranchDeepLinks extends Plugin {
     @Override
     protected void handleOnStart() {
         this.activity = getActivity();
-        
         super.handleOnStart();
         Branch.sessionBuilder(getActivity()).withCallback(callback).withData(mData).init();
     }
@@ -105,7 +105,7 @@ public class BranchDeepLinks extends Plugin {
                     if (error == null) {
                         JSObject ret = new JSObject();
                         ret.put("url", url);
-                        call.success(ret);
+                        call.resolve(ret);
                     } else {
                         call.reject(error.getMessage());
                     }
@@ -125,7 +125,7 @@ public class BranchDeepLinks extends Plugin {
         BranchShareSheetBuilder shareLinkBuilder = getShareLinkBuilder(shortLinkBuilder, shareSheetStyle);
         shareLinkBuilder.shareLink();
 
-        call.success();
+        call.resolve();
     }
 
     @PluginMethod
@@ -138,7 +138,7 @@ public class BranchDeepLinks extends Plugin {
 
         JSObject ret = new JSObject();
         ret.put("branch_standard_events", events);
-        call.success(ret);
+        call.resolve(ret);
     }
 
     @PluginMethod
@@ -200,7 +200,7 @@ public class BranchDeepLinks extends Plugin {
 
         event.logEvent(activity);
 
-        call.success();
+        call.resolve();
     }
 
     @PluginMethod
@@ -211,7 +211,7 @@ public class BranchDeepLinks extends Plugin {
 
         JSObject ret = new JSObject();
         ret.put("is_enabled", isEnabled);
-        call.success(ret);
+        call.resolve(ret);
     }
 
     @PluginMethod
@@ -229,7 +229,7 @@ public class BranchDeepLinks extends Plugin {
                         if (error == null) {
                             JSObject ret = new JSObject();
                             ret.put("referringParams", referringParams);
-                            call.success(ret);
+                            call.resolve(ret);
                         } else {
                             call.reject(error.getMessage());
                         }
@@ -250,7 +250,7 @@ public class BranchDeepLinks extends Plugin {
                         if (error == null) {
                             JSObject ret = new JSObject();
                             ret.put("logged_out", loggedOut);
-                            call.success(ret);
+                            call.resolve(ret);
                         } else {
                             call.reject(error.getMessage());
                         }
