@@ -10,13 +10,16 @@ import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.BranchShareSheetBuilder;
 import io.branch.referral.BranchShortLinkBuilder;
+import io.branch.referral.BranchUtil;
 import io.branch.referral.SharingHelper;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.BranchEvent;
+import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.CurrencyType;
 import io.branch.referral.util.ShareSheetStyle;
 import java.util.Iterator;
@@ -48,7 +51,7 @@ public class BranchDeepLinks extends Plugin {
     @Override
     protected void handleOnStart() {
         this.activity = getActivity();
-        
+
         super.handleOnStart();
         Branch.sessionBuilder(getActivity()).withCallback(callback).withData(mData).init();
     }
@@ -195,6 +198,15 @@ public class BranchDeepLinks extends Plugin {
                     String keyValue = (String) keys.next();
                     event.addCustomDataProperty(keyValue, customData.getString(keyValue));
                 }
+            } else if (key.equals("contentMetadata")) {
+                JSONArray contentMetadata = metaData.getJSONArray("contentMetadata");
+
+                for (int i = 0; i < contentMetadata.length(); i++) {
+                    JSONObject item = contentMetadata.getJSONObject(i);
+
+                    BranchUniversalObject universalObject = this.getContentItem(item);
+                    event.addContentItems(universalObject);
+                }
             }
         }
 
@@ -277,6 +289,48 @@ public class BranchDeepLinks extends Plugin {
             .setSharingTitle(shareWith);
 
         return shareSheetStyle;
+    }
+
+    private BranchUniversalObject getContentItem(JSONObject item) throws JSONException {
+        BranchUniversalObject universalObject = new BranchUniversalObject();
+        ContentMetadata contentMetadata = new ContentMetadata();
+        Iterator<String> keys = item.keys();
+
+        while (keys.hasNext()) {
+            String key = keys.next();
+
+            switch (key) {
+                case "quantity":
+                    contentMetadata.setQuantity(Double.parseDouble(item.getString(key)));
+                    break;
+                case "price":
+                    contentMetadata.price = Double.parseDouble(item.getString(key));
+                    break;
+                case "currency":
+                    String currencyString = item.getString(key);
+                    CurrencyType currency = CurrencyType.getValue(currencyString);
+                    if (currency != null) {
+                        contentMetadata.currencyType = currency;
+                    }
+                    break;
+                case "productName":
+                    contentMetadata.setProductName(item.getString(key));
+                    break;
+                case "productBrand":
+                    contentMetadata.setProductBrand(item.getString(key));
+                    break;
+                case "sku":
+                    contentMetadata.setSku(item.getString(key));
+                    break;
+                default:
+                    contentMetadata.addCustomMetadata(key, item.getString(key));
+                    break;
+            }
+        }
+
+        universalObject.setContentMetadata(contentMetadata);
+
+        return universalObject;
     }
 
     private BranchShortLinkBuilder getShortLinkBuilder(JSObject analytics, JSObject properties) throws JSONException {

@@ -16,7 +16,7 @@ public class BranchDeepLinks: CAPPlugin {
                 object: nil
         )
     }
-    
+
     @objc public func setBranchService(branchService: Any) {
         self.branchService = branchService as! BranchService
     }
@@ -52,7 +52,7 @@ public class BranchDeepLinks: CAPPlugin {
         let linkProperties = getLinkProperties(analytics: analytics, properties: properties)
         let params = NSMutableDictionary();
         params.addEntries(from: linkProperties.controlParams)
-        
+
         branchService.generateShortUrl(params: params as? [AnyHashable : Any] ?? [:], linkProperties: linkProperties) { (url, error) in
             if (error == nil) {
                 call.success([
@@ -69,15 +69,15 @@ public class BranchDeepLinks: CAPPlugin {
         let properties = call.getObject("properties") ?? [:]
         let shareText = call.getString("shareText", "Share Link")
         let linkProperties = getLinkProperties(analytics: analytics, properties: properties)
-        
+
         let params = NSMutableDictionary();
         params.addEntries(from: linkProperties.controlParams)
-        
+
         let buo = BranchUniversalObject.init()
         DispatchQueue.main.async {
             buo.showShareSheet(with: linkProperties, andShareText: shareText, from: self.bridge.viewController, completion: nil)
         }
-        
+
         call.success()
     }
 
@@ -106,6 +106,7 @@ public class BranchDeepLinks: CAPPlugin {
         ])
     }
 
+
     @objc func sendBranchEvent(_ call: CAPPluginCall) {
         guard let eventName = call.options["eventName"] as? String else {
           call.reject("Must provide an event name")
@@ -113,7 +114,7 @@ public class BranchDeepLinks: CAPPlugin {
         }
         let metaData = call.getObject("metaData") ?? [:]
         let event = BranchEvent.customEvent(withName: eventName)
-        
+
         for (key, value) in metaData {
             if key == "transactionID" {
                 event.transactionID = value as? String
@@ -139,11 +140,20 @@ public class BranchDeepLinks: CAPPlugin {
                 event.alias = value as? String
             } else if key == "customData" {
                 event.customData = value as? [String : String] ?? [:]
+            } else if key == "contentMetadata" {
+                if let items = value as? NSMutableArray {
+                    var contentItems: [BranchUniversalObject] = []
+                    
+                    items.forEach { (item) in
+                        let item = item as? [String:Any] ?? [:]
+                        contentItems.append(getContentItemObject(item: item))
+                    }
+                    event.contentItems = contentItems
+                }
             }
         }
-        
-        event.logEvent()
 
+        event.logEvent()
         call.success()
     }
 
@@ -176,10 +186,10 @@ public class BranchDeepLinks: CAPPlugin {
             }
         }
     }
-    
+
     func getLinkProperties(analytics: [String: Any], properties: [String: Any]) -> BranchLinkProperties {
         let linkProperties = BranchLinkProperties.init()
-        
+
         for (key, value) in analytics {
             if key == "alias" {
                 linkProperties.alias = value as? String
@@ -197,11 +207,37 @@ public class BranchDeepLinks: CAPPlugin {
                 linkProperties.tags = value as? [Any]
             }
         }
-        
+
         for (key, value) in properties {
             linkProperties.addControlParam(key, withValue: value as? String)
         }
-        
+
         return linkProperties
+    }
+    
+    func getContentItemObject(item: [String:Any]) -> BranchUniversalObject {
+        let object = BranchUniversalObject.init()
+
+        for (key, value) in item {
+            
+            switch key {
+            case "productName":
+                object.contentMetadata.productName = value as? String
+            case "productBrand":
+                object.contentMetadata.productBrand = value as? String
+            case "sku":
+                object.contentMetadata.sku = value as? String
+            case "price":
+                object.contentMetadata.price = NSDecimalNumber(decimal: (value as? NSNumber ?? 0).decimalValue)
+            case "currency":
+                object.contentMetadata.currency = (value as? String).map { BNCCurrency(rawValue: $0) }
+            case "quantity":
+                object.contentMetadata.quantity = Double.init(truncating: value as? NSNumber ?? 0)
+            default:
+                object.contentMetadata.customMetadata[key] = value
+            }
+        }
+        
+        return object
     }
 }
