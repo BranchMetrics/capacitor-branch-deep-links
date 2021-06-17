@@ -38,6 +38,7 @@
     "@capacitor/core": "^3.0.0"
   },
   "files": [
+    "src/",
     "dist/",
     "ios/",
     "android/",
