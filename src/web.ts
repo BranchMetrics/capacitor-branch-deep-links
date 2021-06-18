@@ -74,9 +74,9 @@ export class BranchDeepLinksWeb extends WebPlugin
   }
 }
 
-const BranchDeepLinks = new BranchDeepLinksWeb();
+// const BranchDeepLinks = new BranchDeepLinksWeb();
 
-export { BranchDeepLinks };
+// export { BranchDeepLinks };
 
-import { registerWebPlugin } from '@capacitor/core';
-registerWebPlugin(BranchDeepLinks);
+// import { registerWebPlugin } from '@capacitor/core';
+// registerWebPlugin(BranchDeepLinks);
