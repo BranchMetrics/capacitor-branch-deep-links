@@ -5,7 +5,7 @@ export default {
   output: {
     file: 'dist/plugin.js',
     format: 'iife',
-    name: 'capacitorBranchDeepLinks', // TODO: change this
+    name: 'capacitorBranchDeepLinks',
     globals: {
       '@capacitor/core': 'capacitorExports',
     },
@@ -13,11 +13,10 @@ export default {
     inlineDynamicImports: true,
   },
   plugins: [
-    nodeResolve(),
-    // nodeResolve({
-    //   // allowlist of dependencies to bundle in
-    //   // @see https://github.com/rollup/plugins/tree/master/packages/node-resolve#resolveonly
-    //   resolveOnly: ['lodash'],
-    // }),
+    nodeResolve({
+      // allowlist of dependencies to bundle in
+      // @see https://github.com/rollup/plugins/tree/master/packages/node-resolve#resolveonly
+      resolveOnly: ['lodash'],
+    }),
   ],
 };
