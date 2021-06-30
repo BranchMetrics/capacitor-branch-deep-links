@@ -32,8 +32,6 @@ public class BranchDeepLinks extends Plugin {
     @Nullable
     private Uri mData;
 
-    private Activity activity;
-
     @Override
     protected void handleOnNewIntent(Intent intent) {
         super.handleOnNewIntent(intent);
@@ -47,8 +45,6 @@ public class BranchDeepLinks extends Plugin {
 
     @Override
     protected void handleOnStart() {
-        this.activity = getActivity();
-        
         super.handleOnStart();
         Branch.sessionBuilder(getActivity()).withCallback(callback).withData(mData).init();
     }
@@ -198,14 +194,13 @@ public class BranchDeepLinks extends Plugin {
             }
         }
 
-        event.logEvent(activity);
+        event.logEvent(getActivity());
 
         call.success();
     }
 
     @PluginMethod
     public void disableTracking(PluginCall call) {
-        this.activity = getActivity();
         Boolean isEnabled = call.getBoolean("isEnabled", false);
         Branch.getInstance().disableTracking(isEnabled);
 
@@ -266,9 +261,9 @@ public class BranchDeepLinks extends Plugin {
         String more = "Show More";
         String shareWith = "Share With";
 
-        ShareSheetStyle shareSheetStyle = new ShareSheetStyle(activity, shareTitle, shareText)
-            .setCopyUrlStyle(activity.getResources().getDrawable(android.R.drawable.ic_menu_send), copyToClipboard, clipboardSuccess)
-            .setMoreOptionStyle(activity.getResources().getDrawable(android.R.drawable.ic_menu_search), more)
+        ShareSheetStyle shareSheetStyle = new ShareSheetStyle(getActivity(), shareTitle, shareText)
+            .setCopyUrlStyle(getActivity().getResources().getDrawable(android.R.drawable.ic_menu_send), copyToClipboard, clipboardSuccess)
+            .setMoreOptionStyle(getActivity().getResources().getDrawable(android.R.drawable.ic_menu_search), more)
             .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
             .addPreferredSharingOption(SharingHelper.SHARE_WITH.EMAIL)
             .addPreferredSharingOption(SharingHelper.SHARE_WITH.MESSAGE)
@@ -280,7 +275,7 @@ public class BranchDeepLinks extends Plugin {
     }
 
     private BranchShortLinkBuilder getShortLinkBuilder(JSObject analytics, JSObject properties) throws JSONException {
-        BranchShortLinkBuilder shortLinkBuilder = new BranchShortLinkBuilder(activity);
+        BranchShortLinkBuilder shortLinkBuilder = new BranchShortLinkBuilder(getActivity());
 
         // Add analytics properties
         if (analytics.has("feature")) {
@@ -320,7 +315,7 @@ public class BranchDeepLinks extends Plugin {
     }
 
     private BranchShareSheetBuilder getShareLinkBuilder(BranchShortLinkBuilder shortLinkBuilder, ShareSheetStyle shareSheetStyle) {
-        BranchShareSheetBuilder shareLinkBuilder = new BranchShareSheetBuilder(activity, shortLinkBuilder);
+        BranchShareSheetBuilder shareLinkBuilder = new BranchShareSheetBuilder(getActivity(), shortLinkBuilder);
 
         shareLinkBuilder.setSubject(shareSheetStyle.getMessageTitle()).setMessage(shareSheetStyle.getMessageBody());
 
