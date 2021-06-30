@@ -49,7 +49,7 @@ public class BranchDeepLinks extends Plugin {
         Branch.sessionBuilder(getActivity()).withCallback(callback).withData(mData).init();
     }
 
-    private Branch.BranchReferralInitListener callback = new Branch.BranchReferralInitListener() {
+    private final Branch.BranchReferralInitListener callback = new Branch.BranchReferralInitListener() {
 
         @Override
         public void onInitFinished(JSONObject referringParams, BranchError error) {
