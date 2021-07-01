@@ -18,4 +18,5 @@ export default {
       resolveOnly: ['lodash'],
     }),
   ],
+  inlineDynamicImports: true,
 };

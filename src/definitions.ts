@@ -1,11 +1,5 @@
 import { PluginListenerHandle } from '@capacitor/core';
 
-declare module '@capacitor/core' {
-  interface PluginRegistry {
-    BranchDeepLinks: BranchDeepLinksPlugin;
-  }
-}
-
 export interface BranchReferringParams {
   '+clicked_branch_link': boolean;
   '+is_first_session': boolean;
