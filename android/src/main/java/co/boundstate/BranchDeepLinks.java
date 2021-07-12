@@ -1,10 +1,12 @@
 package co.boundstate;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.os.UserManager;
 import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -21,6 +23,7 @@ import io.branch.referral.util.BranchEvent;
 import io.branch.referral.util.CurrencyType;
 import io.branch.referral.util.ShareSheetStyle;
 import java.util.Iterator;
+import java.util.Objects;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,31 +33,49 @@ public class BranchDeepLinks extends Plugin {
     private static final String EVENT_INIT = "init";
     private static final String EVENT_INIT_ERROR = "initError";
 
-    @Nullable
-    private Uri mData;
+    public static Branch getBranchInstance(@NonNull Context context) {
+        boolean isUnlocked = isUserUnlocked(context);
 
-    private Activity activity;
+        if (isUnlocked) {
+            // Branch object initialization
+            return Branch.getAutoInstance(context);
+        }
+
+        return null;
+    }
+
+    private static boolean isUserUnlocked(@NonNull Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return ((UserManager) Objects.requireNonNull(context.getSystemService(Context.USER_SERVICE))).isUserUnlocked();
+        } else {
+            return true;
+        }
+    }
 
     @Override
     protected void handleOnNewIntent(Intent intent) {
         super.handleOnNewIntent(intent);
-        mData = intent.getData();
         getActivity().setIntent(intent);
-        // if activity is in foreground (or in backstack but partially visible) launching the same
-        // activity will skip onStart, handle this case with sessionBuilder()...reInit()
-        // will re-initialize only if ""branch_force_new_session=true"" intent extra is set
-        Branch.sessionBuilder(getActivity()).withCallback(callback).reInit();
+        Branch branch = getBranchInstance(getContext());
+        if (branch != null) {
+            // if activity is in foreground (or in backstack but partially visible) launching the same
+            // activity will skip onStart, handle this case with sessionBuilder()...reInit()
+            // will re-initialize only if ""branch_force_new_session=true"" intent extra is set
+            Branch.sessionBuilder(getActivity()).withCallback(callback).reInit();
+        }
     }
 
     @Override
     protected void handleOnStart() {
-        this.activity = getActivity();
         super.handleOnStart();
-        Branch.sessionBuilder(getActivity()).withCallback(callback).withData(mData).init();
+        Uri data = getActivity().getIntent() != null ? getActivity().getIntent().getData() : null;
+        Branch branch = getBranchInstance(getContext());
+        if (branch != null) {
+            Branch.sessionBuilder(getActivity()).withCallback(callback).withData(data).init();
+        }
     }
 
-    private Branch.BranchReferralInitListener callback = new Branch.BranchReferralInitListener() {
-
+    private final Branch.BranchReferralInitListener callback = new Branch.BranchReferralInitListener() {
         @Override
         public void onInitFinished(JSONObject referringParams, BranchError error) {
             if (error == null) {
@@ -198,14 +219,13 @@ public class BranchDeepLinks extends Plugin {
             }
         }
 
-        event.logEvent(activity);
+        event.logEvent(getActivity());
 
         call.resolve();
     }
 
     @PluginMethod
     public void disableTracking(PluginCall call) {
-        this.activity = getActivity();
         Boolean isEnabled = call.getBoolean("isEnabled", false);
         Branch.getInstance().disableTracking(isEnabled);
 
@@ -266,9 +286,9 @@ public class BranchDeepLinks extends Plugin {
         String more = "Show More";
         String shareWith = "Share With";
 
-        ShareSheetStyle shareSheetStyle = new ShareSheetStyle(activity, shareTitle, shareText)
-            .setCopyUrlStyle(activity.getResources().getDrawable(android.R.drawable.ic_menu_send), copyToClipboard, clipboardSuccess)
-            .setMoreOptionStyle(activity.getResources().getDrawable(android.R.drawable.ic_menu_search), more)
+        ShareSheetStyle shareSheetStyle = new ShareSheetStyle(getActivity(), shareTitle, shareText)
+            .setCopyUrlStyle(getActivity().getResources().getDrawable(android.R.drawable.ic_menu_send), copyToClipboard, clipboardSuccess)
+            .setMoreOptionStyle(getActivity().getResources().getDrawable(android.R.drawable.ic_menu_search), more)
             .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
             .addPreferredSharingOption(SharingHelper.SHARE_WITH.EMAIL)
             .addPreferredSharingOption(SharingHelper.SHARE_WITH.MESSAGE)
@@ -280,7 +300,7 @@ public class BranchDeepLinks extends Plugin {
     }
 
     private BranchShortLinkBuilder getShortLinkBuilder(JSObject analytics, JSObject properties) throws JSONException {
-        BranchShortLinkBuilder shortLinkBuilder = new BranchShortLinkBuilder(activity);
+        BranchShortLinkBuilder shortLinkBuilder = new BranchShortLinkBuilder(getActivity());
 
         // Add analytics properties
         if (analytics.has("feature")) {
@@ -320,7 +340,7 @@ public class BranchDeepLinks extends Plugin {
     }
 
     private BranchShareSheetBuilder getShareLinkBuilder(BranchShortLinkBuilder shortLinkBuilder, ShareSheetStyle shareSheetStyle) {
-        BranchShareSheetBuilder shareLinkBuilder = new BranchShareSheetBuilder(activity, shortLinkBuilder);
+        BranchShareSheetBuilder shareLinkBuilder = new BranchShareSheetBuilder(getActivity(), shortLinkBuilder);
 
         shareLinkBuilder.setSubject(shareSheetStyle.getMessageTitle()).setMessage(shareSheetStyle.getMessageBody());
 
