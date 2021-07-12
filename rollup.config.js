@@ -28,4 +28,5 @@ export default {
     }),
   ],
   external: ['@capacitor/core'],
+  inlineDynamicImports: true,
 };
