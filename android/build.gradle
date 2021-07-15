@@ -44,6 +44,7 @@ repositories {
 
 
 dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':capacitor-android')
     implementation 'androidx.annotation:annotation:1.1.0'
