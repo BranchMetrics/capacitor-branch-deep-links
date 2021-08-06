@@ -3,10 +3,10 @@ package co.boundstate;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.os.UserManager;
-import androidx.annotation.Nullable;
+import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -79,6 +79,7 @@ public class BranchDeepLinks extends Plugin {
     }
 
     private final Branch.BranchReferralInitListener callback = new Branch.BranchReferralInitListener() {
+
         @Override
         public void onInitFinished(JSONObject referringParams, BranchError error) {
             if (error == null) {
@@ -268,6 +269,16 @@ public class BranchDeepLinks extends Plugin {
                     }
                 }
             );
+    }
+
+    @PluginMethod
+    public void setRequestMetadata(final PluginCall call) {
+        String metadataKey = call.getString("metadataKey");
+        String metadataValue = call.getString("metadataValue");
+
+        Branch.getInstance().setRequestMetadata(metadataKey, metadataValue);
+
+        call.resolve();
     }
 
     @PluginMethod
