@@ -94,7 +94,6 @@ public class BranchDeepLinks: CAPPlugin {
             BranchStandardEvent.rate,
             BranchStandardEvent.search,
             BranchStandardEvent.share,
-            BranchStandardEvent.spendCredits,
             BranchStandardEvent.unlockAchievement,
             BranchStandardEvent.viewCart,
             BranchStandardEvent.viewItem,
