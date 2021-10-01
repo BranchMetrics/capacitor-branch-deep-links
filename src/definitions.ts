@@ -83,5 +83,9 @@ export interface BranchDeepLinksPlugin {
   setIdentity(options: {
     newIdentity: string;
   }): Promise<BranchReferringParamsResponse>;
+  setRequestMetadata(options: {
+    metadataKey: string;
+    metadataValue: string;
+  }): Promise<void>;
   logout(): Promise<BranchLoggedOutResponse>;
 }

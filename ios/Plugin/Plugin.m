@@ -11,4 +11,5 @@ CAP_PLUGIN(BranchDeepLinks, "BranchDeepLinks",
            CAP_PLUGIN_METHOD(disableTracking, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setIdentity, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(logout, CAPPluginReturnPromise);
+		   CAP_PLUGIN_METHOD(setRequestMetadata, CAPPluginReturnPromise);
 )

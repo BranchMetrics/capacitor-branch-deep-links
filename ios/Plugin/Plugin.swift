@@ -78,7 +78,7 @@ public class BranchDeepLinks: CAPPlugin {
             buo.showShareSheet(with: linkProperties, andShareText: shareText, from: self.bridge?.viewController, completion: nil)
         }
 
-        call.success()
+        call.resolve()
     }
 
     @objc func getStandardEvents(_ call: CAPPluginCall) {
@@ -142,7 +142,7 @@ public class BranchDeepLinks: CAPPlugin {
             } else if key == "contentMetadata" {
                 if let items = value as? NSMutableArray {
                     var contentItems: [BranchUniversalObject] = []
-                    
+
                     items.forEach { (item) in
                         let item = item as? [String:Any] ?? [:]
                         contentItems.append(getContentItemObject(item: item))
@@ -153,7 +153,7 @@ public class BranchDeepLinks: CAPPlugin {
         }
 
         event.logEvent()
-        call.success()
+        call.resolve()
     }
 
     @objc func disableTracking(_ call: CAPPluginCall) {
@@ -172,6 +172,15 @@ public class BranchDeepLinks: CAPPlugin {
                 "referringParams": referringParams ?? [:]
             ])
         }
+    }
+
+	@objc func setRequestMetadata(_ call: CAPPluginCall) {
+        let metadataKey = call.getString("metadataKey") ?? ""
+        let metadataValue = call.getString("metadataValue") ?? ""
+
+        Branch.getInstance().setRequestMetadataKey(metadataKey, value: metadataValue)
+
+        call.resolve()
     }
 
     @objc func logout(_ call: CAPPluginCall) {
@@ -213,12 +222,12 @@ public class BranchDeepLinks: CAPPlugin {
 
         return linkProperties
     }
-    
+
     func getContentItemObject(item: [String:Any]) -> BranchUniversalObject {
         let object = BranchUniversalObject.init()
 
         for (key, value) in item {
-            
+
             switch key {
             case "productName":
                 object.contentMetadata.productName = value as? String
@@ -236,7 +245,7 @@ public class BranchDeepLinks: CAPPlugin {
                 object.contentMetadata.customMetadata[key] = value
             }
         }
-        
+
         return object
     }
 }
