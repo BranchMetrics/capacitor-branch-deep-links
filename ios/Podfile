@@ -1,10 +1,10 @@
-platform :ios, '11.0'
+platform :ios, '12.0'
 
 def capacitor_pods
   use_frameworks!
   pod 'Capacitor', :path => '../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../node_modules/@capacitor/ios'
-  pod 'Branch', '~> 1.39.2'
+  pod 'Branch', '~> 1.40.2'
 end
 
 target 'Plugin' do
