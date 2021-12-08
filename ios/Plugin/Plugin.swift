@@ -15,6 +15,8 @@ public class BranchDeepLinks: CAPPlugin {
                 name: NSNotification.Name.BranchDidStartSession,
                 object: nil
         )
+        
+        Branch.getInstance().registerPluginName("Capacitor", version: "4.1.0")
     }
 
     @objc public func setBranchService(branchService: Any) {

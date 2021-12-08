@@ -3,10 +3,9 @@ package co.boundstate;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.os.UserManager;
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import co.boundstate.capacitorbranchdeeplinks.BuildConfig;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -18,7 +17,6 @@ import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.BranchShareSheetBuilder;
 import io.branch.referral.BranchShortLinkBuilder;
-import io.branch.referral.BranchUtil;
 import io.branch.referral.SharingHelper;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.BranchEvent;
@@ -33,10 +31,13 @@ import org.json.JSONObject;
 
 @CapacitorPlugin(name = "BranchDeepLinks")
 public class BranchDeepLinks extends Plugin {
+
     private static final String EVENT_INIT = "init";
     private static final String EVENT_INIT_ERROR = "initError";
 
     public static Branch getBranchInstance(@NonNull Context context) {
+        Branch.registerPlugin("Capacitor", BuildConfig.CAPACITOR_BRANCH_VERSION);
+
         boolean isUnlocked = isUserUnlocked(context);
 
         if (isUnlocked) {
@@ -123,7 +124,6 @@ public class BranchDeepLinks extends Plugin {
 
         shortLinkBuilder.generateShortUrl(
             new Branch.BranchLinkCreateListener() {
-
                 @Override
                 public void onLinkCreate(String url, BranchError error) {
                     if (error == null) {
@@ -255,7 +255,6 @@ public class BranchDeepLinks extends Plugin {
             .setIdentity(
                 newIdentity,
                 new Branch.BranchReferralInitListener() {
-
                     @Override
                     public void onInitFinished(JSONObject referringParams, BranchError error) {
                         if (error == null) {
@@ -276,7 +275,6 @@ public class BranchDeepLinks extends Plugin {
             .getInstance()
             .logout(
                 new Branch.LogoutStatusListener() {
-
                     @Override
                     public void onLogoutFinished(boolean loggedOut, BranchError error) {
                         if (error == null) {
