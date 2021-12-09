@@ -1,12 +1,21 @@
 Branch Capacitor SDK change log
 
+- 4.1.1
+
+  - Update Android SDK to 5.0.15 https://github.com/BranchMetrics/android-branch-deep-linking-attribution/releases/tag/5.0.15
+  - Update iOS SDK to 1.40.2 https://github.com/BranchMetrics/ios-branch-deep-linking-attribution/releases/tag/1.40.2
+  - Update Capacitor Core to 3.3.2
+
 - 3.0.2
+
   - Update Android SDK to 5.0.8
 
 - 3.0.1
+
   - Update Android SDK 5.0.7 and iOS SDK 1.39.2
 
 - 3.0.0
+
   - Update Branch Android SDK to 5.0.3
   - Update and improve README.md
   - Integrate Branch function on Android: `handleUrl`: handle links in app (https://help.branch.io/developers-hub/docs/android-advanced-features#handle-links-in-your-own-app)
