@@ -1,3 +1,11 @@
+import groovy.json.JsonSlurper
+
+def getNpmVersion() {
+    def packageJsonFile = file('../package.json')
+    def packageJson = new JsonSlurper().parseText(packageJsonFile.text)
+    return packageJson.version
+}
+
 ext {
     junitVersion =  project.hasProperty('junitVersion') ? rootProject.ext.junitVersion : '4.12'
     androidxJunitVersion =  project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.1.1'
@@ -24,6 +32,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "CAPACITOR_BRANCH_VERSION", "\"${getNpmVersion()}\"")
     }
     buildTypes {
         release {
