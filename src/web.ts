@@ -9,6 +9,8 @@ import {
   BranchShortUrlResponse,
   BranchShowShareSheetParams,
   BranchTrackingResponse,
+  BranchQRCodeParams,
+  BranchQRCodeResponse,
 } from './definitions';
 
 export class BranchDeepLinksWeb extends WebPlugin
@@ -68,6 +70,12 @@ export class BranchDeepLinksWeb extends WebPlugin
   }
 
   logout(): Promise<BranchLoggedOutResponse> {
+    return Promise.reject(
+      new Error('BranchDeepLinks does not have web implementation'),
+    );
+  }
+
+  getBranchQRCode(_: BranchQRCodeParams): Promise<BranchQRCodeResponse> {
     return Promise.reject(
       new Error('BranchDeepLinks does not have web implementation'),
     );
