@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.UserManager;
+import android.util.Base64;
 import androidx.annotation.NonNull;
 import co.boundstate.capacitorbranchdeeplinks.BuildConfig;
 import com.getcapacitor.JSArray;
@@ -17,6 +18,7 @@ import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.BranchShareSheetBuilder;
 import io.branch.referral.BranchShortLinkBuilder;
+import io.branch.referral.QRCode.BranchQRCode;
 import io.branch.referral.SharingHelper;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.BranchEvent;
@@ -287,6 +289,48 @@ public class BranchDeepLinks extends Plugin {
                     }
                 }
             );
+    }
+
+    @PluginMethod
+    public void getBranchQRCode(final PluginCall call) throws JSONException {
+        JSObject analytics = call.getObject("analytics", new JSObject());
+        JSObject properties = call.getObject("properties", new JSObject());
+        JSObject qrCodeSettings = call.getObject("settings", new JSObject());
+
+        BranchQRCode branchQRCode = new BranchQRCode();
+        if (qrCodeSettings.has("codeColor")) {
+            branchQRCode.setCodeColor(qrCodeSettings.getString("codeColor"));
+        }
+        if (qrCodeSettings.has("backgroundColor")) {
+            branchQRCode.setBackgroundColor(qrCodeSettings.getString("backgroundColor"));
+        }
+        if (qrCodeSettings.has("centerLogo")) {
+            branchQRCode.setCenterLogo(qrCodeSettings.getString("centerLogo"));
+        }
+        if (qrCodeSettings.has("width")) {
+            branchQRCode.setWidth(qrCodeSettings.getInt("width"));
+        }
+        if (qrCodeSettings.has("margin")) {
+            branchQRCode.setMargin(qrCodeSettings.getInt("margin"));
+        }
+
+        JSObject ret = new JSObject();
+        ret.put("qrCode", "testQRCodeStringPlaceholder");
+        call.resolve(ret);
+        //        shortLinkBuilder.generateShortUrl(
+        //                new Branch.BranchLinkCreateListener() {
+        //                    @Override
+        //                    public void onLinkCreate(String url, BranchError error) {
+        //                        if (error == null) {
+        //                            JSObject ret = new JSObject();
+        //                            ret.put("url", url);
+        //                            call.resolve(ret);
+        //                        } else {
+        //                            call.reject(error.getMessage());
+        //                        }
+        //                    }
+        //                }
+        //        );
     }
 
     private ShareSheetStyle getShareSheetStyle(String shareText) {

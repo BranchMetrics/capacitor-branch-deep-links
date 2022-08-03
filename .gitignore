@@ -66,3 +66,4 @@ captures/
 # Integration testing folders
 /examples
 /tmp
+package-lock.json
