@@ -24,7 +24,9 @@ import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.BranchEvent;
 import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.CurrencyType;
+import io.branch.referral.util.LinkProperties;
 import io.branch.referral.util.ShareSheetStyle;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
 import org.json.JSONArray;
@@ -295,9 +297,43 @@ public class BranchDeepLinks extends Plugin {
     public void getBranchQRCode(final PluginCall call) throws JSONException {
         JSObject analytics = call.getObject("analytics", new JSObject());
         JSObject properties = call.getObject("properties", new JSObject());
-        JSObject qrCodeSettings = call.getObject("settings", new JSObject());
+        LinkProperties linkProperties = new LinkProperties();
+        if (analytics.has("feature")) {
+            linkProperties.setFeature(analytics.getString("feature"));
+        }
+        if (analytics.has("alias")) {
+            linkProperties.setAlias(analytics.getString("alias"));
+        }
+        if (analytics.has("channel")) {
+            linkProperties.setChannel(analytics.getString("channel"));
+        }
+        if (analytics.has("stage")) {
+            linkProperties.setStage(analytics.getString("stage"));
+        }
+        if (analytics.has("campaign")) {
+            linkProperties.setCampaign(analytics.getString("campaign"));
+        }
+        if (analytics.has("duration")) {
+            linkProperties.setDuration(analytics.getInt("duration"));
+        }
+        if (analytics.has("tags")) {
+            JSONArray array = (JSONArray) analytics.get("tags");
+            for (int i = 0; i < array.length(); i++) {
+                linkProperties.addTag(array.get(i).toString());
+            }
+        }
+
+        Iterator<?> keys = properties.keys();
+        while (keys.hasNext()) {
+            String key = keys.next().toString();
+            linkProperties.addControlParameter(key, properties.getString(key));
+        }
+
+        BranchUniversalObject buo = new BranchUniversalObject();
 
         BranchQRCode branchQRCode = new BranchQRCode();
+        JSObject qrCodeSettings = call.getObject("settings", new JSObject());
+
         if (qrCodeSettings.has("codeColor")) {
             branchQRCode.setCodeColor(qrCodeSettings.getString("codeColor"));
         }
@@ -314,23 +350,29 @@ public class BranchDeepLinks extends Plugin {
             branchQRCode.setMargin(qrCodeSettings.getInt("margin"));
         }
 
-        JSObject ret = new JSObject();
-        ret.put("qrCode", "testQRCodeStringPlaceholder");
-        call.resolve(ret);
-        //        shortLinkBuilder.generateShortUrl(
-        //                new Branch.BranchLinkCreateListener() {
-        //                    @Override
-        //                    public void onLinkCreate(String url, BranchError error) {
-        //                        if (error == null) {
-        //                            JSObject ret = new JSObject();
-        //                            ret.put("url", url);
-        //                            call.resolve(ret);
-        //                        } else {
-        //                            call.reject(error.getMessage());
-        //                        }
-        //                    }
-        //                }
-        //        );
+        try {
+            branchQRCode.getQRCodeAsData(
+                getActivity(),
+                buo,
+                linkProperties,
+                new BranchQRCode.BranchQRCodeDataHandler() {
+                    @Override
+                    public void onSuccess(byte[] qrCodeData) {
+                        String qrCodeString = Base64.encodeToString(qrCodeData, Base64.DEFAULT);
+                        JSObject ret = new JSObject();
+                        ret.put("qrCode", qrCodeString);
+                        call.resolve(ret);
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        call.reject(e.getMessage());
+                    }
+                }
+            );
+        } catch (IOException e) {
+            call.reject(e.getMessage());
+        }
     }
 
     private ShareSheetStyle getShareSheetStyle(String shareText) {
