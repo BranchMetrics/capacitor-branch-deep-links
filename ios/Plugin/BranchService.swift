@@ -36,4 +36,15 @@ class BranchService {
             }
         }
     }
+
+    func getBranchQRCode(branchQRCode: BranchQRCode, buo: BranchUniversalObject, linkProperties: BranchLinkProperties, completion: @escaping (String?, Error?)->(Void)) -> Void {
+        branchQRCode.getAsData(buo, linkProperties: linkProperties) { qrCodeData, error in
+            if let error = error {
+                completion(nil, error)
+            } else if let qrCodeData = qrCodeData {
+                let qrCodeString = qrCodeData.base64EncodedString()
+                completion(qrCodeString,nil)
+            }
+        }
+    }
 }

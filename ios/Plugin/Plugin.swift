@@ -16,7 +16,7 @@ public class BranchDeepLinks: CAPPlugin {
                 object: nil
         )
         
-        Branch.getInstance().registerPluginName("Capacitor", version: "4.1.1")
+        Branch.getInstance().registerPluginName("Capacitor", version: "4.2.0")
     }
 
     @objc public func setBranchService(branchService: Any) {
@@ -240,5 +240,67 @@ public class BranchDeepLinks: CAPPlugin {
         }
         
         return object
+    }
+
+    @objc func getBranchQRCode(_ call: CAPPluginCall) {
+        let analytics = call.getObject("analytics") ?? [:]
+        let properties = call.getObject("properties") ?? [:]
+        let linkProperties = getLinkProperties(analytics: analytics, properties: properties)
+
+        let buo = BranchUniversalObject.init()
+        
+        let qrCodeSettingsMap = call.getObject("settings") ?? [:]
+        let qrCode = BranchQRCode()
+        
+        if let codeColor = qrCodeSettingsMap["codeColor"] as? String {
+            qrCode.codeColor = colorWithHexString(hexString: codeColor)
+        }
+        if let backgroundColor = qrCodeSettingsMap["backgroundColor"] as? String {
+            qrCode.backgroundColor = colorWithHexString(hexString: backgroundColor)
+        }
+        if let centerLogo = qrCodeSettingsMap["centerLogo"] as? String{
+            qrCode.centerLogo = centerLogo
+        }
+        if let margin = qrCodeSettingsMap["margin"] as? NSNumber {
+            qrCode.margin = margin
+        }
+        if let width = qrCodeSettingsMap["width"] as? NSNumber {
+            qrCode.width = width
+        }
+        if let imageFormat = qrCodeSettingsMap["imageFormat"] as? String {
+            if imageFormat == "JPEG" {
+                qrCode.imageFormat = .JPEG
+            } else if imageFormat == "PNG" {
+                qrCode.imageFormat = .PNG
+            }
+        }
+        
+        branchService.getBranchQRCode(branchQRCode: qrCode, buo: buo, linkProperties: linkProperties) { qrCodeString, error in
+            if (error == nil) {
+                call.resolve([
+                    "qrCode": qrCodeString ?? ""
+                ])
+            } else {
+                call.reject(error?.localizedDescription ?? "Error generating QR code")
+            }
+        }
+    }
+    
+    func colorWithHexString(hexString: String, alpha:CGFloat = 1.0) -> UIColor {
+        let hexint = Int(self.intFromHexString(hexStr: hexString))
+        let red = CGFloat((hexint & 0xff0000) >> 16) / 255.0
+        let green = CGFloat((hexint & 0xff00) >> 8) / 255.0
+        let blue = CGFloat((hexint & 0xff) >> 0) / 255.0
+        
+        let color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        return color
+    }
+    
+    func intFromHexString(hexStr: String) -> UInt32 {
+        var hexInt: UInt32 = 0
+        let scanner: Scanner = Scanner(string: hexStr)
+        scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
+        hexInt = UInt32(bitPattern: scanner.scanInt32(representation: .hexadecimal) ?? 0)
+        return hexInt
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.UserManager;
+import android.util.Base64;
 import androidx.annotation.NonNull;
 import co.boundstate.capacitorbranchdeeplinks.BuildConfig;
 import com.getcapacitor.JSArray;
@@ -17,12 +18,15 @@ import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.BranchShareSheetBuilder;
 import io.branch.referral.BranchShortLinkBuilder;
+import io.branch.referral.QRCode.BranchQRCode;
 import io.branch.referral.SharingHelper;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.BranchEvent;
 import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.CurrencyType;
+import io.branch.referral.util.LinkProperties;
 import io.branch.referral.util.ShareSheetStyle;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
 import org.json.JSONArray;
@@ -287,6 +291,88 @@ public class BranchDeepLinks extends Plugin {
                     }
                 }
             );
+    }
+
+    @PluginMethod
+    public void getBranchQRCode(final PluginCall call) throws JSONException {
+        JSObject analytics = call.getObject("analytics", new JSObject());
+        JSObject properties = call.getObject("properties", new JSObject());
+        LinkProperties linkProperties = new LinkProperties();
+        if (analytics.has("feature")) {
+            linkProperties.setFeature(analytics.getString("feature"));
+        }
+        if (analytics.has("alias")) {
+            linkProperties.setAlias(analytics.getString("alias"));
+        }
+        if (analytics.has("channel")) {
+            linkProperties.setChannel(analytics.getString("channel"));
+        }
+        if (analytics.has("stage")) {
+            linkProperties.setStage(analytics.getString("stage"));
+        }
+        if (analytics.has("campaign")) {
+            linkProperties.setCampaign(analytics.getString("campaign"));
+        }
+        if (analytics.has("duration")) {
+            linkProperties.setDuration(analytics.getInt("duration"));
+        }
+        if (analytics.has("tags")) {
+            JSONArray array = (JSONArray) analytics.get("tags");
+            for (int i = 0; i < array.length(); i++) {
+                linkProperties.addTag(array.get(i).toString());
+            }
+        }
+
+        Iterator<?> keys = properties.keys();
+        while (keys.hasNext()) {
+            String key = keys.next().toString();
+            linkProperties.addControlParameter(key, properties.getString(key));
+        }
+
+        BranchUniversalObject buo = new BranchUniversalObject();
+
+        BranchQRCode branchQRCode = new BranchQRCode();
+        JSObject qrCodeSettings = call.getObject("settings", new JSObject());
+
+        if (qrCodeSettings.has("codeColor")) {
+            branchQRCode.setCodeColor(qrCodeSettings.getString("codeColor"));
+        }
+        if (qrCodeSettings.has("backgroundColor")) {
+            branchQRCode.setBackgroundColor(qrCodeSettings.getString("backgroundColor"));
+        }
+        if (qrCodeSettings.has("centerLogo")) {
+            branchQRCode.setCenterLogo(qrCodeSettings.getString("centerLogo"));
+        }
+        if (qrCodeSettings.has("width")) {
+            branchQRCode.setWidth(qrCodeSettings.getInt("width"));
+        }
+        if (qrCodeSettings.has("margin")) {
+            branchQRCode.setMargin(qrCodeSettings.getInt("margin"));
+        }
+
+        try {
+            branchQRCode.getQRCodeAsData(
+                getActivity(),
+                buo,
+                linkProperties,
+                new BranchQRCode.BranchQRCodeDataHandler() {
+                    @Override
+                    public void onSuccess(byte[] qrCodeData) {
+                        String qrCodeString = Base64.encodeToString(qrCodeData, Base64.DEFAULT);
+                        JSObject ret = new JSObject();
+                        ret.put("qrCode", qrCodeString);
+                        call.resolve(ret);
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        call.reject(e.getMessage());
+                    }
+                }
+            );
+        } catch (IOException e) {
+            call.reject(e.getMessage());
+        }
     }
 
     private ShareSheetStyle getShareSheetStyle(String shareText) {

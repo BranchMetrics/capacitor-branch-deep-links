@@ -56,6 +56,25 @@ export interface BranchLoggedOutResponse {
   logged_out: boolean;
 }
 
+export interface BranchQRCodeParams {
+  analytics?: BranchShortUrlAnalytics;
+  properties?: BranchShortUrlProperties;
+  settings?: BranchQRCodeSettings;
+}
+
+export interface BranchQRCodeSettings {
+  codeColor?: string;
+  backgroundColor?: string;
+  centerLogo?: string;
+  width?: number;
+  margin?: number;
+  imageFormat?: string;
+}
+
+export interface BranchQRCodeResponse {
+  qrCode: String;
+}
+
 export interface BranchInitEvent extends BranchReferringParamsResponse {}
 
 export interface BranchDeepLinksPlugin {
@@ -84,4 +103,7 @@ export interface BranchDeepLinksPlugin {
     newIdentity: string;
   }): Promise<BranchReferringParamsResponse>;
   logout(): Promise<BranchLoggedOutResponse>;
+  getBranchQRCode(
+    options: BranchQRCodeParams,
+  ): Promise<BranchQRCodeResponse>;
 }

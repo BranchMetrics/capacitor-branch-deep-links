@@ -1,5 +1,11 @@
 Branch Capacitor SDK change log
 
+- 4.2.0
+
+  - Update Android SDK to 5.2.0 https://github.com/BranchMetrics/android-branch-deep-linking-attribution/releases/tag/5.2.0
+  - Update iOS SDK to 1.43.1 https://github.com/BranchMetrics/ios-branch-deep-linking-attribution/releases/tag/1.43.1
+  - Added getBranchQRCode() method to generate Branch QR codes.
+
 - 4.1.1
 
   - Update Android SDK to 5.0.15 https://github.com/BranchMetrics/android-branch-deep-linking-attribution/releases/tag/5.0.15
