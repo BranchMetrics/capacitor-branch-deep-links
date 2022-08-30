@@ -1,5 +1,13 @@
 Branch Capacitor SDK change log
 
+- 5.0.0
+
+  - Updates the core capacitor plugin to 4.0.1
+  - Android minSdk bumped to 22
+  - iOS platform bumped to 13
+  - Android Branch SDK updated to 5.2.3 which targets 32 as well.
+  - Android Branch SDK dependency type changed from `implementation` to `api` to keep references consistent and integration simpler
+
 - 4.2.0
 
   - Update Android SDK to 5.2.0 https://github.com/BranchMetrics/android-branch-deep-linking-attribution/releases/tag/5.2.0
