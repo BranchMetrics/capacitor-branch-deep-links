@@ -57,7 +57,7 @@ dependencies {
     implementation project(':capacitor-android')
     implementation 'androidx.annotation:annotation:1.4.0'
     implementation 'androidx.appcompat:appcompat:1.5.0'
-    api 'io.branch.sdk.android:library:5.2.0'
+    api 'io.branch.sdk.android:library:5.2.3'
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
