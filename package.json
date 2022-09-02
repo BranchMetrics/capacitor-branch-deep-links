@@ -1,6 +1,6 @@
 {
   "name": "capacitor-branch-deep-links",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "description": "Capacitor plugin for Branch.io deep links",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -19,9 +19,9 @@
   "author": "Bound State Software <info@boundstatesoftware.com>",
   "license": "MIT",
   "devDependencies": {
-    "@capacitor/android": "^3.3.2",
-    "@capacitor/core": "^3.3.2",
-    "@capacitor/ios": "^3.3.2",
+    "@capacitor/android": "^4.0.1",
+    "@capacitor/core": "^4.0.1",
+    "@capacitor/ios": "^4.0.1",
     "@ionic/prettier-config": "^1.0.0",
     "@ionic/swiftlint-config": "^1.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
@@ -35,7 +35,7 @@
     "typescript": "~3.8.3"
   },
   "peerDependencies": {
-    "@capacitor/core": "^3.3.2"
+    "@capacitor/core": "^4.0.1"
   },
   "files": [
     "src/",
