@@ -50,7 +50,7 @@ body:
       required: true
   - 
     attributes: 
-      description: "What versions of the device OS?"
+      description: "What version of the device OS?"
       label: OS
       placeholder: "iOS 15.6.1 / Android 12"
     id: os
