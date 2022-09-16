@@ -1,5 +1,9 @@
 Branch Capacitor SDK change log
 
+- 5.0.1
+
+  - Update iOS deployment target from 12 to 13 to prevent compilation error in xcode
+
 - 5.0.0
 
   - Updates the core capacitor plugin to 4.0.1
