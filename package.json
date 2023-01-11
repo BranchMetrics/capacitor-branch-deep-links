@@ -22,7 +22,7 @@
     "@capacitor/android": "^4.0.1",
     "@capacitor/core": "^4.0.1",
     "@capacitor/ios": "^4.0.1",
-    "@ionic/prettier-config": "^1.0.0",
+    "@ionic/prettier-config": "^2.0.0",
     "@ionic/swiftlint-config": "^1.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "husky": "^4.2.5",
