@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@capacitor/android": "^4.0.1",
-    "@capacitor/core": "^4.0.1",
+    "@capacitor/core": "^5.0.1",
     "@capacitor/ios": "^4.0.1",
     "@ionic/prettier-config": "^1.0.0",
     "@ionic/swiftlint-config": "^1.0.0",
@@ -35,7 +35,7 @@
     "typescript": "~3.8.3"
   },
   "peerDependencies": {
-    "@capacitor/core": "^4.0.1"
+    "@capacitor/core": "^5.0.1"
   },
   "files": [
     "src/",
