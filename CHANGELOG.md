@@ -1,5 +1,13 @@
 Branch Capacitor SDK change log
 
+- 6.0.0
+
+  - Updates the core capacitor plugin to 5.0.0
+  - Branch Android SDK bumped to 5.6.1 https://github.com/BranchMetrics/capacitor-branch-deep-links/pull/113
+    - Updated to Gradle 8 and resolved tooling errors
+  - Branch iOS SDK bumped to 2.2.0 https://github.com/BranchMetrics/capacitor-branch-deep-links/pull/113
+    - Namespace `Branch` changed to `BranchSDK`
+
 - 5.0.0
 
   - Updates the core capacitor plugin to 4.0.1
