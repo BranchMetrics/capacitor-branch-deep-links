@@ -1,6 +1,6 @@
 import Foundation
 import Capacitor
-import Branch
+import BranchSDK
 
 typealias JSObject = [String:Any]
 
