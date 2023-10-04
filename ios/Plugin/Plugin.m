@@ -8,6 +8,7 @@ CAP_PLUGIN(BranchDeepLinks, "BranchDeepLinks",
            CAP_PLUGIN_METHOD(showShareSheet, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getStandardEvents, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendBranchEvent, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(handleATTAuthorizationStatus, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(disableTracking, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setIdentity, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(logout, CAPPluginReturnPromise);

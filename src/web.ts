@@ -55,6 +55,14 @@ export class BranchDeepLinksWeb extends WebPlugin
     );
   }
 
+  handleATTAuthorizationStatus(_: {
+    status: number
+  }): Promise<void> {
+    return Promise.reject(
+      new Error('BranchDeepLinks does not have web implementation'),
+    );
+  }
+
   disableTracking(_: { isEnabled: false }): Promise<BranchTrackingResponse> {
     return Promise.reject(
       new Error('BranchDeepLinks does not have web implementation'),
