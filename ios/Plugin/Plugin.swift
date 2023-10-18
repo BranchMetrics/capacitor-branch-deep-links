@@ -66,6 +66,16 @@ public class BranchDeepLinks: CAPPlugin {
         }
     }
 
+    @objc func handleATTAuthorizationStatus(_ call: CAPPluginCall) {
+        if let value = call.getInt("status") {
+            Branch.getInstance().handleATTAuthorizationStatus(UInt(value))
+            call.resolve()
+        }
+
+        call.reject("No status was provided.")
+    }
+
+
     @objc func showShareSheet(_ call: CAPPluginCall) {
         let analytics = call.getObject("analytics") ?? [:]
         let properties = call.getObject("properties") ?? [:]
