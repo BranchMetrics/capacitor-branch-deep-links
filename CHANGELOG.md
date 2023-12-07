@@ -1,5 +1,10 @@
 Branch Capacitor SDK change log
 
+- 7.0.0
+
+  - Branch Android SDK bumped to 5.7.5
+  - Branch iOS SDK bumped to 3.0.1
+
 - 6.0.0
 
   - Updates the core capacitor plugin to 5.0.0 https://github.com/BranchMetrics/capacitor-branch-deep-links/pull/112
