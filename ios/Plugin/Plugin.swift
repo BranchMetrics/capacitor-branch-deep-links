@@ -313,4 +313,20 @@ public class BranchDeepLinks: CAPPlugin {
         hexInt = UInt32(bitPattern: scanner.scanInt32(representation: .hexadecimal) ?? 0)
         return hexInt
     }
+
+    @objc func getLatestReferringParams(_ call: CAPPluginCall) {
+        branchService.getLatestReferringParams() { (params) in
+            call.resolve([
+                "referringParams": params 
+            ])
+        }
+    }
+
+    @objc func getFirstReferringParams(_ call: CAPPluginCall) {
+        branchService.getFirstReferringParams() { (params) in
+            call.resolve([
+                "referringParams": params 
+            ])
+        }
+    }
 }

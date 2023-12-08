@@ -1,11 +1,11 @@
 PODS:
-  - BranchSDK (2.2.0)
-  - Capacitor (5.0.5):
+  - BranchSDK (3.0.1)
+  - Capacitor (5.5.1):
     - CapacitorCordova
-  - CapacitorCordova (5.0.5)
+  - CapacitorCordova (5.5.1)
 
 DEPENDENCIES:
-  - BranchSDK (~> 2.2.0)
+  - BranchSDK (~> 3.0.1)
   - "Capacitor (from `../node_modules/@capacitor/ios`)"
   - "CapacitorCordova (from `../node_modules/@capacitor/ios`)"
 
@@ -20,10 +20,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@capacitor/ios"
 
 SPEC CHECKSUMS:
-  BranchSDK: 8749d10e30725d08b6c188ab90e6fd6223d204db
-  Capacitor: b1248915663add1bd6567e2b67c1c1fa3abcf5e8
-  CapacitorCordova: f8c06b897c74ee8f7701fe10e6443b40822bc83a
+  BranchSDK: e268bcf41469051c9e83efcd6fd85d0ba91d1d0f
+  Capacitor: 9da0a2415e3b6098511f8b5ffdb578d91ee79f8f
+  CapacitorCordova: e128cc7688c070ca0bfa439898a5f609da8dbcfe
 
-PODFILE CHECKSUM: 8d82a5f2a904341bee78b56626ba4183204a9f0d
+PODFILE CHECKSUM: c730e0536dc486077a354a5b012e11d630c85889
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

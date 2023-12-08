@@ -43,8 +43,18 @@ class BranchService {
                 completion(nil, error)
             } else if let qrCodeData = qrCodeData {
                 let qrCodeString = qrCodeData.base64EncodedString()
-                completion(qrCodeString,nil)
+                completion(qrCodeString, nil)
             }
         }
+    }
+
+   func getLatestReferringParams(completion: @escaping ([AnyHashable: Any])->(Void)) -> Void {
+        let params = Branch.getInstance().getLatestReferringParams() ?? [:]
+        completion(params)
+    }
+
+    func getFirstReferringParams(completion: @escaping ([AnyHashable : Any])->(Void)) -> Void {
+        let params = Branch.getInstance().getFirstReferringParams() ?? [:]
+        completion(params)
     }
 }
