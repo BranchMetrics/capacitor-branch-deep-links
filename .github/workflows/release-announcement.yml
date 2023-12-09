@@ -12,16 +12,16 @@ jobs:
       - name: Announce New Release in Slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: "C063MQJMKJN" #sdk-releases
+          channel-id: 'C063MQJMKJN' #sdk-releases
           payload: |
             {
-                "text": "New Release: Branch React Native SDK v${{ github.event.release.tag_name }}",
+                "text": "New Release: Branch Capacitor SDK ${{ github.event.release.tag_name }}",
                 "blocks": [
                     {
                         "type": "header",
                         "text": {
                             "type": "plain_text",
-                            "text": ":rocket: New Release: Branch React Native SDK v${{ github.event.release.tag_name }}",                            
+                            "text": ":rocket: New Release: Branch Capacitor SDK ${{ github.event.release.tag_name }}",                            
                             "emoji": true
                         }
                     },
