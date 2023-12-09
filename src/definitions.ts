@@ -99,7 +99,7 @@ export interface BranchDeepLinksPlugin {
     metaData: { [key: string]: any };
   }): Promise<void>;
   handleATTAuthorizationStatus(options: {
-    status: BranchATTAuthorizationStatus
+    status: BranchATTAuthorizationStatus;
   }): Promise<void>;
   disableTracking(options: {
     isEnabled: false;
@@ -108,7 +108,7 @@ export interface BranchDeepLinksPlugin {
     newIdentity: string;
   }): Promise<BranchReferringParamsResponse>;
   logout(): Promise<BranchLoggedOutResponse>;
-  getBranchQRCode(
-    options: BranchQRCodeParams,
-  ): Promise<BranchQRCodeResponse>;
+  getBranchQRCode(options: BranchQRCodeParams): Promise<BranchQRCodeResponse>;
+  getLatestReferringParams(): Promise<BranchReferringParamsResponse>;
+  getFirstReferringParams(): Promise<BranchReferringParamsResponse>;
 }

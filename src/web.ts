@@ -13,8 +13,10 @@ import {
   BranchQRCodeResponse,
 } from './definitions';
 
-export class BranchDeepLinksWeb extends WebPlugin
-  implements BranchDeepLinksPlugin {
+export class BranchDeepLinksWeb
+  extends WebPlugin
+  implements BranchDeepLinksPlugin
+{
   constructor() {
     super({
       name: 'BranchDeepLinks',
@@ -55,9 +57,7 @@ export class BranchDeepLinksWeb extends WebPlugin
     );
   }
 
-  handleATTAuthorizationStatus(_: {
-    status: number
-  }): Promise<void> {
+  handleATTAuthorizationStatus(_: { status: number }): Promise<void> {
     return Promise.reject(
       new Error('BranchDeepLinks does not have web implementation'),
     );
@@ -88,6 +88,16 @@ export class BranchDeepLinksWeb extends WebPlugin
       new Error('BranchDeepLinks does not have web implementation'),
     );
   }
+
+  getLatestReferringParams(): Promise<BranchReferringParamsResponse> {
+    return Promise.reject(
+      new Error('BranchDeepLinks does not have web implementation'),
+    );
+  }
+
+  getFirstReferringParams(): Promise<BranchReferringParamsResponse> {
+    return Promise.reject(
+      new Error('BranchDeepLinks does not have web implementation'),
+    );
+  }
 }
-
-

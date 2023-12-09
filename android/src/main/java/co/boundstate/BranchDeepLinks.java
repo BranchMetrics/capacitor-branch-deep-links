@@ -518,4 +518,18 @@ public class BranchDeepLinks extends Plugin {
 
         return shareLinkBuilder;
     }
+
+    @PluginMethod
+    public void getLatestReferringParams(PluginCall call) {
+        JSObject ret = new JSObject();
+        ret.put("referringParams", Branch.getInstance().getLatestReferringParams());
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void getFirstReferringParams(PluginCall call) {
+        JSObject ret = new JSObject();
+        ret.put("referringParams", Branch.getInstance().getFirstReferringParams());
+        call.resolve(ret);
+    }
 }

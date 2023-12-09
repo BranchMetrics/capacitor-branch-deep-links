@@ -13,4 +13,6 @@ CAP_PLUGIN(BranchDeepLinks, "BranchDeepLinks",
            CAP_PLUGIN_METHOD(setIdentity, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(logout, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getBranchQRCode, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getLatestReferringParams, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getFirstReferringParams, CAPPluginReturnPromise);
 )
