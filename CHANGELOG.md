@@ -4,6 +4,7 @@ Branch Capacitor SDK change log
 
   - Branch Android SDK bumped to 5.7.5
   - Branch iOS SDK bumped to 3.0.1
+  - Added new methods, getLatestReferringParams() and getFirstReferringParams
 
 - 6.0.0
 
