@@ -59,6 +59,6 @@ class BranchService {
     }
 
     func setDMAParamsForEEA(eeaRegion: Bool, adPersonalizationConsent: Bool, adUserDataUsageConsent: Bool) -> Void {
-        Branch.getInstance().setDMAData(eeaRegion, adPersonalizationConsent: adPersonalizationConsent, adUserDataUsageConsent: adUserDataUsageConsent)
+        Branch.setDMAParamsForEEA(eeaRegion, adPersonalizationConsent: adPersonalizationConsent, adUserDataUsageConsent: adUserDataUsageConsent)
     }
 }
