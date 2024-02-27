@@ -534,8 +534,14 @@ public class BranchDeepLinks extends Plugin {
     }
 
     @PluginMethod
-    public void setDMAParamsForEEA(boolean eeaRegion, boolean adPersonalizationConsent, boolean adUserDataUsageConsent) {
+    public void setDMAParamsForEEA(PluginCall call) {
+        Boolean eeaRegion = call.getBoolean("eeaRegion", false);
+        Boolean adPersonalizationConsent = call.getBoolean("adPersonalizationConsent", false);
+        Boolean adUserDataUsageConsent = call.getBoolean("adUserDataUsageConsent", false);
+
         Branch branch = Branch.getInstance();
         branch.setDMAParamsForEEA(eeaRegion, adPersonalizationConsent, adUserDataUsageConsent);
+
+        call.resolve();
     }
 }
