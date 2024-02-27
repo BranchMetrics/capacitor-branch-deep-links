@@ -11,6 +11,7 @@ import {
   BranchTrackingResponse,
   BranchQRCodeParams,
   BranchQRCodeResponse,
+  BranchDMAParams,
 } from './definitions';
 
 export class BranchDeepLinksWeb
@@ -101,11 +102,7 @@ export class BranchDeepLinksWeb
     );
   }
 
-  setDMAParamsForEEA(
-    _eeaRegion: boolean,
-    _adPersonalizationConsent: boolean,
-    _adUserDataUsageConsent: boolean,
-  ): Promise<void> {
+  setDMAParamsForEEA(_: BranchDMAParams): Promise<void> {
     return Promise.reject(
       new Error('BranchDeepLinks does not have web implementation'),
     );
