@@ -87,10 +87,10 @@ public class BranchDeepLinks: CAPPlugin {
 
         let buo = BranchUniversalObject.init()
         DispatchQueue.main.async {
-            buo.showShareSheet(with: linkProperties, andShareText: shareText, from: self.bridge?.viewController, completion: nil)
+            buo.showShareSheet(with: linkProperties, andShareText: shareText, from: self.bridge?.viewController)
         }
 
-        call.success()
+        call.resolve()
     }
 
     @objc func getStandardEvents(_ call: CAPPluginCall) {
@@ -165,7 +165,7 @@ public class BranchDeepLinks: CAPPlugin {
         }
 
         event.logEvent()
-        call.success()
+        call.resolve()
     }
 
     @objc func disableTracking(_ call: CAPPluginCall) {
