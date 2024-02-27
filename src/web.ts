@@ -100,4 +100,14 @@ export class BranchDeepLinksWeb
       new Error('BranchDeepLinks does not have web implementation'),
     );
   }
+
+  setDMAParamsForEEA(
+    _eeaRegion: boolean,
+    _adPersonalizationConsent: boolean,
+    _adUserDataUsageConsent: boolean,
+  ): Promise<void> {
+    return Promise.reject(
+      new Error('BranchDeepLinks does not have web implementation'),
+    );
+  }
 }

@@ -329,4 +329,12 @@ public class BranchDeepLinks: CAPPlugin {
             ])
         }
     }
+
+    @objc func setDMAParamsForEEA(_ call: CAPPluginCall) {
+        let eeaRegion = call.getBool("eeaRegion") ?? false
+        let adPersonalizationConsent = call.getBool("adPersonalizationConsent") ?? false
+        let adUserDataUsageConsent = call.getBool("adUserDataUsageConsent") ?? false
+        branchService.setDMAParamsForEEA(eeaRegion: eeaRegion, adPersonalizationConsent: adPersonalizationConsent, adUserDataUsageConsent: adUserDataUsageConsent)
+        call.resolve()
+    }
 }

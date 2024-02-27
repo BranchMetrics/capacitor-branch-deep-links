@@ -111,4 +111,9 @@ export interface BranchDeepLinksPlugin {
   getBranchQRCode(options: BranchQRCodeParams): Promise<BranchQRCodeResponse>;
   getLatestReferringParams(): Promise<BranchReferringParamsResponse>;
   getFirstReferringParams(): Promise<BranchReferringParamsResponse>;
+  setDMAParamsForEEA: (
+    eeaRegion: boolean,
+    adPersonalizationConsent: boolean,
+    adUserDataUsageConsent: boolean,
+  ) => void;
 }

@@ -532,4 +532,10 @@ public class BranchDeepLinks extends Plugin {
         ret.put("referringParams", Branch.getInstance().getFirstReferringParams());
         call.resolve(ret);
     }
+
+    @PluginMethod
+    public void setDMAParamsForEEA(boolean eeaRegion, boolean adPersonalizationConsent, boolean adUserDataUsageConsent) {
+        Branch branch = Branch.getInstance();
+        branch.setDMAParamsForEEA(eeaRegion, adPersonalizationConsent, adUserDataUsageConsent);
+    }
 }
