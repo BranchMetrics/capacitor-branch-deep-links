@@ -532,4 +532,21 @@ public class BranchDeepLinks extends Plugin {
         ret.put("referringParams", Branch.getInstance().getFirstReferringParams());
         call.resolve(ret);
     }
+
+    @PluginMethod
+    public void setDMAParamsForEEA(PluginCall call) {
+        Boolean eeaRegion = call.getBoolean("eeaRegion");
+        Boolean adPersonalizationConsent = call.getBoolean("adPersonalizationConsent");
+        Boolean adUserDataUsageConsent = call.getBoolean("adUserDataUsageConsent");
+
+        if (eeaRegion == null || adPersonalizationConsent == null || adUserDataUsageConsent == null) {
+            call.reject("Must provide valid eeaRegion, adPersonalizationConsent, and adUserDataUsageConsent");
+            return;
+        }
+
+        Branch branch = Branch.getInstance();
+        branch.setDMAParamsForEEA(eeaRegion, adPersonalizationConsent, adUserDataUsageConsent);
+
+        call.resolve();
+    }
 }

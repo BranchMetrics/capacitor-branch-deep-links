@@ -11,6 +11,7 @@ import {
   BranchTrackingResponse,
   BranchQRCodeParams,
   BranchQRCodeResponse,
+  BranchDMAParams,
 } from './definitions';
 
 export class BranchDeepLinksWeb
@@ -96,6 +97,12 @@ export class BranchDeepLinksWeb
   }
 
   getFirstReferringParams(): Promise<BranchReferringParamsResponse> {
+    return Promise.reject(
+      new Error('BranchDeepLinks does not have web implementation'),
+    );
+  }
+
+  setDMAParamsForEEA(_: BranchDMAParams): Promise<void> {
     return Promise.reject(
       new Error('BranchDeepLinks does not have web implementation'),
     );

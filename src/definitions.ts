@@ -75,6 +75,12 @@ export interface BranchQRCodeResponse {
   qrCode: String;
 }
 
+export interface BranchDMAParams {
+  eeaRegion: boolean;
+  adPersonalizationConsent: boolean;
+  adUserDataUsageConsent: boolean;
+}
+
 export interface BranchInitEvent extends BranchReferringParamsResponse {}
 
 export type BranchATTAuthorizationStatus = 0 | 1 | 2 | 3;
@@ -111,4 +117,5 @@ export interface BranchDeepLinksPlugin {
   getBranchQRCode(options: BranchQRCodeParams): Promise<BranchQRCodeResponse>;
   getLatestReferringParams(): Promise<BranchReferringParamsResponse>;
   getFirstReferringParams(): Promise<BranchReferringParamsResponse>;
+  setDMAParamsForEEA: (options: BranchDMAParams) => void;
 }

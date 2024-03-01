@@ -57,4 +57,8 @@ class BranchService {
         let params = Branch.getInstance().getFirstReferringParams() ?? [:]
         completion(params)
     }
+
+    func setDMAParamsForEEA(eeaRegion: Bool, adPersonalizationConsent: Bool, adUserDataUsageConsent: Bool) -> Void {
+        Branch.setDMAParamsForEEA(eeaRegion, adPersonalizationConsent: adPersonalizationConsent, adUserDataUsageConsent: adUserDataUsageConsent)
+    }
 }
