@@ -331,9 +331,12 @@ public class BranchDeepLinks: CAPPlugin {
     }
 
     @objc func setDMAParamsForEEA(_ call: CAPPluginCall) {
-        let eeaRegion = call.getBool("eeaRegion") ?? false
-        let adPersonalizationConsent = call.getBool("adPersonalizationConsent") ?? false
-        let adUserDataUsageConsent = call.getBool("adUserDataUsageConsent") ?? false
+
+        guard let eeaRegion = call.getBool("eeaRegion"), let adPersonalizationConsent = call.getBool("adPersonalizationConsent"), let adUserDataUsageConsent = call.getBool("adUserDataUsageConsent") else {
+            call.reject("One or more DMA parameters are missing")
+            return
+        }
+
         branchService.setDMAParamsForEEA(eeaRegion: eeaRegion, adPersonalizationConsent: adPersonalizationConsent, adUserDataUsageConsent: adUserDataUsageConsent)
         call.resolve()
     }
