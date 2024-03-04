@@ -1,5 +1,5 @@
 import Foundation
-import Branch
+import BranchSDK
 
 class BranchService {
     func generateShortUrl(params: [AnyHashable : Any], linkProperties: BranchLinkProperties, completion: @escaping (String?, Error?)->(Void)) -> Void {
