@@ -1,5 +1,10 @@
 Branch Capacitor SDK change log
 
+- 7.2.0
+
+  - Branch Android SDK bumped to 5.12.0
+  - Branch iOS SDK bumped to 3.4.3
+
 - 7.1.0
 
   - Added new method, setDMAParamsForEEA(), for setting DMA compliance parameters.
