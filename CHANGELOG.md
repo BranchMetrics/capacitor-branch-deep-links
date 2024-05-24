@@ -2,6 +2,8 @@ Branch Capacitor SDK change log
 
 - 7.2.0
 
+  - Updated the `addListener` method to return a `Promise<PluginListenerHandle>`.
+  - Updates the core capacitor plugin to 6.0.0
   - Branch Android SDK bumped to 5.12.0
   - Branch iOS SDK bumped to 3.4.3
 
