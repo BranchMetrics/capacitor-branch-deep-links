@@ -89,11 +89,11 @@ export interface BranchDeepLinksPlugin {
   addListener(
     eventName: 'init',
     listenerFunc: (event: BranchInitEvent) => void,
-  ): PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   addListener(
     eventName: 'initError',
     listenerFunc: (error: any) => void,
-  ): PluginListenerHandle;
+  ): Promise<PluginListenerHandle>;
   handleUrl(options: BranchUrlParams): Promise<void>;
   generateShortUrl(
     options: BranchShortUrlParams,
