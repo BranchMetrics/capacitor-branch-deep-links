@@ -1,6 +1,6 @@
 import Foundation
 import Capacitor
-import Branch
+import BranchSDK
 
 typealias JSObject = [String:Any]
 
@@ -16,7 +16,7 @@ public class BranchDeepLinks: CAPPlugin {
                 object: nil
         )
         
-        Branch.getInstance().registerPluginName("Capacitor", version: "5.0.0")
+        Branch.getInstance().registerPluginName("Capacitor", version: "6.0.0")
     }
 
     @objc public func setBranchService(branchService: Any) {
