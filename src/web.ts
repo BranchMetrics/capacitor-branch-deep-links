@@ -1,4 +1,4 @@
-import { WebPlugin } from '@capacitor/core';
+import { WebPlugin, PluginListenerHandle } from '@capacitor/core';
 
 import {
   BranchDeepLinksPlugin,
@@ -12,6 +12,7 @@ import {
   BranchQRCodeParams,
   BranchQRCodeResponse,
   BranchDMAParams,
+  BranchInitEvent,
 } from './definitions';
 
 export class BranchDeepLinksWeb
@@ -103,6 +104,23 @@ export class BranchDeepLinksWeb
   }
 
   setDMAParamsForEEA(_: BranchDMAParams): Promise<void> {
+    return Promise.reject(
+      new Error('BranchDeepLinks does not have web implementation'),
+    );
+  }
+
+  addListener(
+    _eventName: 'init',
+    _listenerFunc: (event: BranchInitEvent) => void,
+  ): Promise<PluginListenerHandle>;
+  addListener(
+    _eventName: 'initError',
+    _listenerFunc: (error: any) => void,
+  ): Promise<PluginListenerHandle>;
+  addListener(
+    _eventName: string,
+    _listenerFunc: (event: any) => void,
+  ): Promise<PluginListenerHandle> {
     return Promise.reject(
       new Error('BranchDeepLinks does not have web implementation'),
     );

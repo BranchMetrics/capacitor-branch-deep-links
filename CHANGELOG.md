@@ -1,5 +1,12 @@
 Branch Capacitor SDK change log
 
+- 8.0.0
+
+  - Updated the `addListener` method to return a `Promise<PluginListenerHandle>`.
+  - Updates the core capacitor plugin to 6.0.0
+  - Branch Android SDK bumped to 5.12.0
+  - Branch iOS SDK bumped to 3.4.3
+
 - 7.1.0
 
   - Added new method, setDMAParamsForEEA(), for setting DMA compliance parameters.
