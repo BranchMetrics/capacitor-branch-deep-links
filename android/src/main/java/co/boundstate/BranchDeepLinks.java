@@ -191,31 +191,31 @@ public class BranchDeepLinks extends Plugin {
 
         while (keys.hasNext()) {
             String key = keys.next();
-            if (key.equals("revenue")) {
+            if ("revenue".equals(key)) {
                 event.setRevenue(Double.parseDouble(metaData.getString("revenue")));
-            } else if (key.equals("currency")) {
+            } else if ("currency".equals(key)) {
                 String currencyString = metaData.getString("currency");
                 CurrencyType currency = CurrencyType.getValue(currencyString);
                 if (currency != null) {
                     event.setCurrency(currency);
                 }
-            } else if (key.equals("transactionID")) {
+            } else if ("transactionID".equals(key)) {
                 event.setTransactionID(metaData.getString("transactionID"));
-            } else if (key.equals("coupon")) {
+            } else if ("coupon".equals(key)) {
                 event.setCoupon(metaData.getString("coupon"));
-            } else if (key.equals("shipping")) {
+            } else if ("shipping".equals(key)) {
                 event.setShipping(Double.parseDouble(metaData.getString("shipping")));
-            } else if (key.equals("tax")) {
+            } else if ("tax".equals(key)) {
                 event.setTax(Double.parseDouble(metaData.getString("tax")));
-            } else if (key.equals("affiliation")) {
+            } else if ("affiliation".equals(key)) {
                 event.setAffiliation(metaData.getString("affiliation"));
-            } else if (key.equals("description")) {
+            } else if ("description".equals(key)) {
                 event.setDescription(metaData.getString("description"));
-            } else if (key.equals("searchQuery")) {
+            } else if ("searchQuery".equals(key)) {
                 event.setSearchQuery(metaData.getString("searchQuery"));
-            } else if (key.equals("customerEventAlias")) {
+            } else if ("customerEventAlias".equals(key)) {
                 event.setCustomerEventAlias(metaData.getString("customerEventAlias"));
-            } else if (key.equals("customData")) {
+            } else if ("customData".equals(key)) {
                 JSONObject customData = metaData.getJSObject("customData");
                 keys = customData.keys();
 
@@ -223,7 +223,7 @@ public class BranchDeepLinks extends Plugin {
                     String keyValue = (String) keys.next();
                     event.addCustomDataProperty(keyValue, customData.getString(keyValue));
                 }
-            } else if (key.equals("contentMetadata")) {
+            } else if ("contentMetadata".equals(key)) {
                 JSONArray contentMetadata = metaData.getJSONArray("contentMetadata");
 
                 for (int i = 0; i < contentMetadata.length(); i++) {
