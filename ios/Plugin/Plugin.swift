@@ -340,4 +340,19 @@ public class BranchDeepLinks: CAPPlugin {
         branchService.setDMAParamsForEEA(eeaRegion: eeaRegion, adPersonalizationConsent: adPersonalizationConsent, adUserDataUsageConsent: adUserDataUsageConsent)
         call.resolve()
     }
+
+    @objc func handleUrl(_ call: CAPPluginCall) {
+        guard let url = call.getString("branch") else {
+            call.reject("URL object is required")
+            return
+        }
+
+        branchService.handleUrl(url: url) { error in
+            if let error = error {
+                call.reject(error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
 }
