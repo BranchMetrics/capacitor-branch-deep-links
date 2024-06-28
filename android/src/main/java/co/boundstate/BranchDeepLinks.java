@@ -106,7 +106,7 @@ public class BranchDeepLinks extends Plugin {
     public void handleUrl(PluginCall call) {
         // https://help.branch.io/developers-hub/docs/android-advanced-features#section-handle-links-in-your-own-app
 
-        String branchUrl = call.getString("url");
+        String branchUrl = call.getString("branch");
 
         if (branchUrl != null && !branchUrl.equals("")) {
             Intent intent = new Intent(getActivity(), getActivity().getClass());
