@@ -343,7 +343,7 @@ public class BranchDeepLinks: CAPPlugin {
 
     @objc func handleUrl(_ call: CAPPluginCall) {
         guard let url = call.getString("branch") else {
-            call.reject("URL object is required")
+            call.reject("The object passed must contain a 'branch' key with a string value")
             return
         }
 
