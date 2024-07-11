@@ -11,7 +11,7 @@ export interface BranchReferringParamsResponse {
 }
 
 export interface BranchUrlParams {
-  url: string;
+  branch: string;
 }
 
 export interface BranchShortUrlAnalytics {

@@ -61,4 +61,13 @@ class BranchService {
     func setDMAParamsForEEA(eeaRegion: Bool, adPersonalizationConsent: Bool, adUserDataUsageConsent: Bool) -> Void {
         Branch.setDMAParamsForEEA(eeaRegion, adPersonalizationConsent: adPersonalizationConsent, adUserDataUsageConsent: adUserDataUsageConsent)
     }
+    
+    func handleUrl(url: String, completion: @escaping (Error?) -> Void) {
+        if let deepLinkUrl = URL(string: url) {
+            Branch.getInstance().handleDeepLink(deepLinkUrl)
+            completion(nil)
+        } else {
+            completion(NSError(domain: "Invalid URL", code: 400, userInfo: nil))
+        }
+    }
 }
