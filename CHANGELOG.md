@@ -1,5 +1,9 @@
 Branch Capacitor SDK change log
 
+- 8.1.0
+
+  - Added the handleUrl method to iOS and updated BranchUrlParams to include `branch` instead of `url`.
+
 - 8.0.0
 
   - Updated the `addListener` method to return a `Promise<PluginListenerHandle>`.
