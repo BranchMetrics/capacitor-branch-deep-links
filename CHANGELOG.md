@@ -1,5 +1,10 @@
 Branch Capacitor SDK change log
 
+- 8.2.0
+
+  - Branch Android SDK bumped to 5.12.3
+  - Branch iOS SDK bumped to 3.6.3
+
 - 8.1.0
 
   - Added the handleUrl method to iOS and updated BranchUrlParams to include `branch` instead of `url`.
