@@ -1,5 +1,9 @@
 Branch Capacitor SDK change log
 
+- 8.2.1
+
+  - Branch Android SDK bumped to 5.12.4
+
 - 8.2.0
 
   - Branch Android SDK bumped to 5.12.3
