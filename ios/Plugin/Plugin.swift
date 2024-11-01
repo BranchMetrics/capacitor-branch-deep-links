@@ -16,7 +16,7 @@ public class BranchDeepLinks: CAPPlugin {
                 object: nil
         )
         
-        Branch.getInstance().registerPluginName("Capacitor", version: "8.2.1")
+        Branch.getInstance().registerPluginName("Capacitor", version: "8.3.0")
     }
 
     @objc public func setBranchService(branchService: Any) {
