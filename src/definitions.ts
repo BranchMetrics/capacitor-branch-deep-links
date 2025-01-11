@@ -85,6 +85,8 @@ export interface BranchInitEvent extends BranchReferringParamsResponse {}
 
 export type BranchATTAuthorizationStatus = 0 | 1 | 2 | 3;
 
+export type BranchConsumerProtectionAttributionLevel = 'FULL' | 'REDUCED' | 'MINIMAL' | 'NONE';
+
 export interface BranchDeepLinksPlugin {
   addListener(
     eventName: 'init',
@@ -118,4 +120,5 @@ export interface BranchDeepLinksPlugin {
   getLatestReferringParams(): Promise<BranchReferringParamsResponse>;
   getFirstReferringParams(): Promise<BranchReferringParamsResponse>;
   setDMAParamsForEEA: (options: BranchDMAParams) => void;
+  setConsumerProtectionAttributionLevel(options: { level: BranchConsumerProtectionAttributionLevel }): Promise<void>;
 }

@@ -18,6 +18,7 @@ import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.BranchShareSheetBuilder;
 import io.branch.referral.BranchShortLinkBuilder;
+import io.branch.referral.Defines;
 import io.branch.referral.QRCode.BranchQRCode;
 import io.branch.referral.SharingHelper;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
@@ -547,6 +548,37 @@ public class BranchDeepLinks extends Plugin {
         Branch branch = Branch.getInstance();
         branch.setDMAParamsForEEA(eeaRegion, adPersonalizationConsent, adUserDataUsageConsent);
 
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void setConsumerProtectionAttributionLevel(PluginCall call) {
+        String level = call.getString("level");
+        if (level == null) {
+            call.reject("Must provide a valid attribution level");
+            return;
+        }
+
+        Defines.BranchAttributionLevel attributionLevel;
+        switch (level) {
+            case "FULL":
+                attributionLevel = Defines.BranchAttributionLevel.FULL;
+                break;
+            case "REDUCED":
+                attributionLevel = Defines.BranchAttributionLevel.REDUCED;
+                break;
+            case "MINIMAL":
+                attributionLevel = Defines.BranchAttributionLevel.MINIMAL;
+                break;
+            case "NONE":
+                attributionLevel = Defines.BranchAttributionLevel.NONE;
+                break;
+            default:
+                call.reject("Invalid attribution level provided");
+                return;
+        }
+
+        Branch.getInstance().setConsumerProtectionAttributionLevel(attributionLevel);
         call.resolve();
     }
 }

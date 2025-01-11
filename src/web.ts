@@ -109,6 +109,12 @@ export class BranchDeepLinksWeb
     );
   }
 
+  setConsumerProtectionAttributionLevel(_: { level: string }): Promise<void> {
+    return Promise.reject(
+      new Error('BranchDeepLinks does not have web implementation'),
+    );
+  }
+
   addListener(
     _eventName: 'init',
     _listenerFunc: (event: BranchInitEvent) => void,

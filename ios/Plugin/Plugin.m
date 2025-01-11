@@ -17,4 +17,6 @@ CAP_PLUGIN(BranchDeepLinks, "BranchDeepLinks",
            CAP_PLUGIN_METHOD(getFirstReferringParams, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setDMAParamsForEEA, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(handleUrl, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setConsumerProtectionAttributionLevel, CAPPluginReturnPromise);
+           
 )

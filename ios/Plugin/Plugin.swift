@@ -16,7 +16,7 @@ public class BranchDeepLinks: CAPPlugin {
                 object: nil
         )
         
-        Branch.getInstance().registerPluginName("Capacitor", version: "8.3.0")
+        Branch.getInstance().registerPluginName("Capacitor", version: "8.4.0")
     }
 
     @objc public func setBranchService(branchService: Any) {
@@ -355,4 +355,15 @@ public class BranchDeepLinks: CAPPlugin {
             }
         }
     }
+
+    @objc func setConsumerProtectionAttributionLevel(_ call: CAPPluginCall) {
+        guard let level = call.getString("level") else {
+            call.reject("Must provide a valid attribution level")
+            return
+        }
+        
+        branchService.setConsumerProtectionAttributionLevel(level: level)
+        call.resolve()
+    }
+
 }
