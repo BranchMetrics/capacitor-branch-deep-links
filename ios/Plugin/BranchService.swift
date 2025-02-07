@@ -70,4 +70,24 @@ class BranchService {
             completion(NSError(domain: "Invalid URL", code: 400, userInfo: nil))
         }
     }
+
+    func setConsumerProtectionAttributionLevel(level: String) -> Void {
+        var attributionLevel: BranchAttributionLevel
+        
+        switch level {
+        case "FULL":
+            attributionLevel = BranchAttributionLevel.full
+        case "REDUCED":
+            attributionLevel = BranchAttributionLevel.reduced
+        case "MINIMAL":
+            attributionLevel = BranchAttributionLevel.minimal
+        case "NONE":
+            attributionLevel = BranchAttributionLevel.none
+        default:
+            return
+        }
+        
+        Branch.getInstance().setConsumerProtectionAttributionLevel(attributionLevel)
+    }
+    
 }
