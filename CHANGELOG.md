@@ -1,5 +1,13 @@
 Branch Capacitor SDK change log
 
+- 9.0.0
+
+  - Update Capacitor to 7. Thanks @hamadsuniverse
+    - Minimum iOS deployment 14
+    - Minimum Android SDK 23
+  - Branch Android SDK bumped to 5.18.1
+  - Branch iOS SDK bumped to 3.12.1
+
 - 8.4.0
 
   - Exposed new method `setConsumerProtectionAttributionLevel` to set CPP level
