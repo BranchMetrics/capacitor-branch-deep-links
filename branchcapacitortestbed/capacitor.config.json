@@ -1,0 +1,10 @@
+{
+  "appId": "com.branch.capacitortestbed",
+  "appName": "branchcapacitortestbed",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}
