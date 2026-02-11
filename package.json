@@ -76,6 +76,6 @@
     }
   },
   "lint-staged": {
-    "*.{css,html,ts,js,java,md}": "prettier --write"
+    "*.{css,html,ts,js,java,md}": "prettier --write --plugin=prettier-plugin-java"
   }
 }
