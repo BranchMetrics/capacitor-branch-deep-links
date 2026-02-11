@@ -13,6 +13,9 @@ import {
   BranchQRCodeResponse,
   BranchDMAParams,
   BranchInitEvent,
+  BranchSetSDKWaitTimeForThirdPartyAPIsParam,
+  BranchAnonIDParam,
+  BranchODMInfoParams,
 } from './definitions';
 
 export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlugin {
@@ -73,6 +76,18 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
   }
 
   setConsumerProtectionAttributionLevel(_: { level: string }): Promise<void> {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
+  }
+
+  setSDKWaitTimeForThirdPartyAPIs(_: BranchSetSDKWaitTimeForThirdPartyAPIsParam): Promise<void> {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
+  }
+
+  setAnonID(_: BranchAnonIDParam): Promise<void> {
+    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
+  }
+
+  setODMInfo(_: BranchODMInfoParams): Promise<void> {
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 

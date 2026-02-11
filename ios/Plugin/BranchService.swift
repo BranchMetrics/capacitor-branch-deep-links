@@ -89,5 +89,16 @@ class BranchService {
         
         Branch.getInstance().setConsumerProtectionAttributionLevel(attributionLevel)
     }
+
+    func setSDKWaitTimeForThirdPartyAPIs(waitTime: Double) -> Void {
+        Branch.setSDKWaitTimeForThirdPartyAPIs(waitTime)
+    }
     
+    func setAnonID(anonID: String) -> Void {
+        Branch.setAnonID(anonID)
+    }
+
+    func setODMInfo(odmInfo, firstOpenTimestamp) -> Void {
+        Branch.setODMInfo(odmInfo, firstOpenTimestamp)
+    }
 }

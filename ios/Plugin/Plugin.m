@@ -18,5 +18,8 @@ CAP_PLUGIN(BranchDeepLinks, "BranchDeepLinks",
            CAP_PLUGIN_METHOD(setDMAParamsForEEA, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(handleUrl, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setConsumerProtectionAttributionLevel, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setSDKWaitTimeForThirdPartyAPIs, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setAnonID, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setODMInfo, CAPPluginReturnPromise);
            
 )

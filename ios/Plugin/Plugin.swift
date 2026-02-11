@@ -16,7 +16,7 @@ public class BranchDeepLinks: CAPPlugin {
                 object: nil
         )
         
-        Branch.getInstance().registerPluginName("Capacitor", version: "9.0.0")
+        Branch.getInstance().registerPluginName("Capacitor", version: "9.1.0")
     }
 
     @objc public func setBranchService(branchService: Any) {
@@ -363,6 +363,41 @@ public class BranchDeepLinks: CAPPlugin {
         }
         
         branchService.setConsumerProtectionAttributionLevel(level: level)
+        call.resolve()
+    }
+
+    @objc func setSDKWaitTimeForThirdPartyAPIs(_ call: CAPPluginCall) {
+        guard let waitTime = call.getString("waitTime") else {
+            call.reject("Must provide a valid waitTime")
+            return
+        }
+        
+        branchService.setSDKWaitTimeForThirdPartyAPIs(waitTime: waitTime)
+        call.resolve()
+    }
+
+    @objc func setAnonID(_ call: CAPPluginCall) {
+        guard let anonID = call.getString("anonID") else {
+            call.reject("Must provide a valid anonID")
+            return
+        }
+        
+        branchService.setAnonID(anonID: anonID)
+        call.resolve()
+    }
+
+    @objc func setODMInfo(_ call: CAPPluginCall) {
+        guard let odmInfo = call.getString("odmInfo") else {
+            call.reject("Must provide valid odmInfo")
+            return
+        }
+
+        guard let firstOpenTimestamp = call.getString("firstOpenTimestamp") else {
+            call.reject("Must provide a valid firstOpenTimestamp")
+            return
+        }
+        
+        branchService.setODMInfo(waitTime: waitTime, firstOpenTimestamp: firstOpenTimestamp)
         call.resolve()
     }
 
