@@ -581,4 +581,19 @@ public class BranchDeepLinks extends Plugin {
         Branch.getInstance().setConsumerProtectionAttributionLevel(attributionLevel);
         call.resolve();
     }
+
+    @PluginMethod
+    public void setSDKWaitTimeForThirdPartyAPIs(PluginCall call) {
+        call.reject("setSDKWaitTimeForThirdPartyAPIs is not available on Android.");
+    }
+
+    @PluginMethod
+    public void setAnonID(PluginCall call) {
+        call.reject("setAnonID is not available on Android.");
+    }
+
+    @PluginMethod
+    public void setODMInfo(PluginCall call) {
+        call.reject("setODMInfo is not available on Android.");
+    }
 }
