@@ -392,12 +392,12 @@ public class BranchDeepLinks: CAPPlugin {
             return
         }
 
-        guard let firstOpenTimestamp = call.getString("firstOpenTimestamp") else {
+        guard let firstOpenTimestamp = call.getDouble("firstOpenTimestamp") else {
             call.reject("Must provide a valid firstOpenTimestamp")
             return
         }
         
-        branchService.setODMInfo(waitTime: waitTime, firstOpenTimestamp: firstOpenTimestamp)
+        branchService.setODMInfo(odmInfo: odmInfo, firstOpenTimestamp: firstOpenTimestamp)
         call.resolve()
     }
 
