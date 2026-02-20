@@ -22,7 +22,7 @@ let package = Package(
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
                 // Link Branch directly to your plugin target
-                .product(name: "Branch", package: "ios-branch-deep-linking-attribution") 
+                .product(name: "BranchSDK", package: "ios-branch-deep-linking-attribution") 
             ],
             // CRUCIAL: This path must match exactly where your Plugin.swift file lives!
             path: "ios/Plugin" 

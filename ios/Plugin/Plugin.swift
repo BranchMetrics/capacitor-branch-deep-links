@@ -16,29 +16,29 @@ public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
                 object: nil
         )
         
-        Branch.getInstance().registerPluginName("Capacitor", version: "9.1.0")
+        Branch.getInstance().registerPluginName("Capacitor", version: "10.0.0")
     }
 
     public let identifier = "BranchDeepLinks"
     public let jsName = "BranchDeepLinks"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAP_PLUGIN_METHOD(generateShortUrl, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(showShareSheet, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(getStandardEvents, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(sendBranchEvent, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(handleATTAuthorizationStatus, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(disableTracking, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(setIdentity, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(logout, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(getBranchQRCode, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(getLatestReferringParams, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(getFirstReferringParams, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(setDMAParamsForEEA, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(handleUrl, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(setConsumerProtectionAttributionLevel, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(setSDKWaitTimeForThirdPartyAPIs, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(setAnonID, CAPPluginReturnPromise),
-        CAP_PLUGIN_METHOD(setODMInfo, CAPPluginReturnPromise)
+        CAPPluginMethod(name: "generateShortUrl", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "showShareSheet", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getStandardEvents", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "sendBranchEvent", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "handleATTAuthorizationStatus", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "disableTracking", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setIdentity", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "logout", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getBranchQRCode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getLatestReferringParams", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getFirstReferringParams", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setDMAParamsForEEA", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "handleUrl", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setConsumerProtectionAttributionLevel", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setSDKWaitTimeForThirdPartyAPIs", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setAnonID", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setODMInfo", returnType: CAPPluginReturnPromise)
     ]
 
     @objc public func setBranchService(branchService: Any) {
@@ -389,7 +389,7 @@ public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func setSDKWaitTimeForThirdPartyAPIs(_ call: CAPPluginCall) {
-        guard let waitTime = call.getString("waitTime") else {
+        guard let waitTime = call.getDouble("waitTime") else {
             call.reject("Must provide a valid waitTime")
             return
         }

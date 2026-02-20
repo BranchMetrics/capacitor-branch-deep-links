@@ -98,7 +98,7 @@ class BranchService {
         Branch.setAnonID(anonID)
     }
 
-    func setODMInfo(odmInfo, firstOpenTimestamp) -> Void {
-        Branch.setODMInfo(odmInfo, firstOpenTimestamp)
+    func setODMInfo(odmInfo: String, firstOpenTimestamp: Date) -> Void {
+        Branch.setODMInfo(odmInfo, andFirstOpenTimestamp: firstOpenTimestamp)
     }
 }

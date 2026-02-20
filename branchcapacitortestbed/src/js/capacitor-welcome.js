@@ -150,7 +150,7 @@ async function testBranchSDK() {
   });
 
   const waitTimeTest = await BranchDeepLinks.setSDKWaitTimeForThirdPartyAPIs({
-    waitTime: '5',
+    waitTime: 5,
   });
 
   const anonIDTest = await BranchDeepLinks.setAnonID({
