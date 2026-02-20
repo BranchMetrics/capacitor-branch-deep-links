@@ -44,7 +44,8 @@
     "dist/",
     "ios/",
     "android/",
-    "CapacitorBranchDeepLinks.podspec"
+    "CapacitorBranchDeepLinks.podspec",
+    "Package.swift"
   ],
   "keywords": [
     "branch.io",

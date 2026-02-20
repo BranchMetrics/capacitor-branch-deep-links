@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import BranchSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -8,6 +9,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // Branch.setUseTestBranchKey(true) // If you are using the TEST key
+        Branch.getInstance().enableLogging() // If you want to enable logging
+        Branch.getInstance().setRequestMetadataKey("testID", value: "valueID")
+        Branch.getInstance().initSession(launchOptions: launchOptions)
         return true
     }
 
@@ -36,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         // Called when the app was launched with a url. Feel free to add additional processing here,
         // but if you want the App API to support tracking app url opens, make sure to keep this call
+        Branch.getInstance().application(app, open: url, options: options)
         return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
     }
 
@@ -43,7 +49,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the app was launched with an activity, including Universal Links.
         // Feel free to add additional processing here, but if you want the App API to support
         // tracking app url opens, make sure to keep this call
+        Branch.getInstance().continue(userActivity)
         return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        Branch.getInstance().handlePushNotification(userInfo)
     }
 
 }

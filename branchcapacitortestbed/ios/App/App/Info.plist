@@ -2,12 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CAPACITOR_DEBUG</key>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>branchcapacitortestbed</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>io.branch.saas.sdk.testbed</string>
+		</dict>
+	</array>
+	<key>branch_universal_link_domains</key>
+	<array>
+		<string>bnctestbed.app.link</string>
+		<string>bnctestbed-alternate.app.link</string>
+		<string>bnctestbed.test-app.link</string>
+		<string>bnctestbed-alternate.test-app.link</string>
+	</array>
+	<key>branch_key</key>
+	<dict>
+		<key>test</key>
+		<string>key_test_hdcBLUy1xZ1JD0tKg7qrLcgirFmPPVJc</string>
+		<key>live</key>
+		<string>key_live_hcnegAumkH7Kv18M8AOHhfgiohpXq5tB</string>
+	</dict>
+	<key>CAPACITOR_DEBUG</key>
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>branchcapacitortestbed</string>
+	<string>branchcapacitortestbed</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

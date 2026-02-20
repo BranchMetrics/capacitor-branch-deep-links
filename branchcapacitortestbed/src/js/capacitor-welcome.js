@@ -1,6 +1,6 @@
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Camera } from '@capacitor/camera';
-import { BranchDeepLinks } from 'capacitor-branch-deep-links';
+import { BranchDeepLinks, BranchInitEvent } from 'capacitor-branch-deep-links';
 
 window.customElements.define(
   'capacitor-welcome',
@@ -143,9 +143,10 @@ window.customElements.define(
 );
 
 async function testBranchSDK() {
-  const result = await BranchDeepLinks.setODMInfo({
+  const timestampInSeconds = Date.now() / 1000;
+  const odmInfoTest = await BranchDeepLinks.setODMInfo({
     odmInfo: 'your_odm_string_here',
-    firstOpenTimestamp: Date.now() / 1000,
+    firstOpenTimestamp: timestampInSeconds,
   });
 
   const waitTimeTest = await BranchDeepLinks.setSDKWaitTimeForThirdPartyAPIs({

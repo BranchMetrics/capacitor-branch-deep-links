@@ -5,7 +5,7 @@ import BranchSDK
 typealias JSObject = [String:Any]
 
 @objc(BranchDeepLinks)
-public class BranchDeepLinks: CAPPlugin {
+public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
     var branchService = BranchService()
 
     public override func load() {
@@ -18,6 +18,28 @@ public class BranchDeepLinks: CAPPlugin {
         
         Branch.getInstance().registerPluginName("Capacitor", version: "9.1.0")
     }
+
+    public let identifier = "BranchDeepLinks"
+    public let jsName = "BranchDeepLinks"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAP_PLUGIN_METHOD(generateShortUrl, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(showShareSheet, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(getStandardEvents, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(sendBranchEvent, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(handleATTAuthorizationStatus, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(disableTracking, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(setIdentity, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(logout, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(getBranchQRCode, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(getLatestReferringParams, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(getFirstReferringParams, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(setDMAParamsForEEA, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(handleUrl, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(setConsumerProtectionAttributionLevel, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(setSDKWaitTimeForThirdPartyAPIs, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(setAnonID, CAPPluginReturnPromise),
+        CAP_PLUGIN_METHOD(setODMInfo, CAPPluginReturnPromise)
+    ]
 
     @objc public func setBranchService(branchService: Any) {
         self.branchService = branchService as! BranchService
@@ -396,8 +418,10 @@ public class BranchDeepLinks: CAPPlugin {
             call.reject("Must provide a valid firstOpenTimestamp")
             return
         }
+
+        let firstOpenDate = Date(timeIntervalSince1970: firstOpenTimestamp)
         
-        branchService.setODMInfo(odmInfo: odmInfo, firstOpenTimestamp: firstOpenTimestamp)
+        branchService.setODMInfo(odmInfo: odmInfo, firstOpenTimestamp: firstOpenDate)
         call.resolve()
     }
 
