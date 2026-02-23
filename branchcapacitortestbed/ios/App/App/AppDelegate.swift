@@ -1,6 +1,7 @@
 import UIKit
 import Capacitor
 import BranchSDK
+import BranchDeepLinksPlugin
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -9,10 +10,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
         // Branch.setUseTestBranchKey(true) // If you are using the TEST key
-        Branch.getInstance().enableLogging() // If you want to enable logging
-        Branch.getInstance().setRequestMetadataKey("testID", value: "valueID")
+        // Branch.getInstance().enableLogging() // If you want to enable logging
+        // Branch.getInstance().setRequestMetadataKey("insert_user_id", value: "value") // If you need to append partner metadata before initializing Branch
         Branch.getInstance().initSession(launchOptions: launchOptions)
+        
         return true
     }
 
