@@ -1,6 +1,5 @@
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Camera } from '@capacitor/camera';
-import { BranchDeepLinks, BranchInitEvent } from 'capacitor-branch-deep-links';
 
 window.customElements.define(
   'capacitor-welcome',
