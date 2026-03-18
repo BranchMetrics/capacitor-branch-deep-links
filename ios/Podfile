@@ -5,7 +5,6 @@ def capacitor_pods
   pod 'Capacitor', :path => '../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../node_modules/@capacitor/ios'
   pod 'BranchSDK', '~> 3.14.0'
-  pod 'CapacitorFirebaseAnalytics/Analytics', :path => '../../node_modules/@capacitor-firebase/analytics'
 end
 
 target 'Plugin' do
