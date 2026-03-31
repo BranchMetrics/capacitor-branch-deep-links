@@ -1,5 +1,6 @@
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Camera } from '@capacitor/camera';
+import { BranchDeepLinks } from 'capacitor-branch-deep-links';
 
 window.customElements.define(
   'capacitor-welcome',
@@ -140,3 +141,21 @@ window.customElements.define(
     }
   },
 );
+
+async function testBranchSDK() {
+  const timestampInSeconds = Date.now() / 1000;
+  const odmInfoTest = await BranchDeepLinks.setODMInfo({
+    odmInfo: 'your_odm_string_here',
+    firstOpenTimestamp: timestampInSeconds,
+  });
+
+  const waitTimeTest = await BranchDeepLinks.setSDKWaitTimeForThirdPartyAPIs({
+    waitTime: 5,
+  });
+
+  const anonIDTest = await BranchDeepLinks.setAnonID({
+    anonID: 'testAnonIDValue',
+  });
+}
+
+testBranchSDK();
