@@ -8,6 +8,7 @@ Branch Capacitor SDK change log
   - Exposed new iOS method `setODMInfo` to set ODM info
   - Branch Android SDK bumped to 5.20.3
   - Branch iOS SDK bumped to 3.14.0
+  - Added branchcapacitortestbed sample app
 
 - 9.0.0
   - Update Capacitor to 7. Thanks @hamadsuniverse
