@@ -73,7 +73,7 @@ class BranchService {
 
     func setConsumerProtectionAttributionLevel(level: String) -> Void {
         var attributionLevel: BranchAttributionLevel
-        
+
         switch level {
         case "FULL":
             attributionLevel = BranchAttributionLevel.full
@@ -86,19 +86,7 @@ class BranchService {
         default:
             return
         }
-        
+
         Branch.getInstance().setConsumerProtectionAttributionLevel(attributionLevel)
-    }
-
-    func setSDKWaitTimeForThirdPartyAPIs(waitTime: Double) -> Void {
-        Branch.setSDKWaitTimeForThirdPartyAPIs(waitTime)
-    }
-    
-    func setAnonID(anonID: String) -> Void {
-        Branch.setAnonID(anonID)
-    }
-
-    func setODMInfo(odmInfo: String, firstOpenTimestamp: Date) -> Void {
-        Branch.setODMInfo(odmInfo, andFirstOpenTimestamp: firstOpenTimestamp)
     }
 }

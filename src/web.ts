@@ -79,18 +79,6 @@ export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlug
     return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
   }
 
-  setSDKWaitTimeForThirdPartyAPIs(_: BranchSetSDKWaitTimeForThirdPartyAPIsParam): Promise<void> {
-    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
-  }
-
-  setAnonID(_: BranchAnonIDParam): Promise<void> {
-    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
-  }
-
-  setODMInfo(_: BranchODMInfoParams): Promise<void> {
-    return Promise.reject(new Error('BranchDeepLinks does not have web implementation'));
-  }
-
   addListener(_eventName: 'init', _listenerFunc: (event: BranchInitEvent) => void): Promise<PluginListenerHandle>;
   addListener(_eventName: 'initError', _listenerFunc: (error: any) => void): Promise<PluginListenerHandle>;
   addListener(_eventName: string, _listenerFunc: (event: any) => void): Promise<PluginListenerHandle> {

@@ -87,19 +87,6 @@ export type BranchATTAuthorizationStatus = 0 | 1 | 2 | 3;
 
 export type BranchConsumerProtectionAttributionLevel = 'FULL' | 'REDUCED' | 'MINIMAL' | 'NONE';
 
-export interface BranchSetSDKWaitTimeForThirdPartyAPIsParam {
-  waitTime: number;
-}
-
-export interface BranchAnonIDParam {
-  anonID: string;
-}
-
-export interface BranchODMInfoParams {
-  odmInfo: string;
-  firstOpenTimestamp: number;
-}
-
 export interface BranchDeepLinksPlugin {
   addListener(eventName: 'init', listenerFunc: (event: BranchInitEvent) => void): Promise<PluginListenerHandle>;
   addListener(eventName: 'initError', listenerFunc: (error: any) => void): Promise<PluginListenerHandle>;
@@ -117,7 +104,4 @@ export interface BranchDeepLinksPlugin {
   getFirstReferringParams(): Promise<BranchReferringParamsResponse>;
   setDMAParamsForEEA: (options: BranchDMAParams) => void;
   setConsumerProtectionAttributionLevel(options: { level: BranchConsumerProtectionAttributionLevel }): Promise<void>;
-  setSDKWaitTimeForThirdPartyAPIs(options: BranchSetSDKWaitTimeForThirdPartyAPIsParam): Promise<void>;
-  setAnonID(options: BranchAnonIDParam): Promise<void>;
-  setODMInfo(options: BranchODMInfoParams): Promise<void>;
 }

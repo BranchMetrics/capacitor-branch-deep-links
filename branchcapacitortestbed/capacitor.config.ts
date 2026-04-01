@@ -10,10 +10,10 @@ const config: CapacitorConfig = {
     },
     BranchDeepLinks: {
       ios: {
-        sdkWaitTime: 9,
-        anonID: 'testAnonIDValue',
+        sdkWaitTime: 5,
+        anonID: 'finalTestAnonIDValue',
         odmInfo: {
-          value: 'your_odm_string_here',
+          value: 'your_odm_string_here_final_test',
           firstOpenTimestamp: Date.now() / 1000, // Current time in seconds since 1970
         },
       },

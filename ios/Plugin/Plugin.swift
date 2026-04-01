@@ -35,10 +35,7 @@ public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getFirstReferringParams", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setDMAParamsForEEA", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "handleUrl", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "setConsumerProtectionAttributionLevel", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "setSDKWaitTimeForThirdPartyAPIs", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "setAnonID", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "setODMInfo", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "setConsumerProtectionAttributionLevel", returnType: CAPPluginReturnPromise)
     ]
 
     @objc public func setBranchService(branchService: Any) {
@@ -385,43 +382,6 @@ public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
         }
         
         branchService.setConsumerProtectionAttributionLevel(level: level)
-        call.resolve()
-    }
-
-    @objc func setSDKWaitTimeForThirdPartyAPIs(_ call: CAPPluginCall) {
-        guard let waitTime = call.getDouble("waitTime") else {
-            call.reject("Must provide a valid waitTime")
-            return
-        }
-        
-        branchService.setSDKWaitTimeForThirdPartyAPIs(waitTime: waitTime)
-        call.resolve()
-    }
-
-    @objc func setAnonID(_ call: CAPPluginCall) {
-        guard let anonID = call.getString("anonID") else {
-            call.reject("Must provide a valid anonID")
-            return
-        }
-        
-        branchService.setAnonID(anonID: anonID)
-        call.resolve()
-    }
-
-    @objc func setODMInfo(_ call: CAPPluginCall) {
-        guard let odmInfo = call.getString("odmInfo") else {
-            call.reject("Must provide valid odmInfo")
-            return
-        }
-
-        guard let firstOpenTimestamp = call.getDouble("firstOpenTimestamp") else {
-            call.reject("Must provide a valid firstOpenTimestamp")
-            return
-        }
-
-        let firstOpenDate = Date(timeIntervalSince1970: firstOpenTimestamp)
-        
-        branchService.setODMInfo(odmInfo: odmInfo, firstOpenTimestamp: firstOpenDate)
         call.resolve()
     }
 
