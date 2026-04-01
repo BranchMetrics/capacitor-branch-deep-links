@@ -2,6 +2,9 @@ import UIKit
 import Capacitor
 import BranchSDK
 import BranchDeepLinksPlugin
+import Firebase
+import GoogleAdsOnDeviceConversion
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -10,12 +13,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+
+        FirebaseApp.configure()
+
+        // Apply Branch pre-initialization config from capacitor.config.json
+        BranchConfigHelper.applyConfigBeforeInit()
+
         // Branch.setUseTestBranchKey(true) // If you are using the TEST key
-        Branch.getInstance().enableLogging() // If you want to enable logging
-        // Branch.getInstance().setRequestMetadataKey("insert_user_id", value: "value") // If you need to append partner metadata before initializing Branch
+        Branch.enableLogging(at: BranchLogLevel.verbose) // If you want to enable logging
+        // Branch.getInstance().setRequestMe1tadataKey("insert_user_id", value: "value") // If you need to append partner metadata before initializing Branch
+
         Branch.getInstance().initSession(launchOptions: launchOptions)
-        
+
         return true
     }
 

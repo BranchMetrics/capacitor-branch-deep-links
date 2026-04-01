@@ -9,7 +9,10 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
-
+    implementation project(':capacitor-firebase-analytics')
+    implementation project(':capacitor-camera')
+    implementation project(':capacitor-splash-screen')
+    implementation project(':capacitor-branch-deep-links')
 
 }
 

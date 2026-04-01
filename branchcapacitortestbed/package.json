@@ -13,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor-firebase/analytics": "^8.2.0",
     "@capacitor/android": "^8.0.2",
     "@capacitor/camera": "latest",
     "@capacitor/core": "latest",
