@@ -3,9 +3,9 @@ Branch Capacitor SDK change log
 - 10.0.0
   - Update Capacitor to 8
   - Update minimum iOS deployment to 15
-  - Exposed new iOS method `setSDKWaitTimeForThirdPartyAPIs` to set SDK wait time for third party APIs.
-  - Exposed new iOS method `setAnonID` to set Anon ID
-  - Exposed new iOS method `setODMInfo` to set ODM info
+  - New iOS method `setSDKWaitTimeForThirdPartyAPIs` to set SDK wait time for third party APIs available for use in iOS AppDelegate.
+  - New iOS method `setAnonID` to set Anon ID available for use in iOS AppDelegate.
+  - New iOS method `setODMInfo` to set ODM info available for use in iOS AppDelegate.
   - Branch Android SDK bumped to 5.20.3
   - Branch iOS SDK bumped to 3.14.0
   - Added branchcapacitortestbed sample app

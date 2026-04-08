@@ -13,9 +13,6 @@ import {
   BranchQRCodeResponse,
   BranchDMAParams,
   BranchInitEvent,
-  BranchSetSDKWaitTimeForThirdPartyAPIsParam,
-  BranchAnonIDParam,
-  BranchODMInfoParams,
 } from './definitions';
 
 export class BranchDeepLinksWeb extends WebPlugin implements BranchDeepLinksPlugin {
