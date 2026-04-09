@@ -6,9 +6,9 @@ Branch Capacitor SDK change log
   - New iOS method `setSDKWaitTimeForThirdPartyAPIs` to set SDK wait time for third party APIs available for use in iOS AppDelegate.
   - New iOS method `setAnonID` to set Anon ID available for use in iOS AppDelegate.
   - New iOS method `setODMInfo` to set ODM info available for use in iOS AppDelegate.
+  - Note: Capacitor only supports Firebase dependency through Swift Package Manager
   - Branch Android SDK bumped to 5.20.3
   - Branch iOS SDK bumped to 3.14.0
-  - Added branchcapacitortestbed sample app
 
 - 9.0.0
   - Update Capacitor to 7. Thanks @hamadsuniverse
