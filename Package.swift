@@ -13,7 +13,7 @@ let package = Package(
         // 1. The Core Capacitor SPM package
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0"),
         // 2. The Official Branch iOS SDK
-        .package(url: "https://github.com/BranchMetrics/ios-branch-deep-linking-attribution", from: "3.4.0")
+        .package(url: "https://github.com/BranchMetrics/ios-branch-deep-linking-attribution", from: "3.14.0")
     ],
     targets: [
         .target(
