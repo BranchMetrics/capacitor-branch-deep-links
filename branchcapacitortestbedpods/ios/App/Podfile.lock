@@ -32,7 +32,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BranchSDK: 542614d201368be39b03e1a384df5c6b45873798
   Capacitor: 9f1f99495b474d82bccfd27b15617b84f5938144
-  CapacitorBranchDeepLinks: 222663174529ade9852cc78938e59845e8dab84f
+  CapacitorBranchDeepLinks: d88574b6bbd668a769d66ed40b612276011822aa
   CapacitorCordova: 2e1e2bb93b2f365309dc4ff18b72b9a69a7814a9
   CapacitorSplashScreen: 1281f7df4d9b4a72bccab8d03e6b2bbd17dff122
 

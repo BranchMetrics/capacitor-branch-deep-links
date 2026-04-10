@@ -16,7 +16,7 @@ public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
                 object: nil
         )
         
-        Branch.getInstance().registerPluginName("Capacitor", version: "10.0.0")
+        Branch.getInstance().registerPluginName("Capacitor", version: "10.0.0-beta.2")
     }
 
     public let identifier = "BranchDeepLinks"
