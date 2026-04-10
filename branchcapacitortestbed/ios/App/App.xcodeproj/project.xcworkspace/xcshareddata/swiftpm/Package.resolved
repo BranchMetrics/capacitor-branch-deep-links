@@ -1,5 +1,5 @@
 {
-  "originHash" : "9baaf18f7d188e98315f9577e6111cff551af07eb1c9779dd2c11cf844f039ce",
+  "originHash" : "2a40ad8c808049e2d2799e74266bba6de5b250f797265d0a32ffd837c749ea71",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -101,11 +101,11 @@
       }
     },
     {
-      "identity" : "ios-branch-deep-linking-attribution",
+      "identity" : "ios-branch-sdk-spm",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/BranchMetrics/ios-branch-deep-linking-attribution",
+      "location" : "https://github.com/BranchMetrics/ios-branch-sdk-spm.git",
       "state" : {
-        "revision" : "ae8e7da124f14a2008f0e4791baad6fb665107b0",
+        "revision" : "100a61ca220d3dbc2e568e6fb053139f678d0c93",
         "version" : "3.14.0"
       }
     },

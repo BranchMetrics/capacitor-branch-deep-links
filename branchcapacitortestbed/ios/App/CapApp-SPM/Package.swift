@@ -15,7 +15,7 @@ let package = Package(
         .package(name: "CapacitorFirebaseAnalytics", path: "../../../node_modules/@capacitor-firebase/analytics"),
         .package(name: "CapacitorCamera", path: "../../../node_modules/@capacitor/camera"),
         .package(name: "CapacitorSplashScreen", path: "../../../node_modules/@capacitor/splash-screen"),
-        .package(name: "CapacitorBranchDeepLinks", path: "../../../..")
+        .package(name: "CapacitorBranchDeepLinks", path: "../../../node_modules/capacitor-branch-deep-links")
     ],
     targets: [
         .target(

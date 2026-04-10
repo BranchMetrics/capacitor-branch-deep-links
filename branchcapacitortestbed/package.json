@@ -18,7 +18,7 @@
     "@capacitor/camera": "latest",
     "@capacitor/core": "latest",
     "@capacitor/splash-screen": "latest",
-    "capacitor-branch-deep-links": "10.0.0"
+    "capacitor-branch-deep-links": "^10.0.0-beta.2"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.1.0",

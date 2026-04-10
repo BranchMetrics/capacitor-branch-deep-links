@@ -13,8 +13,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.0",
     "@capacitor/core": "latest",
-    "capacitor-branch-deep-links": "^10.0.0-beta.0"
+    "capacitor-branch-deep-links": "^10.0.0-beta.2"
   },
   "devDependencies": {
     "@capacitor/cli": "latest",
