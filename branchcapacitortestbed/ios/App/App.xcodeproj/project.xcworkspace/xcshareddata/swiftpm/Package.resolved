@@ -1,5 +1,5 @@
 {
-  "originHash" : "9baaf18f7d188e98315f9577e6111cff551af07eb1c9779dd2c11cf844f039ce",
+  "originHash" : "66e301c4a4fedf3cb7f153b1c087f9ed9def40869d39763a68d64c47291d7192",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ionic-team/capacitor-swift-pm.git",
       "state" : {
-        "revision" : "1f324fe7bdbdc8c5cc28bea48a231545a8c2e823",
-        "version" : "8.1.0"
+        "revision" : "6a2a3feb25fda8df2a284d0818bc9c83e57a7d56",
+        "version" : "8.3.0"
       }
     },
     {
@@ -101,11 +101,11 @@
       }
     },
     {
-      "identity" : "ios-branch-deep-linking-attribution",
+      "identity" : "ios-branch-sdk-spm",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/BranchMetrics/ios-branch-deep-linking-attribution",
+      "location" : "https://github.com/BranchMetrics/ios-branch-sdk-spm.git",
       "state" : {
-        "revision" : "ae8e7da124f14a2008f0e4791baad6fb665107b0",
+        "revision" : "100a61ca220d3dbc2e568e6fb053139f678d0c93",
         "version" : "3.14.0"
       }
     },
