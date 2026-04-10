@@ -1,0 +1,10 @@
+{
+  "appId": "io.branch.pods.testbed",
+  "appName": "BranchPodsTestbed",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}

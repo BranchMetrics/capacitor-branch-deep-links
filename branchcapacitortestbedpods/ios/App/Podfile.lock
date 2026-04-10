@@ -1,0 +1,35 @@
+PODS:
+  - BranchSDK (3.14.0)
+  - Capacitor (8.1.0):
+    - CapacitorCordova
+  - CapacitorBranchDeepLinks (10.0.0-beta.0):
+    - BranchSDK
+    - Capacitor
+  - CapacitorCordova (8.1.0)
+
+DEPENDENCIES:
+  - "Capacitor (from `../../../node_modules/@capacitor/ios`)"
+  - CapacitorBranchDeepLinks (from `../../node_modules/capacitor-branch-deep-links`)
+  - "CapacitorCordova (from `../../../node_modules/@capacitor/ios`)"
+
+SPEC REPOS:
+  trunk:
+    - BranchSDK
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../../node_modules/@capacitor/ios"
+  CapacitorBranchDeepLinks:
+    :path: "../../node_modules/capacitor-branch-deep-links"
+  CapacitorCordova:
+    :path: "../../../node_modules/@capacitor/ios"
+
+SPEC CHECKSUMS:
+  BranchSDK: 542614d201368be39b03e1a384df5c6b45873798
+  Capacitor: 830fc6ff88e99bb5ba48350f02c01ab01ba3b2b8
+  CapacitorBranchDeepLinks: 222663174529ade9852cc78938e59845e8dab84f
+  CapacitorCordova: e8b76fd95fc1e157775abc484c59cc0de464095d
+
+PODFILE CHECKSUM: b79db46b700978d33a254ed43a3232fc2db8849f
+
+COCOAPODS: 1.16.2
