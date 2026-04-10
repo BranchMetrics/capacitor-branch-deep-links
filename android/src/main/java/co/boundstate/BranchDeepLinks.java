@@ -255,43 +255,39 @@ public class BranchDeepLinks extends Plugin {
     public void setIdentity(final PluginCall call) {
         String newIdentity = call.getString("newIdentity");
 
-        Branch
-            .getInstance()
-            .setIdentity(
-                newIdentity,
-                new Branch.BranchReferralInitListener() {
-                    @Override
-                    public void onInitFinished(JSONObject referringParams, BranchError error) {
-                        if (error == null) {
-                            JSObject ret = new JSObject();
-                            ret.put("referringParams", referringParams);
-                            call.resolve(ret);
-                        } else {
-                            call.reject(error.getMessage());
-                        }
+        Branch.getInstance().setIdentity(
+            newIdentity,
+            new Branch.BranchReferralInitListener() {
+                @Override
+                public void onInitFinished(JSONObject referringParams, BranchError error) {
+                    if (error == null) {
+                        JSObject ret = new JSObject();
+                        ret.put("referringParams", referringParams);
+                        call.resolve(ret);
+                    } else {
+                        call.reject(error.getMessage());
                     }
                 }
-            );
+            }
+        );
     }
 
     @PluginMethod
     public void logout(final PluginCall call) {
-        Branch
-            .getInstance()
-            .logout(
-                new Branch.LogoutStatusListener() {
-                    @Override
-                    public void onLogoutFinished(boolean loggedOut, BranchError error) {
-                        if (error == null) {
-                            JSObject ret = new JSObject();
-                            ret.put("logged_out", loggedOut);
-                            call.resolve(ret);
-                        } else {
-                            call.reject(error.getMessage());
-                        }
+        Branch.getInstance().logout(
+            new Branch.LogoutStatusListener() {
+                @Override
+                public void onLogoutFinished(boolean loggedOut, BranchError error) {
+                    if (error == null) {
+                        JSObject ret = new JSObject();
+                        ret.put("logged_out", loggedOut);
+                        call.resolve(ret);
+                    } else {
+                        call.reject(error.getMessage());
                     }
                 }
-            );
+            }
+        );
     }
 
     @PluginMethod

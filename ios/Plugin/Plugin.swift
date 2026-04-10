@@ -5,7 +5,7 @@ import BranchSDK
 typealias JSObject = [String:Any]
 
 @objc(BranchDeepLinks)
-public class BranchDeepLinks: CAPPlugin {
+public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
     var branchService = BranchService()
 
     public override func load() {
@@ -16,8 +16,27 @@ public class BranchDeepLinks: CAPPlugin {
                 object: nil
         )
         
-        Branch.getInstance().registerPluginName("Capacitor", version: "9.0.0")
+        Branch.getInstance().registerPluginName("Capacitor", version: "10.0.0")
     }
+
+    public let identifier = "BranchDeepLinks"
+    public let jsName = "BranchDeepLinks"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "generateShortUrl", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "showShareSheet", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getStandardEvents", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "sendBranchEvent", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "handleATTAuthorizationStatus", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "disableTracking", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setIdentity", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "logout", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getBranchQRCode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getLatestReferringParams", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getFirstReferringParams", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setDMAParamsForEEA", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "handleUrl", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setConsumerProtectionAttributionLevel", returnType: CAPPluginReturnPromise)
+    ]
 
     @objc public func setBranchService(branchService: Any) {
         self.branchService = branchService as! BranchService

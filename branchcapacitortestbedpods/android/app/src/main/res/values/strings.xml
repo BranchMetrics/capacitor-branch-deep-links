@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">BranchPodsTestbed</string>
+    <string name="title_activity_main">BranchPodsTestbed</string>
+    <string name="package_name">io.branch.pods.testbed</string>
+    <string name="custom_url_scheme">io.branch.pods.testbed</string>
+
+    <string name="applink_host">bnctestbed.app.link</string>
+    <string name="applink_host_alternate">bnctestbed-alternate.app.link</string>
+    <string name="deeplink_scheme">branchcapacitortestbedpods</string>
+    <string name="branch_key">key_live_hcnegAumkH7Kv18M8AOHhfgiohpXq5tB</string>
+    <string name="branch_test_key">key_test_hdcBLUy1xZ1JD0tKg7qrLcgirFmPPVJc</string>
+    <bool name="branch_test_mode">false</bool>
+</resources>

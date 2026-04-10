@@ -88,33 +88,16 @@ export type BranchATTAuthorizationStatus = 0 | 1 | 2 | 3;
 export type BranchConsumerProtectionAttributionLevel = 'FULL' | 'REDUCED' | 'MINIMAL' | 'NONE';
 
 export interface BranchDeepLinksPlugin {
-  addListener(
-    eventName: 'init',
-    listenerFunc: (event: BranchInitEvent) => void,
-  ): Promise<PluginListenerHandle>;
-  addListener(
-    eventName: 'initError',
-    listenerFunc: (error: any) => void,
-  ): Promise<PluginListenerHandle>;
+  addListener(eventName: 'init', listenerFunc: (event: BranchInitEvent) => void): Promise<PluginListenerHandle>;
+  addListener(eventName: 'initError', listenerFunc: (error: any) => void): Promise<PluginListenerHandle>;
   handleUrl(options: BranchUrlParams): Promise<void>;
-  generateShortUrl(
-    options: BranchShortUrlParams,
-  ): Promise<BranchShortUrlResponse>;
+  generateShortUrl(options: BranchShortUrlParams): Promise<BranchShortUrlResponse>;
   showShareSheet(options: BranchShowShareSheetParams): Promise<void>;
   getStandardEvents(): Promise<{ [index: number]: string }>;
-  sendBranchEvent(options: {
-    eventName: string;
-    metaData: { [key: string]: any };
-  }): Promise<void>;
-  handleATTAuthorizationStatus(options: {
-    status: BranchATTAuthorizationStatus;
-  }): Promise<void>;
-  disableTracking(options: {
-    isEnabled: false;
-  }): Promise<BranchTrackingResponse>;
-  setIdentity(options: {
-    newIdentity: string;
-  }): Promise<BranchReferringParamsResponse>;
+  sendBranchEvent(options: { eventName: string; metaData: { [key: string]: any } }): Promise<void>;
+  handleATTAuthorizationStatus(options: { status: BranchATTAuthorizationStatus }): Promise<void>;
+  disableTracking(options: { isEnabled: false }): Promise<BranchTrackingResponse>;
+  setIdentity(options: { newIdentity: string }): Promise<BranchReferringParamsResponse>;
   logout(): Promise<BranchLoggedOutResponse>;
   getBranchQRCode(options: BranchQRCodeParams): Promise<BranchQRCodeResponse>;
   getLatestReferringParams(): Promise<BranchReferringParamsResponse>;

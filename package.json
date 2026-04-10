@@ -1,6 +1,6 @@
 {
   "name": "capacitor-branch-deep-links",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "description": "Capacitor plugin for Branch.io deep links",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -19,10 +19,11 @@
   "author": "Bound State Software <info@boundstatesoftware.com>",
   "license": "MIT",
   "devDependencies": {
-    "@capacitor/android": "^7.0.0",
-    "@capacitor/cli": "^7.0.0",
-    "@capacitor/core": "^7.0.0",
-    "@capacitor/ios": "^7.0.0",
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
+    "@capacitor/splash-screen": "8.0.0",
     "@ionic/prettier-config": "^4.0.0",
     "@ionic/swiftlint-config": "^2.0.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
@@ -36,14 +37,15 @@
     "typescript": "^5.1.3"
   },
   "peerDependencies": {
-    "@capacitor/core": ">=7.0.0"
+    "@capacitor/core": ">=8.0.0"
   },
   "files": [
     "src/",
     "dist/",
     "ios/",
     "android/",
-    "CapacitorBranchDeepLinks.podspec"
+    "CapacitorBranchDeepLinks.podspec",
+    "Package.swift"
   ],
   "keywords": [
     "branch.io",
@@ -76,6 +78,6 @@
     }
   },
   "lint-staged": {
-    "*.{css,html,ts,js,java,md}": "prettier --write"
+    "*.{css,html,ts,js,java,md}": "prettier --write --plugin=prettier-plugin-java"
   }
 }

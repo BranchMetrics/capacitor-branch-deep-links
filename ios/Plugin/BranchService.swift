@@ -73,7 +73,7 @@ class BranchService {
 
     func setConsumerProtectionAttributionLevel(level: String) -> Void {
         var attributionLevel: BranchAttributionLevel
-        
+
         switch level {
         case "FULL":
             attributionLevel = BranchAttributionLevel.full
@@ -86,8 +86,7 @@ class BranchService {
         default:
             return
         }
-        
+
         Branch.getInstance().setConsumerProtectionAttributionLevel(attributionLevel)
     }
-    
 }

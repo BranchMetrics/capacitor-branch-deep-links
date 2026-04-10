@@ -1,0 +1,41 @@
+PODS:
+  - BranchSDK (3.14.0)
+  - Capacitor (8.3.0):
+    - CapacitorCordova
+  - CapacitorBranchDeepLinks (10.0.0-beta.2):
+    - BranchSDK
+    - Capacitor
+  - CapacitorCordova (8.3.0)
+  - CapacitorSplashScreen (8.0.1):
+    - Capacitor
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - CapacitorBranchDeepLinks (from `../../node_modules/capacitor-branch-deep-links`)
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
+
+SPEC REPOS:
+  trunk:
+    - BranchSDK
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorBranchDeepLinks:
+    :path: "../../node_modules/capacitor-branch-deep-links"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorSplashScreen:
+    :path: "../../node_modules/@capacitor/splash-screen"
+
+SPEC CHECKSUMS:
+  BranchSDK: 542614d201368be39b03e1a384df5c6b45873798
+  Capacitor: 9f1f99495b474d82bccfd27b15617b84f5938144
+  CapacitorBranchDeepLinks: d88574b6bbd668a769d66ed40b612276011822aa
+  CapacitorCordova: 2e1e2bb93b2f365309dc4ff18b72b9a69a7814a9
+  CapacitorSplashScreen: 1281f7df4d9b4a72bccab8d03e6b2bbd17dff122
+
+PODFILE CHECKSUM: b4dc0d9438a3c276bfdf4d85f7a6029c26713f0c
+
+COCOAPODS: 1.16.2
