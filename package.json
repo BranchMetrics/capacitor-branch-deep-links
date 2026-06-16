@@ -23,7 +23,7 @@
     "@capacitor/cli": "^8.0.0",
     "@capacitor/core": "^8.0.0",
     "@capacitor/ios": "^8.0.0",
-    "@capacitor/splash-screen": "8.0.0",
+    "@capacitor/splash-screen": "8.0.1",
     "@ionic/prettier-config": "^4.0.0",
     "@ionic/swiftlint-config": "^2.0.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
