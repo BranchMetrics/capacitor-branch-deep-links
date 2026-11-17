@@ -55,16 +55,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         // Called when the app was launched with a url. Feel free to add additional processing here,
-        // but if you want the App API to support tracking app url opens, make sure to keep this call
-        Branch.getInstance().application(app, open: url, options: options)
+        // but if you want the App API to support tracking app url opens, make sure to keep this call.
+        // Branch links are forwarded by the BranchDeepLinks plugin (UIScene path), not here.
         return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
     }
 
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         // Called when the app was launched with an activity, including Universal Links.
         // Feel free to add additional processing here, but if you want the App API to support
-        // tracking app url opens, make sure to keep this call
-        Branch.getInstance().continue(userActivity)
+        // tracking app url opens, make sure to keep this call.
+        // Branch links are forwarded by the BranchDeepLinks plugin (UIScene path), not here.
         return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
     }
     
@@ -72,4 +72,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Branch.getInstance().handlePushNotification(userInfo)
     }
 
+
+    func application(_ application: UIApplication,
+                     configurationForConnecting connectingSceneSession: UISceneSession,
+                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let config = UISceneConfiguration(name: "Default Configuration",
+                                          sessionRole: connectingSceneSession.role)
+        config.delegateClass = SceneDelegate.self
+        return config
+    }
 }

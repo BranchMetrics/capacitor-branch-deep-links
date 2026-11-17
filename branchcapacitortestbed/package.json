@@ -14,15 +14,15 @@
   },
   "dependencies": {
     "@capacitor-firebase/analytics": "^8.2.0",
-    "@capacitor/android": "^8.0.2",
-    "@capacitor/camera": "latest",
-    "@capacitor/core": "^8.3.0",
-    "@capacitor/ios": "^8.3.0",
-    "@capacitor/splash-screen": "latest",
-    "capacitor-branch-deep-links": "10.0.0"
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/camera": "^8.0.0",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/ios": "^8.6.2",
+    "@capacitor/splash-screen": "^8.0.0",
+    "capacitor-branch-deep-links": "file:.."
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.1.0",
+    "@capacitor/cli": "^8.6.2",
     "vite": "^5.4.2"
   },
   "author": "",
