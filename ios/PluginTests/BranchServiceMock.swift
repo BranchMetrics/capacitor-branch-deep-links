@@ -3,6 +3,17 @@ import Branch
 @testable import Plugin
 
 class BranchServiceMock: BranchService {
+    var openedURLs: [URL] = []
+    var universalLinks: [URL] = []
+
+    override func handleSceneOpenURL(url: URL, sceneIdentifier: String?) {
+        openedURLs.append(url)
+    }
+
+    override func handleSceneUniversalLink(url: URL, sceneIdentifier: String?) {
+        universalLinks.append(url)
+    }
+
     override func generateShortUrl(params: [AnyHashable : Any], linkProperties: BranchLinkProperties, completion: @escaping (String?, Error?)->(Void)) -> Void {
         completion("https://example.app.link/qeFky9V118", nil)
     }

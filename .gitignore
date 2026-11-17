@@ -9,6 +9,7 @@ node_modules/
 # iOS files
 Pods
 Build
+.build/
 xcuserdata
 
 # macOS files

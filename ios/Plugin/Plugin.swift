@@ -4,6 +4,15 @@ import BranchSDK
 
 typealias JSObject = [String:Any]
 
+extension Notification.Name {
+    // Posted by Capacitor's SceneDelegateProxy (Capacitor 8.5+) only. Unlike .capacitorOpenURL and
+    // .capacitorOpenUniversalLink, these are never posted on the AppDelegate path, so apps that still
+    // call Branch from their AppDelegate don't get each link handled twice. Raw names keep the plugin
+    // building against Capacitor 8.0–8.4, which never post them.
+    static let branchCapacitorSceneOpenURL = Notification.Name("CapacitorSceneOpenURLNotification")
+    static let branchCapacitorSceneOpenUniversalLink = Notification.Name("CapacitorSceneOpenUniversalLinkNotification")
+}
+
 @objc(BranchDeepLinks)
 public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
     var branchService = BranchService()
@@ -15,8 +24,40 @@ public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
                 name: NSNotification.Name.BranchDidStartSession,
                 object: nil
         )
-        
-        Branch.getInstance().registerPluginName("Capacitor", version: "10.0.0")
+
+        // Under UIScene, iOS doesn't call the AppDelegate open URL / continue user activity methods,
+        // so forward scene links to Branch here. Cold-start links are held by Capacitor until the
+        // first view appears, after plugins have loaded, then posted through the same notifications.
+        if getConfig().getBoolean("handleSceneLinks", true) {
+            NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(handleSceneOpenURL(notification:)),
+                    name: .branchCapacitorSceneOpenURL,
+                    object: nil
+            )
+            NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(handleSceneOpenUniversalLink(notification:)),
+                    name: .branchCapacitorSceneOpenUniversalLink,
+                    object: nil
+            )
+        }
+
+        Branch.getInstance().registerPluginName("Capacitor", version: "10.1.0")
+    }
+
+    @objc func handleSceneOpenURL(notification: Notification) {
+        guard let url = notification.userInfo?["url"] as? URL else { return }
+        branchService.handleSceneOpenURL(url: url, sceneIdentifier: sceneIdentifier(from: notification))
+    }
+
+    @objc func handleSceneOpenUniversalLink(notification: Notification) {
+        guard let url = notification.userInfo?["url"] as? URL else { return }
+        branchService.handleSceneUniversalLink(url: url, sceneIdentifier: sceneIdentifier(from: notification))
+    }
+
+    private func sceneIdentifier(from notification: Notification) -> String? {
+        return (notification.object as? UIScene)?.session.persistentIdentifier
     }
 
     public let identifier = "BranchDeepLinks"

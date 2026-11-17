@@ -71,6 +71,18 @@ class BranchService {
         }
     }
 
+    func handleSceneOpenURL(url: URL, sceneIdentifier: String?) {
+        Branch.getInstance().handleDeepLink(url, sceneIdentifier: sceneIdentifier)
+    }
+
+    func handleSceneUniversalLink(url: URL, sceneIdentifier: String?) {
+        // Capacitor's scene notification carries only the URL, so rebuild the activity to keep
+        // Branch on the same code path as application(_:continue:restorationHandler:).
+        let userActivity = NSUserActivity(activityType: NSUserActivityTypeBrowsingWeb)
+        userActivity.webpageURL = url
+        Branch.getInstance().continue(userActivity, sceneIdentifier: sceneIdentifier)
+    }
+
     func setConsumerProtectionAttributionLevel(level: String) -> Void {
         var attributionLevel: BranchAttributionLevel
 

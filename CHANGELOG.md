@@ -1,5 +1,9 @@
 Branch Capacitor SDK change log
 
+- 10.1.0
+  - iOS: support for apps using the UIScene lifecycle (Capacitor 8.5+, required by Xcode 27). The plugin now forwards URI scheme and Universal Links that Capacitor's `SceneDelegateProxy` receives to Branch, including links that cold-start the app. Apps using scenes no longer need Branch calls in `application(_:open:options:)` or `application(_:continue:restorationHandler:)`, which iOS doesn't call under scenes.
+  - New `capacitor.config` option `plugins.BranchDeepLinks.handleSceneLinks` (default `true`). Set it to `false` if your SceneDelegate already passes links to `BranchScene` itself, so links aren't handled twice.
+
 - 10.0.0
   - Update Capacitor to 8
   - Update minimum iOS deployment to 15
