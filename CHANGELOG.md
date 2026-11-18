@@ -5,6 +5,7 @@ Branch Capacitor SDK change log
   - `handleSceneLinks` defaults to `false`. Leave it off if your SceneDelegate already passes links to Branch itself (through `BranchScene` or `Branch.getInstance()`), or each link is handled twice.
   - After migrating to UIScene with `npx cap migrate` or the `capacitor-uiscene-migrator` skill, the Branch calls in `application(_:open:options:)` and `application(_:continue:restorationHandler:)` no longer run. Set `handleSceneLinks` to `true` instead of moving those calls into your SceneDelegate. Doing both handles each link twice.
   - In apps with more than one Capacitor bridge, each link is sent to Branch once. Every bridge's JS still receives the `init` event.
+  - Branch iOS SDK bumped to 3.15.0. `Branch.setAnonID(_:)` is deprecated in this SDK version and its value is ignored; the SDK now reads Meta's anonymous ID from the Facebook SDK when the app includes it.
 
 - 10.0.0
   - Update Capacitor to 8
