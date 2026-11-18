@@ -7,10 +7,10 @@ declare module '@capacitor/cli' {
     BranchDeepLinks?: {
       /**
        * iOS only. Forward links received through Capacitor's UIScene support
-       * (Capacitor 8.5+) to Branch. Set to `false` if your SceneDelegate already
-       * passes links to `BranchScene` itself.
+       * (Capacitor 8.5+) to Branch. Enable this if your app uses scenes and doesn't
+       * already pass links to `BranchScene` from its own SceneDelegate.
        *
-       * @default true
+       * @default false
        * @since 10.1.0
        */
       handleSceneLinks?: boolean;
