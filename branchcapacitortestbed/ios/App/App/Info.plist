@@ -30,6 +30,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>branchcapacitortestbed</string>
+          <string>iOSReleaseTest</string>
         </array>
       </dict>
     </array>
