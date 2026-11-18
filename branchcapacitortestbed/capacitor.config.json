@@ -2,5 +2,10 @@
   "appId": "com.branch.capacitor.testbed",
   "appName": "Branch Capacitor Testbed",
   "webDir": "dist",
-  "bundledWebRuntime": false
+  "bundledWebRuntime": false,
+  "plugins": {
+    "BranchDeepLinks": {
+      "handleSceneLinks": true
+    }
+  }
 }
