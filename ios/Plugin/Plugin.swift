@@ -4,18 +4,10 @@ import BranchSDK
 
 typealias JSObject = [String:Any]
 
-extension Notification.Name {
-    // Posted by Capacitor's SceneDelegateProxy (Capacitor 8.5+) only. Unlike .capacitorOpenURL and
-    // .capacitorOpenUniversalLink, these are never posted on the AppDelegate path, so apps that still
-    // call Branch from their AppDelegate don't get each link handled twice. Raw names keep the plugin
-    // building against Capacitor 8.0–8.4, which never post them.
-    static let branchCapacitorSceneOpenURL = Notification.Name("CapacitorSceneOpenURLNotification")
-    static let branchCapacitorSceneOpenUniversalLink = Notification.Name("CapacitorSceneOpenUniversalLinkNotification")
-}
-
 @objc(BranchDeepLinks)
 public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
     var branchService = BranchService()
+    var sceneLinkForwarder = SceneLinkForwarder.shared
 
     public override func load() {
         NotificationCenter.default.addObserver(
@@ -25,53 +17,37 @@ public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
                 object: nil
         )
 
-        // Under UIScene, iOS doesn't call the AppDelegate open URL / continue user activity methods,
-        // so forward scene links to Branch here. Cold-start links are held by Capacitor until the
-        // first view appears, after plugins have loaded, then posted through the same notifications.
-        // Opt-in so apps that already pass links to BranchScene from their own SceneDelegate don't
-        // have each link handled twice after upgrading.
-        if getConfig().getBoolean("handleSceneLinks", false) {
-            NotificationCenter.default.addObserver(
-                    self,
-                    selector: #selector(handleSceneOpenURL(notification:)),
-                    name: .branchCapacitorSceneOpenURL,
-                    object: nil
-            )
-            NotificationCenter.default.addObserver(
-                    self,
-                    selector: #selector(handleSceneOpenUniversalLink(notification:)),
-                    name: .branchCapacitorSceneOpenUniversalLink,
-                    object: nil
-            )
-        }
+        configureSceneLinks(handleSceneLinks: getConfig().getBoolean("handleSceneLinks", false))
 
         Branch.getInstance().registerPluginName("Capacitor", version: "10.1.0")
     }
 
-    @objc func handleSceneOpenURL(notification: Notification) {
-        guard isForOwnScene(notification), let url = notification.userInfo?["url"] as? URL else { return }
-        branchService.handleSceneOpenURL(url: url, sceneIdentifier: sceneIdentifier(from: notification))
+    // Under UIScene, iOS doesn't call the AppDelegate open URL / continue user activity methods, so
+    // scene links are forwarded to Branch here. Opt-in so apps that already pass links to Branch
+    // from their own SceneDelegate don't have each link handled twice after upgrading.
+    func configureSceneLinks(handleSceneLinks: Bool,
+                             hasSceneManifest: Bool = Bundle.main.object(forInfoDictionaryKey: "UIApplicationSceneManifest") != nil,
+                             hasSceneDelegateProxy: Bool = NSClassFromString("CAPSceneDelegateProxy") != nil) {
+        if let warning = BranchDeepLinks.sceneLinksWarning(handleSceneLinks: handleSceneLinks,
+                                                           hasSceneManifest: hasSceneManifest,
+                                                           hasSceneDelegateProxy: hasSceneDelegateProxy) {
+            CAPLog.print("⚠️ BranchDeepLinks: \(warning)")
+        }
+        if handleSceneLinks {
+            sceneLinkForwarder.start()
+        }
     }
 
-    @objc func handleSceneOpenUniversalLink(notification: Notification) {
-        guard isForOwnScene(notification), let url = notification.userInfo?["url"] as? URL else { return }
-        branchService.handleSceneUniversalLink(url: url, sceneIdentifier: sceneIdentifier(from: notification))
-    }
-
-    // Each Capacitor bridge (one per window) loads its own plugin instance, and every instance observes
-    // every scene's notifications. Only handle links for the scene this plugin's web view lives in, so a
-    // link isn't sent to Branch once per window. If either scene is unknown, handle it rather than drop it.
-    func isForOwnScene(_ notification: Notification) -> Bool {
-        guard let linkScene = notification.object as? UIScene, let ownScene = ownScene else { return true }
-        return linkScene === ownScene
-    }
-
-    var ownScene: UIScene? {
-        return bridge?.viewController?.viewIfLoaded?.window?.windowScene
-    }
-
-    private func sceneIdentifier(from notification: Notification) -> String? {
-        return (notification.object as? UIScene)?.session.persistentIdentifier
+    static func sceneLinksWarning(handleSceneLinks: Bool, hasSceneManifest: Bool, hasSceneDelegateProxy: Bool) -> String? {
+        if !handleSceneLinks && hasSceneManifest {
+            return "the app uses the UIScene lifecycle but plugins.BranchDeepLinks.handleSceneLinks is false. "
+                + "Unless your SceneDelegate passes links to Branch itself, set handleSceneLinks to true or links won't reach Branch."
+        }
+        if handleSceneLinks && !hasSceneDelegateProxy {
+            return "plugins.BranchDeepLinks.handleSceneLinks is true, but this Capacitor version has no SceneDelegateProxy. "
+                + "Scene links are only forwarded with Capacitor 8.5 or later."
+        }
+        return nil
     }
 
     public let identifier = "BranchDeepLinks"

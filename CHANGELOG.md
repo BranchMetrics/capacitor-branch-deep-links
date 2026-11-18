@@ -2,8 +2,9 @@ Branch Capacitor SDK change log
 
 - 10.1.0
   - iOS: support for apps using the UIScene lifecycle. With the new `capacitor.config` option `plugins.BranchDeepLinks.handleSceneLinks` set to `true`, the plugin forwards URI scheme and Universal Links that Capacitor's `SceneDelegateProxy` receives to Branch, including links that cold-start the app. Those apps then don't need Branch calls in `application(_:open:options:)` or `application(_:continue:restorationHandler:)`, which iOS doesn't call under scenes.
-  - `handleSceneLinks` defaults to `false.` Leave it off if your SceneDelegate already passes links to `BranchScene` itself, or each link is handled twice.
-  - In apps with more than one Capacitor window, each link goes to Branch only once, from the window whose scene received it.
+  - `handleSceneLinks` defaults to `false`. Leave it off if your SceneDelegate already passes links to Branch itself (through `BranchScene` or `Branch.getInstance()`), or each link is handled twice.
+  - After migrating to UIScene with `npx cap migrate` or the `capacitor-uiscene-migrator` skill, the Branch calls in `application(_:open:options:)` and `application(_:continue:restorationHandler:)` no longer run. Set `handleSceneLinks` to `true` instead of moving those calls into your SceneDelegate. Doing both handles each link twice.
+  - In apps with more than one Capacitor bridge, each link is sent to Branch once. Every bridge's JS still receives the `init` event.
 
 - 10.0.0
   - Update Capacitor to 8

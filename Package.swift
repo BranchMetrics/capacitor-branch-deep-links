@@ -23,6 +23,16 @@ let package = Package(
                 .product(name: "BranchSDK", package: "ios-branch-sdk-spm")
             ],
             path: "ios/Plugin"
+        ),
+        .testTarget(
+            name: "BranchDeepLinksPluginTests",
+            dependencies: [
+                "BranchDeepLinksPlugin",
+                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                .product(name: "BranchSDK", package: "ios-branch-sdk-spm")
+            ],
+            path: "ios/PluginTests",
+            exclude: ["Info.plist"]
         )
     ]
 )

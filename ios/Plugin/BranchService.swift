@@ -71,16 +71,11 @@ class BranchService {
         }
     }
 
-    func handleSceneOpenURL(url: URL, sceneIdentifier: String?) {
+    // Handles both URI scheme links and Universal Links. For a browsing-web activity,
+    // Branch's continue(_:sceneIdentifier:) only calls handleDeepLink with the webpage URL, so
+    // calling it directly is equivalent and avoids rebuilding an activity without its referrerURL.
+    func handleSceneLink(url: URL, sceneIdentifier: String?) {
         Branch.getInstance().handleDeepLink(url, sceneIdentifier: sceneIdentifier)
-    }
-
-    func handleSceneUniversalLink(url: URL, sceneIdentifier: String?) {
-        // Capacitor's scene notification carries only the URL, so rebuild the activity to keep
-        // Branch on the same code path as application(_:continue:restorationHandler:).
-        let userActivity = NSUserActivity(activityType: NSUserActivityTypeBrowsingWeb)
-        userActivity.webpageURL = url
-        Branch.getInstance().continue(userActivity, sceneIdentifier: sceneIdentifier)
     }
 
     func setConsumerProtectionAttributionLevel(level: String) -> Void {
