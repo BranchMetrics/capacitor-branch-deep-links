@@ -26,7 +26,7 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>io.branch.saas.sdk.testbed</string>
+        <string>io.branch.link-simulator</string>
         <key>CFBundleURLSchemes</key>
         <array>
           <string>branchcapacitortestbed</string>
@@ -63,16 +63,12 @@
     <key>branch_key</key>
     <dict>
       <key>live</key>
-      <string>key_live_hcnegAumkH7Kv18M8AOHhfgiohpXq5tB</string>
-      <key>test</key>
-      <string>key_test_hdcBLUy1xZ1JD0tKg7qrLcgirFmPPVJc</string>
+      <string>key_live_ok7NoVhyIh1llbtOW6sfHpbnxBlJjiDp</string>
     </dict>
     <key>branch_universal_link_domains</key>
     <array>
-      <string>bnctestbed.app.link</string>
-      <string>bnctestbed-alternate.app.link</string>
-      <string>bnctestbed.test-app.link</string>
-      <string>bnctestbed-alternate.test-app.link</string>
+      <string>nipunreleasetest.app.link</string>
+      <string>nipunreleasetest-alternate.app.link</string>
     </array>
     <key>UIApplicationSceneManifest</key>
     <dict>

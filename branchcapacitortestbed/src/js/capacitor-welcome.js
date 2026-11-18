@@ -2,6 +2,16 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { Camera } from '@capacitor/camera';
 import { BranchDeepLinks } from 'capacitor-branch-deep-links';
 
+// TEST-ONLY (do not commit): log every init event for the UIScene device tests.
+let testInitCount = 0;
+BranchDeepLinks.addListener('init', (event) => {
+  testInitCount += 1;
+  console.log(`[TEST][JS] init #${testInitCount} ${JSON.stringify(event.referringParams)}`);
+});
+BranchDeepLinks.addListener('initError', (error) => {
+  console.log(`[TEST][JS] initError ${JSON.stringify(error)}`);
+});
+
 window.customElements.define(
   'capacitor-welcome',
   class extends HTMLElement {

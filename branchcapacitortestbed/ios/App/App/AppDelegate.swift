@@ -11,8 +11,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    // TEST-ONLY (do not commit): send stdout/stderr to Documents/testbed.log so device runs, including
+    // cold starts from a tapped link, can be pulled with `xcrun devicectl device copy from`.
+    private func startTestLog() {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let path = docs.appendingPathComponent("testbed.log").path
+        freopen(path, "a", stdout)
+        freopen(path, "a", stderr)
+        setvbuf(stdout, nil, _IOLBF, 0)
+        setvbuf(stderr, nil, _IONBF, 0)
+        print("\n===== [TEST] LAUNCH \(Date()) pid=\(getpid()) =====")
+
+        let center = NotificationCenter.default
+        for name in ["CapacitorSceneOpenURLNotification", "CapacitorSceneOpenUniversalLinkNotification"] {
+            center.addObserver(forName: Notification.Name(name), object: nil, queue: nil) { note in
+                let scene = (note.object as? UIScene)?.session.persistentIdentifier ?? "nil"
+                print("[TEST] \(name) url=\(note.userInfo?["url"] ?? "nil") scene=\(scene)")
+            }
+        }
+        center.addObserver(forName: .BranchDidStartSession, object: nil, queue: nil) { note in
+            let error = note.userInfo?[BranchErrorKey] as? Error
+            let params = Branch.getInstance().getLatestReferringParams() ?? [:]
+            print("[TEST] BranchDidStartSession error=\(error.map { "\($0)" } ?? "nil") clicked=\(params["+clicked_branch_link"] ?? "nil") params=\(params)")
+        }
+        center.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { _ in
+            print("[TEST] didBecomeActive")
+        }
+    }
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        startTestLog() // TEST-ONLY
 
         FirebaseApp.configure()
     
@@ -24,7 +53,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Branch.setUseTestBranchKey(true) // If you are using the TEST key
         
-        Branch.enableLogging(at: BranchLogLevel.verbose) // If you want to enable logging
+        // TEST-ONLY: route Branch logs through print so they land in testbed.log unredacted.
+        Branch.enableLogging(at: BranchLogLevel.verbose) { message, level, error in
+            print("[Branch][\(level.rawValue)] \(message)\(error.map { " error=\($0)" } ?? "")")
+        }
 
         Branch.getInstance().initSession(launchOptions: launchOptions)
 
