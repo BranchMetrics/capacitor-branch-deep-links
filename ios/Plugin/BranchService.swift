@@ -71,6 +71,13 @@ class BranchService {
         }
     }
 
+    // Handles both URI scheme links and Universal Links. For a browsing-web activity,
+    // Branch's continue(_:sceneIdentifier:) only calls handleDeepLink with the webpage URL, so
+    // calling it directly is equivalent and avoids rebuilding an activity without its referrerURL.
+    func handleSceneLink(url: URL, sceneIdentifier: String?) {
+        Branch.getInstance().handleDeepLink(url, sceneIdentifier: sceneIdentifier)
+    }
+
     func setConsumerProtectionAttributionLevel(level: String) -> Void {
         var attributionLevel: BranchAttributionLevel
 

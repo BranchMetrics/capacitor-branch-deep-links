@@ -1,4 +1,22 @@
+/// <reference types="@capacitor/cli" />
+
 import { PluginListenerHandle } from '@capacitor/core';
+
+declare module '@capacitor/cli' {
+  export interface PluginsConfig {
+    BranchDeepLinks?: {
+      /**
+       * iOS only. Forward links received through Capacitor's UIScene support
+       * (Capacitor 8.5+) to Branch. Enable this if your app uses scenes and doesn't
+       * already pass links to `BranchScene` from its own SceneDelegate.
+       *
+       * @default false
+       * @since 10.1.0
+       */
+      handleSceneLinks?: boolean;
+    };
+  }
+}
 
 export interface BranchReferringParams {
   '+clicked_branch_link': boolean;

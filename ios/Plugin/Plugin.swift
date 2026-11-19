@@ -7,6 +7,7 @@ typealias JSObject = [String:Any]
 @objc(BranchDeepLinks)
 public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
     var branchService = BranchService()
+    var sceneLinkForwarder = SceneLinkForwarder.shared
 
     public override func load() {
         NotificationCenter.default.addObserver(
@@ -15,8 +16,38 @@ public class BranchDeepLinks: CAPPlugin, CAPBridgedPlugin {
                 name: NSNotification.Name.BranchDidStartSession,
                 object: nil
         )
-        
-        Branch.getInstance().registerPluginName("Capacitor", version: "10.0.0")
+
+        configureSceneLinks(handleSceneLinks: getConfig().getBoolean("handleSceneLinks", false))
+
+        Branch.getInstance().registerPluginName("Capacitor", version: "10.1.0")
+    }
+
+    // Under UIScene, iOS doesn't call the AppDelegate open URL / continue user activity methods, so
+    // scene links are forwarded to Branch here. Opt-in so apps that already pass links to Branch
+    // from their own SceneDelegate don't have each link handled twice after upgrading.
+    func configureSceneLinks(handleSceneLinks: Bool,
+                             hasSceneManifest: Bool = Bundle.main.object(forInfoDictionaryKey: "UIApplicationSceneManifest") != nil,
+                             hasSceneDelegateProxy: Bool = NSClassFromString("CAPSceneDelegateProxy") != nil) {
+        if let warning = BranchDeepLinks.sceneLinksWarning(handleSceneLinks: handleSceneLinks,
+                                                           hasSceneManifest: hasSceneManifest,
+                                                           hasSceneDelegateProxy: hasSceneDelegateProxy) {
+            CAPLog.print("⚠️ BranchDeepLinks: \(warning)")
+        }
+        if handleSceneLinks {
+            sceneLinkForwarder.start()
+        }
+    }
+
+    static func sceneLinksWarning(handleSceneLinks: Bool, hasSceneManifest: Bool, hasSceneDelegateProxy: Bool) -> String? {
+        if !handleSceneLinks && hasSceneManifest {
+            return "the app uses the UIScene lifecycle but plugins.BranchDeepLinks.handleSceneLinks is false. "
+                + "Unless your SceneDelegate passes links to Branch itself, set handleSceneLinks to true or links won't reach Branch."
+        }
+        if handleSceneLinks && !hasSceneDelegateProxy {
+            return "plugins.BranchDeepLinks.handleSceneLinks is true, but this Capacitor version has no SceneDelegateProxy. "
+                + "Scene links are only forwarded with Capacitor 8.5 or later."
+        }
+        return nil
     }
 
     public let identifier = "BranchDeepLinks"

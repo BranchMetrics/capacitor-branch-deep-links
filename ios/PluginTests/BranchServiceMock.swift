@@ -1,8 +1,19 @@
 import Foundation
-import Branch
-@testable import Plugin
+import BranchSDK
+@testable import BranchDeepLinksPlugin
 
 class BranchServiceMock: BranchService {
+    struct SceneLink: Equatable {
+        let url: URL
+        let sceneIdentifier: String?
+    }
+
+    var sceneLinks: [SceneLink] = []
+
+    override func handleSceneLink(url: URL, sceneIdentifier: String?) {
+        sceneLinks.append(SceneLink(url: url, sceneIdentifier: sceneIdentifier))
+    }
+
     override func generateShortUrl(params: [AnyHashable : Any], linkProperties: BranchLinkProperties, completion: @escaping (String?, Error?)->(Void)) -> Void {
         completion("https://example.app.link/qeFky9V118", nil)
     }
