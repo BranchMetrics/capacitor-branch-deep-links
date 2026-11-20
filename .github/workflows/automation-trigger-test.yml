@@ -14,5 +14,5 @@ jobs:
             owner: 'BranchMetrics',
             repo: 'qentelli-saas-sdk-capacitor-testing-automation',
             workflow_id: 'capacitor-manual.yml',
-            ref: 'main'
+            ref: 'master'
           })
